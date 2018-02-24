@@ -1,0 +1,38 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-23 11:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:127
+msgid "info.prepare_to_create_case"
+msgstr ""
+
+#: app.py:145
+msgid "warning.abort_creating_case_for_no_template"
+msgstr ""
+
+#: app.py:151
+msgid "warning.abort_creating_case_for_existence"
+msgstr ""
+
+#: app.py:155
+msgid "info.creating_case_dir"
+msgstr ""
+
+#: app.py:159
+msgid "info.creating_case_by_template"
+msgstr ""

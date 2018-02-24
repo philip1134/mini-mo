@@ -1,0 +1,30 @@
+# -*- coding:utf-8 -*-
+
+__author__ = "{{author}}"
+__date__ = "{{date}}"
+
+
+from lib.performer import BasePerformer
+import config
+
+
+class Performer(BasePerformer):
+    def __init__(self, task = None):
+        BasePerformer.__init__(self, "{{name}}", task)
+        # 在此添加其他的初始化操作
+
+#     @action_step("这是第一个测试步骤")
+#     def step_first_action(self):
+#         """测试步骤的概述"""
+#         result = False
+#         # 在此添加测试步骤的代码
+#         return result
+
+#     @action_step("这是第二个测试步骤")
+#     def step_second_action(self):
+#         """测试步骤的概述"""
+#         result = False
+#         # 在此添加测试步骤的代码
+#         return result
+        
+

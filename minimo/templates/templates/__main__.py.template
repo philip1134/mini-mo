@@ -1,0 +1,7 @@
+# -*- coding:utf-8 -*-
+
+__author__ = "{{author}}"
+__date__ = "{{date}}"
+
+from {{name}}.performer import Performer
+Performer(globals().get("__task__")).run()

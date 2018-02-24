@@ -1,0 +1,111 @@
+# mini-mo messages.
+# Copyright (C) 2018 philip1134
+# This file is distributed under the same license as the PACKAGE package.
+# philip1134 <philip1134@imior.com>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mini-mo 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-23 11:14+0800\n"
+"PO-Revision-Date: 2018-02-23 11:14+0800\n"
+"Last-Translator: philip1134 <philip1134@imior.com>\n"
+"Language-Team: philip1134 <philip1134@imior.com>\n"
+"Language: zh-cn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py
+msgid "info.prepare_to_create_case"
+msgstr "准备创建任务用例..."
+
+msgid "info.creating_case_dir"
+msgstr "创建目录 cases/{0}"
+
+msgid "info.creating_case_by_template"
+msgstr "使用项目模板创建任务用例 {0}"
+
+msgid "info.add_task"
+msgstr "添加任务 {0}"
+
+msgid "info.executing_task"
+msgstr "执行任务 {0}"
+
+msgid "info.not_standard_case"
+msgstr "非标准用例"
+
+msgid "info.case_created"
+msgstr "任务用例创建完成，请查看目录 {0}.root/cases"
+
+msgid "info.report_case_exception"
+msgstr "{0}: 执行异常\n{1}"
+
+msgid "info.report_mission_complete"
+msgstr " "
+"\n"
+"\n"
+"{0}\n"
+"任务结束\n"
+"共有 {1} 个任务被执行， 其中 {2} 个任务在执行时产生异常"
+
+msgid "info.performer_report"
+msgstr "{split}\n"
+"任务结束\n"
+"{success} 个成功\n"
+"{failure} 个失败\n"
+"{error} 个错误\n"
+"{warning} 个警告\n"
+"{exception} 个异常\n"
+"\n"
+"共使用了 {duration}"
+"\n"
+"{split}"
+
+msgid "warning.abort_creating_case_for_no_template"
+msgstr "没有找到任务模板，放弃在 cases/{0} 下的创建操作！"
+
+msgid "warning.abort_creating_case_for_existence"
+msgstr "目录 cases/{0} 已存在，放弃在此目录下的创建操作！"
+
+msgid "warning.not_standard_case"
+msgstr "{0} 不是 {1} 的标准任务用例，请检查路径或单独执行！"
+
+msgid "error.case_author_name_required"
+msgstr "必须为任务用例指定作者名: python {0} new [task-case] -a [author]"
+
+msgid "error.wrong_usage"
+msgstr "错误的使用方法，请按照如下规则使用:"
+
+msgid "error.exception_in_case"
+msgstr "执行 {0} 时产生异常，请检查任务用例的代码！"
+
+msgid "help.app"
+msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能封装，包括生成测试用例代码模板，运行用例等。\n"
+"\n"   
+"用法： {bin_name} <sub-command> [options] [args]\n"
+"或：   python {bin_name} <sub-command> [options] [args]\n"
+"\n" 
+"可用的子命令：\n"
+"new    - 创建测试用例\n"
+"run    - 执行指定的测试用例\n"
+"help   - 显示帮助信息\n"
+"\n"        
+"子命令详解：\n"
+"- new: 创建测试用例(python)\n"
+"用法: python {bin_name} new [test-case] -a [author]\n"
+"\n"
+"[test-case] 格式为 '项目名称/测试用例名称'，例如: 'my_testsuite/my_first_test_case'。"
+"意即 my_testsuite 项目下的测试用例 my_first_test_case\n"
+"\n"
+"[author] 为作者名，建议使用姓名拼音。同一人在项目中请保持同一名称。\n"
+"\n"
+"- run: 执行指定的测试用例 (python)\n"
+"用法: {bin_name} run [test-case]\n"
+"\n"
+"[test-case] 格式为 '项目名称' 或者 '项目名称/测试用例名称'，"
+"例如: 'my_testsuite' 或 'my_testsuite/my_first_test_case'，如果只指定项目名称，则执行该项目下的所有测试用例。"
+"如果指定项目名称和测试用例名称，则只执行指定的测试用例。\n"
+"\n"
+"- help: 显示帮助信息"
