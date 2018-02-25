@@ -10,7 +10,7 @@ import config
 
 class Performer(BasePerformer):
     def __init__(self, task = None):
-        BasePerformer.__init__(self, "{{name}}", task)
+    	super(Performer, self).__init__("{{name}}", task)
         # 在此添加其他的初始化操作
 
 #     @action_step("这是第一个测试步骤")

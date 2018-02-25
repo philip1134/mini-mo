@@ -1,0 +1,23 @@
+# -*- coding:utf-8 -*-
+
+import os
+from minimo import MoApplication
+
+class Application(MoApplication):
+	"""docstring for Application"""
+
+	# project name
+	config.name = "{{name}}"
+
+	# 
+	# config.bin = "minimo"
+
+	# project root path, normally need not change the following code
+	config.root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+	# project locale, currently supports zh_CN, en_US. default is zh_CN
+	# config.locale = "zh_CN"
+
+	def __init__(self):
+		super(Application, self).__init__()
+		

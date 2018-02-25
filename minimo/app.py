@@ -15,6 +15,7 @@ import gettext
 from functools import wraps
 from .globals import *
 from .helpers import *
+from .config import Config
 
 
 _routes = {}
@@ -31,36 +32,28 @@ def bind(cmd):
 class MoApplication(object):
     """the MoApplication object implements the basic entry of minimo framework"""
 
-    def __init__(
-        self, 
-        project_name, 
-        project_root, 
-        project_bin = "minimo",
-        locale = "zh_CN"
-    ):
-        caller = inspect.currentframe().f_back.f_locals["__file__"]
+    config = Config({
+        "name": "minimo",
+        "bin": "minimo",
+        "root_path": ".",
+        "locale": "zh_CN"
+    })
 
-        self.__name = project_name
-        self.__root = project_root or \
-            os.path.abspath(os.path.join(os.path.dirname(caller), ".."))
-        self.__bin = project_bin or \
-            os.path.basename(caller)
-
+    def __init__(self):
         self.__errors = []
-        
         gettext.translation("minimo", 
                             os.path.join(os.path.dirname(__file__), "locales"), 
-                            languages = [locale]).install()
+                            languages = [self.config.locale]).install()
         g.app = self
 
     def project_name(self):
-        return self.__name
+        return self.config.name
 
     def root_path(self):
-        return self.__root
+        return self.config.root_path
 
     def bin_name(self):
-        return self.__bin
+        return self.config.bin
 
     def report_case_exception(self, case_name, reason):
         self.__errors.append(_("info.report_case_exception").format(case_name, reason))
@@ -165,7 +158,7 @@ class MoApplication(object):
                 warning(_("warning.abort_creating_case_for_no_template"), case)
             else:
                 # checking target path
-                target = os.path.join(self.__root, "cases", case)
+                target = os.path.join(self.config.root, "cases", case)
                 if os.path.exists(target):
                     warning(_("warning.abort_creating_case_for_existence"), case)
                     continue

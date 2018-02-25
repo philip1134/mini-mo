@@ -1,0 +1,9 @@
+# -*- coding:utf-8 -*-
+
+from minimo import MoPerformer
+
+class BasePerformer(MoPerformer):
+	"""docstring for BasePerformer"""
+	
+	def __init__(self):
+		super(BasePerformer, self).__init__()

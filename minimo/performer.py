@@ -20,7 +20,6 @@ class MoPerformer(object):
     ):
         self.name = name
         self.logger = Logger(name, suite, g.app.root_path()).open()
-        
         self.__traceback = []
 
     def run(self):
