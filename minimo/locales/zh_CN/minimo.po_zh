@@ -17,7 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app.py
+msgid "info.create"
+msgstr "创建 {0}"
+
+msgid "info.creating_dir"
+msgstr "创建目录 {0}"
+
 msgid "info.prepare_to_create_case"
 msgstr "准备创建任务用例..."
 
@@ -69,8 +74,14 @@ msgstr "没有找到任务模板，放弃在 cases/{0} 下的创建操作！"
 msgid "warning.abort_creating_case_for_existence"
 msgstr "目录 cases/{0} 已存在，放弃在此目录下的创建操作！"
 
+msgid "warning.abort_creating_dir_for_existence"
+msgstr "目录 {0} 已存在，放弃在此目录下的创建操作！"
+
 msgid "warning.not_standard_case"
 msgstr "{0} 不是 {1} 的标准任务用例，请检查路径或单独执行！"
+
+msgid "error.fail_to_create_file"
+msgstr "创建文件 {0} 失败，请重新创建这个文件！\n失败原因:\n{1}"
 
 msgid "error.case_author_name_required"
 msgstr "必须为任务用例指定作者名: python {0} new [task-case] -a [author]"

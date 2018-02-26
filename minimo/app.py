@@ -9,7 +9,6 @@ import re
 import sys
 import time
 import runpy
-import inspect
 import collections
 import gettext  
 from functools import wraps
@@ -41,6 +40,7 @@ class MoApplication(object):
 
     def __init__(self):
         self.__errors = []
+        self.__task_suite = None
         gettext.translation("minimo", 
                             os.path.join(os.path.dirname(__file__), "locales"), 
                             languages = [self.config.locale]).install()
@@ -55,11 +55,15 @@ class MoApplication(object):
     def bin_name(self):
         return self.config.bin
 
+    def task_suite(self):
+        return self.__task_suite
+
     def report_case_exception(self, case_name, reason):
         self.__errors.append(_("info.report_case_exception").format(case_name, reason))
         
     def run(self):
         """parse cli options"""
+        
         try:
             i = sys.argv.index(self.bin_name())
             cmd = sys.argv[i+1]
@@ -79,12 +83,12 @@ class MoApplication(object):
         tasks = collections.OrderedDict()
         
         sum = 0
-        __task__ = "task"               
+        task_suite = "task"               
         
         # check case runner
         for case in set(options):
             runner_path = os.path.join(self.root_path(), "cases", case)
-            __task__ = "{0}_{1}".format(__task__, case.replace("/", "_"))
+            task_suite = "{0}_{1}".format(task_suite, case.replace("/", "_"))
             
             # loop for __main__.py
             valid_case = False
@@ -100,7 +104,8 @@ class MoApplication(object):
                 warning(_("warning.not_standard_case"), case, self.project_name())
                 self.report_case_exception(case, _("info.not_standard_case"))
                 
-        __task__ = "{0}_{1}".format(__task__, time.strftime("%Y_%m_%d_%H_%M_%S"))   
+        self.__task_suite = "{0}_{1}".format(task_suite, \
+                time.strftime("%Y_%m_%d_%H_%M_%S"))   
              
         for _name, _path in tasks.items():
             try:
@@ -110,7 +115,7 @@ class MoApplication(object):
                 if len(_stacks) > 1 and _proj_path not in sys.path:
                     sys.path.insert(0, _proj_path)
                     
-                runpy.run_path(_path, {"__task__": __task__})
+                runpy.run_path(_path)
             except:
                 tb = format_traceback()
                 self.report_case_exception(_name, tb)
@@ -126,78 +131,7 @@ class MoApplication(object):
         """show cli usage"""
         info(_("help.app"), project_name = self.project_name(), bin_name = self.bin_name())          
 
-    @bind("new")
-    def create_cases(self, options):
-        """create task case from template"""
-        # author name is required
-        try:
-            index_author_flag = options.index("-a")
-            options.pop(index_author_flag)
-            author = options.pop(index_author_flag)
-        except ValueError:
-            error(_("error.case_author_name_required"), self.bin_name())
-            return
-
-        info(_("info.prepare_to_create_case"))
-        for case in set(options):
-            # checking templates
-            dirs = ["cases"] + case.split("/")
-            template_dir = None
-            while len(dirs) > 0:
-                dirs.pop()
-                _templatedir_lang = os.path.join(self.root_path(), *(dirs + ["templates", "python"]))
-                _templatedir = os.path.join(self.root_path(), *(dirs + ["templates"]))
-                if os.path.exists(_templatedir_lang):
-                    template_dir = _templatedir_lang
-                    break
-                elif os.path.exists(_templatedir):
-                    template_dir = _templatedir
-                    break                    
-                
-            if template_dir is None:
-                warning(_("warning.abort_creating_case_for_no_template"), case)
-            else:
-                # checking target path
-                target = os.path.join(self.config.root, "cases", case)
-                if os.path.exists(target):
-                    warning(_("warning.abort_creating_case_for_existence"), case)
-                    continue
-                else:
-                    info(_("info.creating_case_dir"), case)
-                    os.makedirs(target)
-
-                info(_("info.creating_case_by_template"), \
-                    template_dir.replace(self.root_path(), "%s.root"%self.project_name()))
-                
-                # copy files
-                for dirpath, dirs, files in os.walk(template_dir):
-                    for file in files:
-                        self._copy_template_file(
-                            os.path.join(target, file.replace(".template", "")), 
-                            os.path.join(dirpath, file), 
-                            os.path.basename(case), author)
-                
-                info(_("info.case_created"), self.project_name())
-
     def print_wrong_usage(self):
         error(_("error.wrong_usage"))
         self.print_usage()  
-
-    @staticmethod
-    def _copy_template_file(dest, src, case_name, author):
-        try: 
-            with open(src, "r") as src_file:
-                content = src_file.read()
-               
-            content = re.sub(r"\{\s*\{\s*name\s*\}\s*\}", case_name, content) 
-            content = re.sub(r"\{\s*\{\s*author\s*\}\s*\}", author, content) 
-            content = re.sub(r"\{\s*\{\s*date\s*\}\s*\}", time.strftime("%Y-%m-%d"), content) 
-            f = open(dest, "w")
-            f.write(content)
-            f.close()
-
-            info(u"创建 {0}".format(os.path.basename(dest)))
-        except:
-            warning(u"创建文件 {0} 失败，请重新创建这个文件！\n失败原因:\n{1}".format(\
-                os.path.basename(dest)), format_traceback())
 # end

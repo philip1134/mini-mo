@@ -15,15 +15,17 @@ class MoPerformer(object):
     
     def __init__(
         self, 
-        name, 
-        suite = None
+        name
     ):
         self.name = name
-        self.logger = Logger(name, suite, g.app.root_path()).open()
+        self.logger = Logger(name, 
+                        g.app.task_suite(),  
+                        g.app.root_path()).open()
         self.__traceback = []
 
     def run(self):
         """execute performer"""
+
         self._setup()
 
         self.__do_before_actions() and \
@@ -35,16 +37,19 @@ class MoPerformer(object):
     def _setup(self):
         """setup performer environment, in base class 
         we start timer to calculate the task duration"""
+
         self.__timer = Timer(__name__ + "_mo_performer")
 
     def _teardown(self):
         """tear down performer environment, in base class
         basically report task result and close log system."""
+
         self._report()
         self.logger.close()  
 
     def _report(self):
         """print mission report"""
+        
         self.logger.info(_("info.performer_report"), 
             split = SECTION_SPLITTER, 
             success = self.logger.counters["success"],

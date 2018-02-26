@@ -1,0 +1,5 @@
+# Case Description
+
+case name: ${case_name}
+first author: ${author}
+created at: ${date}

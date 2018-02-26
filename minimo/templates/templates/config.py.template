@@ -1,13 +1,10 @@
 # -*- coding:utf-8 -*-
 
-__author__ = "{{author}}"
-__date__ = "{{date}}"
+__author__ = "${author}"
+__date__ = "${date}"
 
 
-from lib.python.config import *
-
-
-"""测试数据"""
+"""test data"""
 
 # url = "https://path-to-project
 

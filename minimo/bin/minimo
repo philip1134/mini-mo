@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+if "__main__" == __name__:
+    from minimo import MoApplication
+    MoApplication().run()

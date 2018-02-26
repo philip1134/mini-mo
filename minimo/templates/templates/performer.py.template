@@ -1,30 +1,38 @@
 # -*- coding:utf-8 -*-
 
-__author__ = "{{author}}"
-__date__ = "{{date}}"
+__author__ = "${author}"
+__date__ = "${date}"
 
 
-from lib.performer import BasePerformer
+from lib import BasePerformer
 import config
 
 
 class Performer(BasePerformer):
-    def __init__(self, task = None):
-    	super(Performer, self).__init__("{{name}}", task)
-        # 在此添加其他的初始化操作
+    """docstring for Performer"""
 
-#     @action_step("这是第一个测试步骤")
-#     def step_first_action(self):
-#         """测试步骤的概述"""
+    def __init__(self):
+    	super(Performer, self).__init__("${case_name}")
+
+        # add initializing code here
+
+#     @action_step("the first task step")
+#     def first_step_action(self):
+#         """step description"""
 #         result = False
-#         # 在此添加测试步骤的代码
+#
+#         # add your code here
+#
 #         return result
 
-#     @action_step("这是第二个测试步骤")
-#     def step_second_action(self):
-#         """测试步骤的概述"""
+#     @action_step("the second task step")
+#     def second_step_action(self):
+#         """step description"""
 #         result = False
-#         # 在此添加测试步骤的代码
+#
+#         # add your code here
+#
 #         return result
         
 
+# end of file

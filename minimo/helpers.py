@@ -4,12 +4,13 @@
 # date: 2017-08-09
 #
 
+import re
 import traceback
 
 TRACE_SPLITTER = "*" * 50
 
 def format_duration(time):
-    """格式化持续时间，输入time单位为秒"""
+    """format duration, unit of input time should be 'second'"""
     fmt = ""
     if time < 1:
         fmt = "%.3f 毫秒"%(time * 1000)
@@ -37,11 +38,32 @@ def format_duration(time):
     return fmt
 
 def format_traceback():
-    """格式化traceback信息"""
+    """format traceback message"""
     tb = TRACE_SPLITTER + "\n" \
         + traceback.format_exc() \
         + TRACE_SPLITTER + "\n"
     return unicode(tb, "utf-8")
+
+def camelize(value):
+    """convert string to camelcase, will split string by '_' and 
+    capitalize the followed word, such as:
+        foo_bar => FooBar
+    """
+    def camelcase(): 
+        yield str.lower
+        while True:
+            yield str.capitalize
+
+    c = camelcase()
+    return "".join(c.next()(x) if x else '_' for x in value.split("_"))
+
+def underscore(value):
+    """convert string to underscore case, will split string by capitalized
+    word and replaced by '_' + lowercase, such as:
+        FooBar => foo_bar
+    """
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', value)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 def validate_keys(targets, keys):
     """check out keys exist in targets or not, targets should be a dict, \
