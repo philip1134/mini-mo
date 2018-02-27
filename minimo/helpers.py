@@ -13,28 +13,28 @@ def format_duration(time):
     """format duration, unit of input time should be 'second'"""
     fmt = ""
     if time < 1:
-        fmt = "%.3f 毫秒"%(time * 1000)
+        fmt = _("format.time.ms").format(time * 1000)
     elif time >= 1 and time < 60:
         # seconds
-        fmt = "%.3f 秒"%time
+        fmt = _("format.time.second").format(time)
     elif time >= 60 and time < 3600:
         # minutes and seconds
         min = int(time / 60)
         sec = time - min * 60
-        fmt = "%d 分 %.3f 秒"%(min, sec)
+        fmt = _("format.time.minute").format(min, sec)
     elif time >= 3600 and time < 86400:
         # hours, minutes and seconds
         hour = int(time / 3600)
         min = int((time - hour * 3600) / 60)
         sec = time - hour * 3600 - min * 60
-        fmt = "%d 小时 %d 分 %.3f 秒"%(hour, min, sec)
+        fmt = _("format.time.hour").format(hour, min, sec)
     else:
         # days, hours, minutes and seconds
         day = int(time / 86400)
         hour = int((time - day * 86400) / 3600)
         min = int((time - day * 86400 - hour * 3600) / 60)
         sec = time - day * 86400 - hour * 3600 - min * 60
-        fmt = "%d 天 %d 小时 %d 分 %.3f 秒"%(day, hour, min, sec)
+        fmt = _("format.time.day").format(day, hour, min, sec)
     return fmt
 
 def format_traceback():

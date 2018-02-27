@@ -17,6 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+###############################################################################
+# infos
+###############################################################################
 msgid "info.create_file"
 msgstr "\tcreate file {0}"
 
@@ -50,6 +53,12 @@ msgstr "case created, please check it out under {0}.root/cases"
 msgid "info.report_case_exception"
 msgstr "{0}: exception occured\n{1}"
 
+msgid "info.failed_action"
+msgstr "failed action: {0}\n{1}"
+
+msgid "info.start_action"
+msgstr "start action {0}..."
+
 msgid "info.report_mission_complete"
 msgstr " "
 "\n"
@@ -71,6 +80,9 @@ msgstr "{split}\n"
 "\n"
 "{split}"
 
+#####################################################################
+# warnings
+#####################################################################
 msgid "warning.abort_creating_case_for_no_template"
 msgstr "no template found, abort creating task under cases/{0}"
 
@@ -83,6 +95,9 @@ msgstr "directory {0} already existed, skip creating!"
 msgid "warning.not_standard_case"
 msgstr "{0} is not {1} standard case, please run it respectively."
 
+#####################################################################
+# errors
+#####################################################################
 msgid "error.fail_to_create_file"
 msgstr "fail to create file {0}!\nreason:\n{1}"
 
@@ -98,11 +113,16 @@ msgstr "exception occured while performing {0}"
 msgid "error.unrecognized_command"
 msgstr "unrecognized command, please check out help info by 'minimo help'"
 
+msgid "error.action_exception_occured"
+msgstr "error occured, please check out your task code!\n{0}"
+
+#####################################################################
+# help messages
+#####################################################################
 msgid "help.app"
 msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能封装，包括生成任务用例代码模板，运行用例等。\n"
 "\n"   
 "用法： minimo <sub-command> [options] [args]\n"
-
 "\n" 
 "可用的子命令：\n"
 "new    - 创建任务用例\n"
@@ -126,3 +146,21 @@ msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能�
 "如果指定项目名称和任务用例名称，则只执行指定的任务用例。\n"
 "\n"
 "- help: 显示帮助信息"
+
+#####################################################################
+# formats
+#####################################################################
+msgid "format.time.ms"
+msgstr "{:.3f} ms"
+
+msgid "format.time.second"
+msgstr "{:.3f} sec"
+
+msgid "format.time.minute"
+msgstr "{:d} min {:.3f} sec"
+
+msgid "format.time.hour"
+msgstr "{:d} hour {:d} min {:.3f} sec"
+
+msgid "format.time.day"
+msgstr "{:d} day {:d} hour {:d} min {:.3f} sec"

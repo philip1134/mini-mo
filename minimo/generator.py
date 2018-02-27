@@ -34,7 +34,7 @@ def generate_project(args = {}):
 
             _copy_template_dir(project_dir, 
                                os.path.join(os.path.dirname(__file__), "templates"), 
-                               ".tt", 
+                               ".mot", 
                                config)
 
 @register("case")

@@ -26,8 +26,9 @@ _LVL_PREFIX = {
 }
     
 class Logger(object):
-    """Logger to print log message to log file and stdout.
-    log directory will be placed under project.root/logs"""
+    """print log to log file and stdout. log directory will be 
+    placed under project.root/logs. by default, it will create 
+    two kinds of log file which are fulltrace and errors only."""
     
     def __init__(
         self, 

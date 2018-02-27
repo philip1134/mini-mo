@@ -6,9 +6,9 @@
 
 import types
 from .globals import *
+from .helpers import *
 from .logger import Logger
 from .timer import Timer
-from .helpers import *
         
 class MoPerformer(object):
     """mini-mo base performer to perform task case."""
@@ -21,7 +21,7 @@ class MoPerformer(object):
         self.logger = Logger(name, 
                         g.task_suite,  
                         g.app.root_path).open()
-        self.__traceback = []
+        self.__exceptions = []
 
     def run(self):
         """execute performer"""
@@ -56,10 +56,10 @@ class MoPerformer(object):
             failure = self.logger.counters["failure"],
             error = self.logger.counters["error"],
             warning = self.logger.counters["warning"],
-            exception = len(self.__traceback),
+            exception = len(self.__exceptions),
             duration = format_duration(self.__timer.duration()))       
 
-        for tb in self.__traceback:
+        for tb in self.__exceptions:
             self.logger.info(tb)
 
     def __do_before_actions(self):
@@ -77,16 +77,16 @@ class MoPerformer(object):
     def __do_actions(self, action_list, action_step = False):
         result = True
         for func in action_list:
-            self.logger.info(u"执行操作 {0}...".format(func.__desc__))
+            self.logger.info(_("info.start_action"), func.__desc__)
             
             try:
                 r = func(self)
             except Exception, e:
                 r = False
                 tb = format_traceback()
-                self.__traceback.append(u"异常操作: {0}\n{1}".format(func.__desc__, tb))
+                self.__exceptions.append(_("info.failed_action"), func.__desc__, tb)
                 report_exception(self.name, tb)
-                self.logger.error(u"执行时产生异常，请检查任务代码！\n{0}".format(tb))
+                self.logger.error(_("error.action_exception_occured"), tb)
                 
             if type(r) is types.BooleanType:
                 _r = r
