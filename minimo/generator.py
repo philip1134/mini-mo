@@ -8,16 +8,15 @@ import os
 import time
 from string import Template
 from .helpers import *
+from .globals import *
+from .route import register
 
-class Generator(object):
-    """Generator for initializing mini-mo project and cases."""
 
-    def __init__(self, arg):
-        super(Generator, self).__init__()
+@register("new")
+def generate_project(args = {}):
+    """initialize project from templates"""
 
-    def generate_project(self, project_name):
-        """initialize project from templates"""
-
+    for project_name in args["args"]:
         project_name = project_name.replace("-", "_")
         project_name_camelized = camelize(project_name)
         project_dir_name = underscore(project_name)
@@ -30,87 +29,95 @@ class Generator(object):
         if os.path.exists(project_dir):
             warning(_("warning.abort_creating_dir_for_existence"), project_dir_name)
         else:
-            info(_("info.creating_dir"), project_dir_name)
+            info(_("info.create_dir"), project_dir_name)
             os.makedirs(project_dir)
 
-            self._copy_template_dir(project_dir, template_dir, ".tt", config)
+            _copy_template_dir(project_dir, 
+                               os.path.join(os.path.dirname(__file__), "templates"), 
+                               ".tt", 
+                               config)
 
-    def generate_cases(self, cases, author):
-        """generate case from templates. it will walk through the sub-directory of task suite,
-        if templates exists in task suite, it initializes the case by the suite specified templates,
-        otherwise, by the project default templates."""
+@register("case")
+def generate_cases(args = {}):
+    """generate case from templates. it will walk through the sub-directory of task suite,
+    if templates exists in task suite, it initializes the case by the suite specified templates,
+    otherwise, by the project default templates."""
 
-        info(_("info.prepare_to_create_case"))
+    info(_("info.prepare_to_create_case"))
 
-        date = time.strftime("%Y-%m-%d")
-        config = {
-            "author": author,
-            "date": date
-        }
-        for case in set(cases):
-            # checking templates
-            dirs = ["cases"] + case.split("/")
-            template_dir = None
-            while len(dirs) > 0:
-                dirs.pop()
-                _templatedir = os.path.join(g.app.root_path(), *(dirs + ["templates"]))
-                if os.path.exists(_templatedir):
-                    template_dir = _templatedir
-                    break                    
-                
-            if template_dir is None:
-                warning(_("warning.abort_creating_case_for_no_template"), case)
+    date = time.strftime("%Y-%m-%d")
+    config = {
+        "author": args["author"],
+        "date": date
+    }
+    for case in set(args["args"]):
+        # checking templates
+        dirs = ["cases"] + case.split("/")
+        template_dir = None
+        while len(dirs) > 0:
+            dirs.pop()
+            _templatedir = os.path.join(g.app.root_path, *(dirs + ["templates"]))
+            if os.path.exists(_templatedir):
+                template_dir = _templatedir
+                break                    
+            
+        if template_dir is None:
+            warning(_("warning.abort_creating_case_for_no_template"), case)
+        else:
+            # checking target path
+            target = os.path.join(g.app.root_path, "cases", case)
+            if os.path.exists(target):
+                warning(_("warning.abort_creating_case_for_existence"), case)
+                continue
             else:
-                # checking target path
-                target = os.path.join(g.app.root_path(), "cases", case)
-                if os.path.exists(target):
-                    warning(_("warning.abort_creating_case_for_existence"), case)
-                    continue
-                else:
-                    info(_("info.creating_case_dir"), case)
-                    os.makedirs(target)
+                info(_("info.creating_case_dir"), case)
+                os.makedirs(target)
 
-                info(_("info.creating_case_by_template"), \
-                    template_dir.replace(self.root_path(), "%s.root"%g.app.project_name()))
-                
-                # copy files
-                config["case_name"] = os.path.basename(case)
-                self._copy_template_dir(target, template_dir, ".template", config)
-                
-                info(_("info.case_created"), g.app.project_name())
+            info(_("info.creating_case_by_template"), \
+                template_dir.replace(g.app.root_path, "%s.root"%g.app.name))
+            
+            # copy files
+            config["case_name"] = os.path.basename(case)
+            _copy_template_dir(target, template_dir, ".template", config)
+            
+            info(_("info.case_created"), g.app.name)
 
-    @staticmethod
-    def _copy_template_file(dest, src, config = {}):
-        """copy template file from src to dest, replace the placeholder in template file
-        by the given config keywords."""
+def _copy_template_file(dest, src, config = {}):
+    """copy template file from src to dest, replace the placeholder in template file
+    by the given config keywords."""
 
-        try: 
-            with open(src, "r") as src_file:
-                content = Template(src_file.read())
-               
-            content = content.safe_substitute(**config)
-            f = open(dest, "w")
-            f.write(content)
-            f.close()
+    try: 
+        with open(src, "r") as src_file:
+            content = Template(src_file.read())
+           
+        content = content.safe_substitute(**config)
+        f = open(dest, "w")
+        f.write(content)
+        f.close()
 
-            info(_("info.create"), os.path.basename(dest))
-        except:
-            error(_("error.fail_to_create_file"), os.path.basename(dest), format_traceback())
+        info(_("info.create_file"), os.path.basename(dest))
+    except:
+        error(_("error.fail_to_create_file"), os.path.basename(dest), format_traceback())
 
-    @staticmethod
-    def _copy_template_dir(dest_dir, template_dir, template_file_afterfix, config):
-        """copy template directory to dest"""
-            info(_("info.creating_dir"), project_dir_name)
-            os.makedirs(project_dir)
+def _copy_template_dir(dest_dir, template_dir, template_file_afterfix, config):
+    """copy template directory to dest"""
 
-        for dirpath, dirs, files in os.walk(template_dir):
-            dest_subdir = template_dir.replace(dirpath, "")
-            if not os.path.exists(dirpath):
-                info(_("info.creating_dir"), dest_subdir)
-                os.makedirs(dirpath)
+    for dirpath, dirs, files in os.walk(template_dir):
+        dest_subdir_name = os.path.relpath(dirpath, template_dir)
+        dest_subdir = os.path.join(dest_dir, dest_subdir_name)
 
-            for file in files:
-                self._copy_template_file(
-                    os.path.join(dest_dir, dest_subdir, file.replace(template_file_afterfix, "")), 
-                    os.path.join(dirpath, file), 
-                    config)
+        if "." != dest_subdir_name:
+            if os.path.exists(dest_subdir):
+                info(_("info.skip_creating_dir_for_existence"), dest_subdir_name)
+            else:
+                info(_("info.create_dir"), dest_subdir_name)
+                os.makedirs(dest_subdir)
+
+        if ".placeholder" in files:
+            files.remove(".placeholder")
+            
+        for file in files:
+            _copy_template_file(
+                os.path.join(dest_subdir, file.replace(template_file_afterfix, "")), 
+                os.path.join(dirpath, file), 
+                config)

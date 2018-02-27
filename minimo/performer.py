@@ -19,8 +19,8 @@ class MoPerformer(object):
     ):
         self.name = name
         self.logger = Logger(name, 
-                        g.app.task_suite(),  
-                        g.app.root_path()).open()
+                        g.task_suite,  
+                        g.app.root_path).open()
         self.__traceback = []
 
     def run(self):
@@ -62,10 +62,6 @@ class MoPerformer(object):
         for tb in self.__traceback:
             self.logger.info(tb)
 
-    def __report_exception_to_app(self, tb):
-        if g.app is not None:
-            g.app.report_case_exception(self.name, tb)
-
     def __do_before_actions(self):
         """execute before_action functions"""
         return self.__do_actions(g.callbacks.get_before_actions(self.__get_caller_id()))
@@ -89,7 +85,7 @@ class MoPerformer(object):
                 r = False
                 tb = format_traceback()
                 self.__traceback.append(u"异常操作: {0}\n{1}".format(func.__desc__, tb))
-                self.__report_exception_to_app(tb)
+                report_exception(self.name, tb)
                 self.logger.error(u"执行时产生异常，请检查任务代码！\n{0}".format(tb))
                 
             if type(r) is types.BooleanType:

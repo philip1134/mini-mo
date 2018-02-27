@@ -1,38 +1,128 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# mini-mo messages.
+# Copyright (C) 2018 philip1134
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# philip1134 <philip1134@imior.com>, 2018.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: mini-mo 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-23 11:12+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2018-02-23 11:14+0800\n"
+"PO-Revision-Date: 2018-02-23 11:14+0800\n"
+"Last-Translator: philip1134 <philip1134@imior.com>\n"
+"Language-Team: philip1134 <philip1134@imior.com>\n"
+"Language: en-us\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app.py:127
+msgid "info.create_file"
+msgstr "\tcreate file {0}"
+
+msgid "info.create_dir"
+msgstr "create directory {0}"
+
+msgid "info.skip_creating_dir_for_existence"
+msgstr "directory {0} already exsited"
+
 msgid "info.prepare_to_create_case"
-msgstr ""
+msgstr "prepare to create case..."
 
-#: app.py:145
-msgid "warning.abort_creating_case_for_no_template"
-msgstr ""
-
-#: app.py:151
-msgid "warning.abort_creating_case_for_existence"
-msgstr ""
-
-#: app.py:155
 msgid "info.creating_case_dir"
-msgstr ""
+msgstr "create directory cases/{0}"
 
-#: app.py:159
 msgid "info.creating_case_by_template"
-msgstr ""
+msgstr "create case by project template {0}"
+
+msgid "info.add_task"
+msgstr "add task {0}"
+
+msgid "info.executing_task"
+msgstr "run task {0}"
+
+msgid "info.not_standard_case"
+msgstr "not standard case"
+
+msgid "info.case_created"
+msgstr "case created, please check it out under {0}.root/cases"
+
+msgid "info.report_case_exception"
+msgstr "{0}: exception occured\n{1}"
+
+msgid "info.report_mission_complete"
+msgstr " "
+"\n"
+"\n"
+"{0}\n"
+"mission complete!\n"
+"totally {1} cases were executed,  {2} cases raised exception."
+
+msgid "info.performer_report"
+msgstr "{split}\n"
+"mission complete!\n"
+"{success} success\n"
+"{failure} failure\n"
+"{error} error\n"
+"{warning} warning\n"
+"{exception} exception\n"
+"\n"
+"totally cost {duration}"
+"\n"
+"{split}"
+
+msgid "warning.abort_creating_case_for_no_template"
+msgstr "no template found, abort creating task under cases/{0}"
+
+msgid "warning.abort_creating_case_for_existence"
+msgstr "directory cases/{0} already existed, skip creating!"
+
+msgid "warning.abort_creating_dir_for_existence"
+msgstr "directory {0} already existed, skip creating!"
+
+msgid "warning.not_standard_case"
+msgstr "{0} is not {1} standard case, please run it respectively."
+
+msgid "error.fail_to_create_file"
+msgstr "fail to create file {0}!\nreason:\n{1}"
+
+msgid "error.case_author_name_required"
+msgstr "case author name required: python {0} new [task-case] -a [author]"
+
+msgid "error.wrong_usage"
+msgstr "wrong usage, please check out help info by 'minimo help'"
+
+msgid "error.exception_in_case"
+msgstr "exception occured while performing {0}"
+
+msgid "error.unrecognized_command"
+msgstr "unrecognized command, please check out help info by 'minimo help'"
+
+msgid "help.app"
+msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能封装，包括生成任务用例代码模板，运行用例等。\n"
+"\n"   
+"用法： minimo <sub-command> [options] [args]\n"
+
+"\n" 
+"可用的子命令：\n"
+"new    - 创建任务用例\n"
+"run    - 执行指定的任务用例\n"
+"help   - 显示帮助信息\n"
+"\n"        
+"子命令详解：\n"
+"- new: 创建任务用例\n"
+"用法: minimo new [test-case] -a [author]\n"
+"\n"
+"[test-case] 格式为 '项目名称/任务用例名称'，例如: 'my_testsuite/my_first_test_case'。"
+"意即 my_testsuite 项目下的任务用例 my_first_test_case\n"
+"\n"
+"[author] 为作者名，建议使用姓名拼音。同一人在项目中请保持同一名称。\n"
+"\n"
+"- run: 执行指定的任务用例 (python)\n"
+"用法: minimo run [test-case]\n"
+"\n"
+"[test-case] 格式为 '项目名称' 或者 '项目名称/任务用例名称'，"
+"例如: 'my_testsuite' 或 'my_testsuite/my_first_test_case'，如果只指定项目名称，则执行该项目下的所有任务用例。"
+"如果指定项目名称和任务用例名称，则只执行指定的任务用例。\n"
+"\n"
+"- help: 显示帮助信息"

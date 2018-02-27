@@ -44,18 +44,23 @@ def format_traceback():
         + TRACE_SPLITTER + "\n"
     return unicode(tb, "utf-8")
 
+def upperfirst(value):
+    """upper first word of string, and does not change the rest case,
+    such as:
+        foobAr => FoobAr
+    """
+    if len(value) > 0:
+        return value[0].upper() + value[1:]
+    else:
+        return value[0].upper()
+
 def camelize(value):
     """convert string to camelcase, will split string by '_' and 
     capitalize the followed word, such as:
         foo_bar => FooBar
     """
-    def camelcase(): 
-        yield str.lower
-        while True:
-            yield str.capitalize
-
-    c = camelcase()
-    return "".join(c.next()(x) if x else '_' for x in value.split("_"))
+    return upperfirst(re.sub(r'(?!^)_([a-zA-Z])', \
+        lambda m: m.group(1).upper(), value))
 
 def underscore(value):
     """convert string to underscore case, will split string by capitalized

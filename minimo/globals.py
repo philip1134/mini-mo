@@ -14,5 +14,10 @@ SECTION_SPLITTER = "-" * 50
 g = Config({
     "app": None, 
     "callbacks": None, 
-    "line": 1
+    "line": 1,
+    "task_suite": None,
+    "errors": []
 })
+
+def report_exception(point, reason = ""):
+    g.errors.append(_("info.report_case_exception").format(point, reason))
