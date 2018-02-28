@@ -68,7 +68,8 @@ msgstr " "
 "共有 {1} 个任务被执行， 其中 {2} 个任务在执行时产生异常"
 
 msgid "info.performer_report"
-msgstr "{split}\n"
+msgstr " "
+"\n{split}\n"
 "任务结束\n"
 "{success} 个成功\n"
 "{failure} 个失败\n"
@@ -116,6 +117,9 @@ msgstr "未识别的命令，请使用 'minimo help' 查看帮助。"
 msgid "error.action_exception_occured"
 msgstr "执行时产生异常，请检查任务代码！\n{0}"
 
+msgid "error.invalid_minimo_project_directory"
+msgstr "非minimo项目，请使用 'minimo help' 查看帮助。"
+
 #####################################################################
 # help messages
 #####################################################################
@@ -125,7 +129,8 @@ msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能�
 "用法： minimo <sub-command> [options] [args]\n"
 "\n" 
 "可用的子命令：\n"
-"new    - 创建任务用例\n"
+"new    - 创建项目\n"
+"case   - 创建任务用例\n"
 "run    - 执行指定的任务用例\n"
 "help   - 显示帮助信息\n"
 "\n"        
@@ -146,6 +151,19 @@ msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能�
 "如果指定项目名称和任务用例名称，则只执行指定的任务用例。\n"
 "\n"
 "- help: 显示帮助信息"
+
+msgid "help.new"
+msgstr "创建项目\n"
+"用法: minimo new PROJECT_NAME"
+
+msgid "help.case"
+msgstr "创建任务用例\n"
+"用法: minimo case TASK_SUITE/TASK_CASE -a AUTHOR\n"
+"或:   minimo case TASK_CASE -a AUTHOR\n"
+"\n"
+"将根据项目的用例模板初始化用例代码，代码将被创建在\n"
+"\tproject.root/cases/TASK_SUITE/TASK_CASE\n"
+"如果TASK_SUITE目录下有用例模板，则优先根据该模板创建"
 
 #####################################################################
 # formats

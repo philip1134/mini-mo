@@ -38,6 +38,11 @@ class MoApplication(object):
     # project locale, currently supports zh_CN, en_US. default is zh_CN
     locale = "zh_CN"
 
+    # project modules path, which will be inserted into sys.path at application 
+    # started. by default, "lib", "cases", "vendors" will be added mandatory.
+    modules_path = []
+    mandatory_modules_path = ["lib", "cases", "vendors"]
+
     def __init__(self):
         gettext.translation("minimo", 
                             os.path.join(os.path.dirname(__file__), "locales"), 
@@ -55,12 +60,27 @@ class MoApplication(object):
         
             cmd = _options.pop("cmd")
             if g.routes.has_key(cmd):
+                self.add_modules_path()
                 g.routes[cmd]["handler"](_options)
             else:
                 error(_("error.unrecognized_command"))
         except:
             error(_("error.wrong_usage"))
             print format_traceback() 
+
+    def add_modules_path(self):
+        """walk through modules_path, if there's __init__.py, the folder will 
+        be added into sys.path"""
+
+        if self.root_path is None:
+            return
+
+        for target in set(self.modules_path + self.mandatory_modules_path):
+            target_dir = os.path.join(self.root_path, target)
+            if os.path.exists(target_dir):
+                for dirpath, dirs, files in os.walk(target_dir):
+                    if "__init__.py" in files:
+                        sys.path.insert(0, dirpath)
 
     @staticmethod
     def parse_cli():

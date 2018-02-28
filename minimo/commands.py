@@ -4,6 +4,8 @@
 # date: 2018-02-26
 #
 
+import os
+import sys
 import re
 import time
 import runpy
@@ -38,7 +40,7 @@ def run_cases(args = {}):
                 valid_case = True
                 if not tasks.has_key(_name):
                     tasks[_name] = _root
-                    info(_("info.add_task", _name))
+                    info(_("info.add_task"), _name)
                 
         if not valid_case:
             warning(_("warning.not_standard_case"), case, g.app.name)
@@ -47,9 +49,9 @@ def run_cases(args = {}):
     g.task_suite = "{0}_{1}".format(task_suite, time.strftime("%Y_%m_%d_%H_%M_%S"))   
          
     if "concorrence" == g.app.run_cases:
-        _run_cases_concorrence()
+        _run_cases_concorrence(tasks)
     else:
-        _run_cases_serial()
+        _run_cases_serial(tasks)
          
     info(_("info.report_mission_complete"), BLOCK_SPLITTER, len(tasks), len(g.errors))  
     if len(g.errors) > 0:
@@ -61,10 +63,9 @@ def _run_cases_serial(tasks = {}):
     for _name, _path in tasks.items():
         try:
             info(_("info.executing_task"), _name)
-            # _stacks = re.split(r"/|\\", _name)
-            # _proj_path = os.path.join(g.app.root_path, "cases", _stacks[0])
-            # if len(_stacks) > 1 and _proj_path not in sys.path:
-            #     sys.path.insert(0, _proj_path)
+            module_path = os.path.abspath(os.path.join(_path, ".."))
+            if module_path not in sys.path:
+                sys.path.insert(0, module_path)
                 
             runpy.run_path(_path)
         except:
@@ -79,10 +80,9 @@ def _run_cases_concorrence(tasks = {}):
     for _name, _path in tasks.items():
         try:
             info(_("info.executing_task"), _name)
-            # _stacks = re.split(r"/|\\", _name)
-            # _proj_path = os.path.join(g.app.root_path, "cases", _stacks[0])
-            # if len(_stacks) > 1 and _proj_path not in sys.path:
-            #     sys.path.insert(0, _proj_path)
+            # module_path = os.path.abspath(os.path.join(_path, ".."))
+            # if module_path not in sys.path:
+            #     sys.path.insert(0, module_path)
                 
             sp.append(subprocess.Popen(["python", _path]))
         except:

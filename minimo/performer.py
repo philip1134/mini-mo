@@ -25,27 +25,24 @@ class MoPerformer(object):
 
     def run(self):
         """execute performer"""
+        self.__timer = Timer(__name__ + "_mo_performer")
 
-        self._setup()
-
+        self.setup()
         self.__do_before_actions() and \
         self.__do_action_steps() and \
         self.__do_after_actions()
-
-        self._teardown()
-    
-    def _setup(self):
-        """setup performer environment, in base class 
-        we start timer to calculate the task duration"""
-
-        self.__timer = Timer(__name__ + "_mo_performer")
-
-    def _teardown(self):
-        """tear down performer environment, in base class
-        basically report task result and close log system."""
+        self.teardown()
 
         self._report()
         self.logger.close()  
+    
+    def setup(self):
+        """setup performer environment."""
+        pass
+
+    def teardown(self):
+        """tear down performer environment."""
+        pass
 
     def _report(self):
         """print mission report"""
@@ -84,7 +81,7 @@ class MoPerformer(object):
             except Exception, e:
                 r = False
                 tb = format_traceback()
-                self.__exceptions.append(_("info.failed_action"), func.__desc__, tb)
+                self.__exceptions.append(_("info.failed_action").format(func.__desc__, tb))
                 report_exception(self.name, tb)
                 self.logger.error(_("error.action_exception_occured"), tb)
                 

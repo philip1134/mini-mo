@@ -78,7 +78,7 @@ class Logger(object):
             else:
                 dirpath = os.path.join(self.root, self.case)
             basename = os.path.join(dirpath, \
-                "{0}.{1}".format(self.case, timestamp))  
+                "{0}_{1}".format(self.case, timestamp))  
             
             # check out dirs
             if not os.path.exists(dirpath):

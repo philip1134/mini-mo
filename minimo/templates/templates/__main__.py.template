@@ -3,6 +3,5 @@
 __author__ = "${author}"
 __date__ = "${date}"
 
-import ${case_name}.performer
-
-${case_name}.performer.Performer().run()
+from ${case_name}.performer import Performer
+Performer("${case_name}").run()

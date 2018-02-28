@@ -12,7 +12,7 @@ from .globals import *
 from .route import register
 
 
-@register("new")
+@register("init")
 def generate_project(args = {}):
     """initialize project from templates"""
 
@@ -37,11 +37,15 @@ def generate_project(args = {}):
                                ".mot", 
                                config)
 
-@register("case")
+@register("new")
 def generate_cases(args = {}):
     """generate case from templates. it will walk through the sub-directory of task suite,
     if templates exists in task suite, it initializes the case by the suite specified templates,
     otherwise, by the project default templates."""
+
+    if g.app.root_path is None:
+        error(_("error.invalid_minimo_project_directory"))
+        return
 
     info(_("info.prepare_to_create_case"))
 
