@@ -120,6 +120,9 @@ msgstr "执行时产生异常，请检查任务代码！\n{0}"
 msgid "error.invalid_minimo_project_directory"
 msgstr "非minimo项目，请使用 'minimo help' 查看帮助。"
 
+msgid "error.author_name_required"
+msgstr "请指定用例作者名： minimo new TASK-SUITE/TASK-CASE -a AUTHOR"
+
 #####################################################################
 # help messages
 #####################################################################
@@ -152,14 +155,14 @@ msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能�
 "\n"
 "- help: 显示帮助信息"
 
-msgid "help.new"
+msgid "help.init"
 msgstr "创建项目\n"
-"用法: minimo new PROJECT_NAME"
+"用法: minimo init PROJECT_NAME"
 
-msgid "help.case"
+msgid "help.new"
 msgstr "创建任务用例\n"
-"用法: minimo case TASK_SUITE/TASK_CASE -a AUTHOR\n"
-"或:   minimo case TASK_CASE -a AUTHOR\n"
+"用法: minimo new TASK_SUITE/TASK_CASE -a AUTHOR\n"
+"或:   minimo new TASK_CASE -a AUTHOR\n"
 "\n"
 "将根据项目的用例模板初始化用例代码，代码将被创建在\n"
 "\tproject.root/cases/TASK_SUITE/TASK_CASE\n"

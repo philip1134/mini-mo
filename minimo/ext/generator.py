@@ -7,13 +7,12 @@
 import os
 import time
 from string import Template
-from .helpers import *
-from .globals import *
-from .route import register
-
+from ..helpers import *
+from ..globals import *
+from ..route import register
 
 @register("init")
-def generate_project(args = {}):
+def minimo_generate_project(args = {}):
     """initialize project from templates"""
 
     for project_name in args["args"]:
@@ -38,13 +37,16 @@ def generate_project(args = {}):
                                config)
 
 @register("new")
-def generate_cases(args = {}):
+def minimo_generate_cases(args = {}):
     """generate case from templates. it will walk through the sub-directory of task suite,
     if templates exists in task suite, it initializes the case by the suite specified templates,
     otherwise, by the project default templates."""
 
     if g.app.root_path is None:
         error(_("error.invalid_minimo_project_directory"))
+        return
+
+    if not validate_keys({"author": _("error.author_name_required")}):
         return
 
     info(_("info.prepare_to_create_case"))

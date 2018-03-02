@@ -106,19 +106,22 @@ msgid "error.case_author_name_required"
 msgstr "case author name required: python {0} new [task-case] -a [author]"
 
 msgid "error.wrong_usage"
-msgstr "wrong usage, please check out help info by 'minimo help'"
+msgstr "wrong usage, please get help by 'minimo help'"
 
 msgid "error.exception_in_case"
 msgstr "exception occured while performing {0}"
 
 msgid "error.unrecognized_command"
-msgstr "unrecognized command, please check out help info by 'minimo help'"
+msgstr "unrecognized command, please get help by 'minimo help'"
 
 msgid "error.action_exception_occured"
 msgstr "error occured, please check out your task code!\n{0}"
 
 msgid "error.invalid_minimo_project_directory"
-msgstr "非minimo项目，请使用 'minimo help' 查看帮助。"
+msgstr "not in minimo project root folder，please get help by 'minimo help'"
+
+msgid "error.author_name_required"
+msgstr "author name required: minimo new TASK-SUITE/TASK-CASE -a AUTHOR"
 
 #####################################################################
 # help messages
@@ -152,14 +155,14 @@ msgstr "{project_name} 功能执行者。以cli形式将 {project_name} 功能�
 "\n"
 "- help: 显示帮助信息"
 
-msgid "help.new"
-msgstr "new project\n"
-"usage: minimo new PROJECT_NAME"
+msgid "help.init"
+msgstr "initialize project\n"
+"usage: minimo init PROJECT_NAME"
 
-msgid "help.case"
-msgstr "创建任务用例\n"
-"用法: minimo case TASK_SUITE/TASK_CASE -a AUTHOR\n"
-"或:   minimo case TASK_CASE -a AUTHOR\n"
+msgid "help.new"
+msgstr "create task case by template\n"
+"用法: minimo new TASK_SUITE/TASK_CASE -a AUTHOR\n"
+"或:   minimo new TASK_CASE -a AUTHOR\n"
 "\n"
 "将根据项目的用例模板初始化用例代码，代码将被创建在\n"
 "\tproject.root/cases/TASK_SUITE/TASK_CASE\n"

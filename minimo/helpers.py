@@ -39,9 +39,8 @@ def format_duration(time):
 
 def format_traceback():
     """format traceback message"""
-    tb = TRACE_SPLITTER + "\n" \
-        + traceback.format_exc() \
-        + TRACE_SPLITTER + "\n"
+    tb = "{splitter}\n{traceback}\n{splitter}\n".format(\
+        splitter = TRACE_SPLITTER, traceback = traceback.format_exc())
     return unicode(tb, "utf-8")
 
 def upperfirst(value):
@@ -78,13 +77,14 @@ def validate_keys(targets, keys):
         if not targets.has_key(key):
             error(msg)
             result = False
+            # don't break here, check all the items once.
     return result
 
 def info(message, *args, **kwargs):
     print message.format(*args, **kwargs)
 
 def warning(message, *args, **kwargs):
-    print u"(!) 警告： " + message.format(*args, **kwargs)
+    print u"(!) WARNING " + message.format(*args, **kwargs)
 
 def error(message, *args, **kwargs):
-    print u"(x) 错误： " + message.format(*args, **kwargs)
+    print u"(x) ERROR " + message.format(*args, **kwargs)

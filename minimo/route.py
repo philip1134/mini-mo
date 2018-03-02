@@ -15,7 +15,7 @@ def register(cmd, help = ""):
         def decorated_func(*args, **kwargs):
             return f(*args, **kwargs)
         g.routes[cmd] = {
-            "handler": f,
+            "handler": f.__name__,
             "help": help
         }
         return decorated_func

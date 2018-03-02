@@ -11,18 +11,17 @@ import time
 import runpy
 import subprocess
 import collections
-from .globals import *
-from .helpers import *
-from .route import register
-
+from ..globals import *
+from ..helpers import *
+from ..route import register
 
 @register("help")
-def print_usage(*args):
+def minimo_print_usage(*args):
     """show cli usage"""
     info(_("help.app"), project_name = g.app.name)   
 
 @register("run")
-def run_cases(args = {}):
+def minimo_run_cases(args = {}):
     """run task cases"""
     tasks = collections.OrderedDict()
     task_suite = "task"  
@@ -80,10 +79,11 @@ def _run_cases_concorrence(tasks = {}):
     for _name, _path in tasks.items():
         try:
             info(_("info.executing_task"), _name)
-            # module_path = os.path.abspath(os.path.join(_path, ".."))
-            # if module_path not in sys.path:
-            #     sys.path.insert(0, module_path)
-                
+            module_path = os.path.abspath(os.path.join(_path, ".."))
+
+            if module_path not in sys.path:
+                os.environ["PYTHONPATH"] = module_path
+
             sp.append(subprocess.Popen(["python", _path]))
         except:
             tb = format_traceback()
@@ -92,3 +92,10 @@ def _run_cases_concorrence(tasks = {}):
 
     for s in sp:
         s.wait()   
+
+def _before_concorrence(case_path):
+    g.app.add_modules_path()
+
+    module_path = os.path.abspath(os.path.join(_path, ".."))
+    if module_path not in sys.path:
+        sys.path.insert(0, module_path)

@@ -10,10 +10,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import gettext 
+import importlib
 from .globals import *
 from .helpers import *
-from .generator import *
-from .commands import *
 
 
 class MoApplication(object):
@@ -39,9 +38,9 @@ class MoApplication(object):
     locale = "zh_CN"
 
     # project modules path, which will be inserted into sys.path at application 
-    # started. by default, "lib", "cases", "vendors" will be added mandatory.
+    # started. by default, "lib", "ext", "cases", "vendors" will be added mandatory.
     modules_path = []
-    mandatory_modules_path = ["lib", "cases", "vendors"]
+    mandatory_modules_path = ["lib", "ext", "cases", "vendors"]
 
     def __init__(self):
         gettext.translation("minimo", 
@@ -59,9 +58,10 @@ class MoApplication(object):
                 _options = options
         
             cmd = _options.pop("cmd")
+            self.add_extensions()
             if g.routes.has_key(cmd):
                 self.add_modules_path()
-                g.routes[cmd]["handler"](_options)
+                getattr(self.__ext, g.routes[cmd]["handler"])(_options)
             else:
                 error(_("error.unrecognized_command"))
         except:
@@ -81,6 +81,17 @@ class MoApplication(object):
                 for dirpath, dirs, files in os.walk(target_dir):
                     if "__init__.py" in files:
                         sys.path.insert(0, dirpath)
+
+    def add_extensions(self):
+        """add extended functionalities into application environment."""
+
+        # add mini-mo basic extensions
+        self.__ext = importlib.import_module("minimo.ext")
+
+        if self.root_path is not None and \
+            os.path.exists(os.path.join(self.root_path, "ext")):
+            # add project instance related extensions
+            self.__ext.__dict__.update(importlib.import_module("ext").__dict__)
 
     @staticmethod
     def parse_cli():

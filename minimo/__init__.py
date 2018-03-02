@@ -5,3 +5,4 @@ from .app import MoApplication
 from .performer import MoPerformer
 from .callbacks import before_action, action_step, after_action
 from .helpers import *
+from .route import register
