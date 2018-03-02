@@ -31,10 +31,25 @@ def minimo_generate_project(args = {}):
             info(_("info.create_dir"), project_dir_name)
             os.makedirs(project_dir)
 
-            _copy_template_dir(project_dir, 
-                               os.path.join(os.path.dirname(__file__), "templates"), 
-                               ".mot", 
-                               config)
+            # check out template path
+            user_template_path = os.path.join(os.getcwd(), args["t"])
+            minimo_named_template_path = os.path.join(\
+                os.path.dirname(__file__), "..", "templates", args["t"])
+            minimo_default_template_path = os.path.join(\
+                os.path.dirname(__file__), "..", "templates", "default")
+            if args.has_key("t"):
+                if os.path.exists(user_template_path):
+                    # user specified template path
+                    template_dir = user_template_path
+                elif os.path.exists(minimo_named_template_path):
+                    # minimo provides template name
+                    template_dir = minimo_named_template_path
+                else:
+                    warning(_("warning.unrecognized_project_template"), args["t"])
+                    template_dir = minimo_default_template_path
+            else:
+                template_dir = minimo_default_template_path
+            _copy_template_dir(project_dir, template_dir, ".mot", config)
 
 @register("new")
 def minimo_generate_cases(args = {}):
@@ -46,14 +61,14 @@ def minimo_generate_cases(args = {}):
         error(_("error.invalid_minimo_project_directory"))
         return
 
-    if not validate_keys({"author": _("error.author_name_required")}):
+    if not validate_keys(args, {"a": _("error.case_author_name_required")}):
         return
 
     info(_("info.prepare_to_create_case"))
 
     date = time.strftime("%Y-%m-%d")
     config = {
-        "author": args["author"],
+        "author": args["a"],
         "date": date
     }
     for case in set(args["args"]):

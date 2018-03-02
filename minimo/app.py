@@ -9,6 +9,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+import re
 import gettext 
 import importlib
 from .globals import *
@@ -66,7 +67,7 @@ class MoApplication(object):
                 error(_("error.unrecognized_command"))
         except:
             error(_("error.wrong_usage"))
-            print format_traceback() 
+            print format_traceback()
 
     def add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will 
@@ -101,12 +102,22 @@ class MoApplication(object):
         argv.pop(0)
         options = { "cmd": argv.pop(0) }
 
-        if "-a" in argv:
-            index_author = argv.index("-a")
-            argv.pop(index_author)
-            options["author"] = argv.pop(index_author)
+        index = 0
+        while index < len(argv):
+            arg = argv[index]
+
+            # check out options
+            if "-" == arg[0]:
+                k = re.sub("^-+", "", argv.pop(index))
+
+                # check out parameter
+                if index < len(argv) and argv[index][0] != "-":
+                    options[k] = argv.pop(index)
+                else:
+                    options[k] = True
+            else:
+                index += 1
 
         options["args"] = argv                  
-
         return options
 # end

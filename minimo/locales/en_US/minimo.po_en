@@ -96,6 +96,9 @@ msgstr "directory {0} already existed, skip creating!"
 msgid "warning.not_standard_case"
 msgstr "{0} is not {1} standard case, please run it respectively."
 
+msgid "warning.unrecognized_project_template"
+msgstr "unrecognized project template '{0}'，will create project by minimo default template."
+
 #####################################################################
 # errors
 #####################################################################
