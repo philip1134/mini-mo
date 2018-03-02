@@ -96,9 +96,6 @@ msgstr "directory {0} already existed, skip creating!"
 msgid "warning.not_standard_case"
 msgstr "{0} is not {1} standard case, please run it respectively."
 
-msgid "warning.unrecognized_project_template"
-msgstr "unrecognized project template '{0}'，will create project by minimo default template."
-
 #####################################################################
 # errors
 #####################################################################
@@ -125,6 +122,9 @@ msgstr "not in minimo project root folder，please get help by 'minimo help'"
 
 msgid "error.author_name_required"
 msgstr "author name required: minimo new TASK-SUITE/TASK-CASE -a AUTHOR"
+
+msgid "error.unrecognized_project_template"
+msgstr "unrecognized project template '{0}'."
 
 #####################################################################
 # help messages

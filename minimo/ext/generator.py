@@ -28,15 +28,14 @@ def minimo_generate_project(args = {}):
         if os.path.exists(project_dir):
             warning(_("warning.abort_creating_dir_for_existence"), project_dir_name)
         else:
-            info(_("info.create_dir"), project_dir_name)
-            os.makedirs(project_dir)
-
             # check out template path
             user_template_path = os.path.join(os.getcwd(), args["t"])
             minimo_named_template_path = os.path.join(\
                 os.path.dirname(__file__), "..", "templates", args["t"])
             minimo_default_template_path = os.path.join(\
                 os.path.dirname(__file__), "..", "templates", "default")
+
+            template_dir = None
             if args.has_key("t"):
                 if os.path.exists(user_template_path):
                     # user specified template path
@@ -45,11 +44,16 @@ def minimo_generate_project(args = {}):
                     # minimo provides template name
                     template_dir = minimo_named_template_path
                 else:
-                    warning(_("warning.unrecognized_project_template"), args["t"])
-                    template_dir = minimo_default_template_path
+                    # unrecognized template name
+                    error(_("error.unrecognized_project_template"), args["t"])
             else:
                 template_dir = minimo_default_template_path
-            _copy_template_dir(project_dir, template_dir, ".mot", config)
+
+            if template_dir is not None:
+                info(_("info.create_dir"), project_dir_name)
+                os.makedirs(project_dir)
+                
+                _copy_template_dir(project_dir, template_dir, ".mot", config)
 
 @register("new")
 def minimo_generate_cases(args = {}):
