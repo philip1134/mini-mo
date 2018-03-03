@@ -15,14 +15,26 @@ from ..globals import *
 from ..helpers import *
 from ..route import register
 
-@register("help")
+@register("help", "help.help", True)
 def minimo_print_usage(*args):
-    """show cli usage"""
-    info(_("help.app"), project_name = g.app.name)   
+    """show usage"""
 
-@register("run")
+    sub_commands = ""
+    for cmd, conf in g.routes.items():
+        if conf["trans"]:
+            _help = _(conf["help"])
+        else:
+            _help = conf["help"]
+        sub_commands += "\n* {0} - {1}\n".format(cmd, _help) 
+
+    info(_("help.app"), 
+        project_name = g.app.name, 
+        sub_commands = sub_commands)   
+
+@register("run", "help.run", True)
 def minimo_run_cases(args = {}):
     """run task cases"""
+
     tasks = collections.OrderedDict()
     task_suite = "task"  
     

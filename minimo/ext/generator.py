@@ -11,7 +11,7 @@ from ..helpers import *
 from ..globals import *
 from ..route import register
 
-@register("init")
+@register("init", "help.init", True)
 def minimo_generate_project(args = {}):
     """initialize project from templates"""
 
@@ -55,7 +55,7 @@ def minimo_generate_project(args = {}):
                 
                 _copy_template_dir(project_dir, template_dir, ".mot", config)
 
-@register("new")
+@register("new", "help.new", True)
 def minimo_generate_cases(args = {}):
     """generate case from templates. it will walk through the sub-directory of task suite,
     if templates exists in task suite, it initializes the case by the suite specified templates,
