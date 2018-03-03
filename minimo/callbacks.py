@@ -76,7 +76,7 @@ def __get_caller_id_by_frame(caller):
     return "{0}.{1}".format(caller.f_locals["__module__"], caller.f_code.co_name)
 
 def before_action(desc):
-    """to specify the action will be executed before test."""
+    """to specify the action will be executed before task."""
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
@@ -89,7 +89,7 @@ def before_action(desc):
     return decorator
 
 def after_action(desc):
-    """to specify the action will be executed after test."""
+    """to specify the action will be executed after task."""
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
@@ -102,9 +102,9 @@ def after_action(desc):
     return decorator
 
 def action_step(desc):
-    """to specify the action is one test step. 
+    """to specify the action is one task step. 
     the specified action should return True or False to
-    represent success or failure of that test step."""
+    represent success or failure of that task step."""
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
