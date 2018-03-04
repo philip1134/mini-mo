@@ -2,9 +2,9 @@
 minimo 是一款轻量级的自动化框架，主要支持测试自动化，但并不限于测试。 
 项目名称来源于 《机器人总动员》 中的角色 “小M-O” 机器人，就是下图那货。
 
-minimo is a lightweight automa
-tion framework. mainly focused on automated test, but not limited to test.
+minimo is a lightweight automation framework. mainly focused on automated test, but not limited to test.
 the project name comes from the mini robot _M-O_ in _WALL-E_ as the following guy:
+
 ![home page](./images/walle-mo.jpg "M-O")
 
 ## 用法 Usage
@@ -12,7 +12,7 @@ install and update using pip:
 
 	$ pip install -U minimo
 
-create project instance:
+**create project instance:**
 
 	$ minimo init my-project -t TEMPLATE
 
@@ -23,7 +23,7 @@ create project instance:
 it can be a template name, minimo will search the name under minimo/templates and create project as it, currently only `default`.
 or, it can be a directory path, minimo will check out that path and create project as it.
 
-create task case:
+**create task case:**
 
 	$ minimo new TASK_SUITE/TASK_CASE -a AUTHOR
 
@@ -38,7 +38,7 @@ if there's suite specified case-template under `TASK_SUITE` directory，minimo w
 
 `-a AUTHOR` specify the author name, it's required.
 
-run task case:
+**run task case:**
 
 	$ minimo run TASK_SUITE/TASK_CASE
 
@@ -56,7 +56,7 @@ the two types can be mixed, such as:
 
 	$ minimo run my-task-suite1 my-task-suite2/case1 my-task-suite3/case3"
 
-get help:
+**get help:**
 
 	$ minimo help
 
