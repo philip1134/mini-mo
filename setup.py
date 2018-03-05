@@ -21,11 +21,20 @@ setup(
     description='A lightweight automation framework.',
     long_description=readme,
     packages=['minimo', 'minimo.ext'],
+    package_data={
+        '': ['*.md'],
+    },
     platforms='any',
     include_package_data=True,
     zip_safe=False,
     # install_requires=[],
-    # extras_require={},
+    extras_require={
+        'dev': [
+            'tox',
+            'check-manifest',
+            'flake8'
+        ],
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Test Automation',

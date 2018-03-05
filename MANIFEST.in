@@ -1,4 +1,4 @@
-include LICENSE
+include LICENSE README.md
 recursive-include minimo *.mot
 recursive-include minimo *.mo
 recursive-include minimo *.po_en
