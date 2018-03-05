@@ -11,9 +11,10 @@ the project name comes from the mini robot _M-O_ in _WALL-E_ as the following gu
 ![home page](./images/walle-mo.jpg "M-O")
 
 ## 用法 Usage
-install and update using pip:
+install using setup.py:
 
-	$ pip install -U minimo
+	# download the package
+	$ python setup.py install
 
 **create project instance:**
 
