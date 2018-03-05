@@ -1,4 +1,7 @@
 # mini-mo
+
+[![Build Status](https://travis-ci.org/philip1134/mini-mo.svg?branch=master)](https://travis-ci.org/philip1134/mini-mo)
+
 minimo 是一款轻量级的自动化框架，主要支持测试自动化，但并不限于测试。 
 项目名称来源于 《机器人总动员》 中的角色小 _M-O_ 机器人，就是下图那货。
 
@@ -73,7 +76,7 @@ the two types can be mixed, such as:
 		# ...
 
 	# in __init__.py
-	from .hellokitty import *
+	from .hellokitty import xxx
 
 这样就可以使用 `minimo sub-cmd-name ...` 的方式调用这个功能。 同时，在 `minimo help` 显示的帮助信息中，将会加入你为该子命令添加的 `help string`
 
