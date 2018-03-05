@@ -1,6 +1,6 @@
 # mini-mo
 minimo 是一款轻量级的自动化框架，主要支持测试自动化，但并不限于测试。 
-项目名称来源于 《机器人总动员》 中的角色 “小M-O” 机器人，就是下图那货。
+项目名称来源于 《机器人总动员》 中的角色小 _M-O_ 机器人，就是下图那货。
 
 minimo is a lightweight automation framework. mainly focused on automated test, but not limited to test.
 the project name comes from the mini robot _M-O_ in _WALL-E_ as the following guy:
@@ -34,7 +34,7 @@ or, it can be a directory path, minimo will check out that path and create proje
 `-a AUTHOR` 指定作者名，必填。
 
 create new task case by project case-template, case code will be placed under `project.root/cases/TASK_SUITE/TASK_CASE`
-if there's suite specified case-template under `TASK_SUITE` directory，minimo will prefer to use it to create case.
+if there's suite specified case-template under `TASK_SUITE` helpdirectory，minimo will prefer to use it to create case.
 
 `-a AUTHOR` specify the author name, it's required.
 
@@ -58,7 +58,7 @@ the two types can be mixed, such as:
 
 **get help:**
 
-	$ minimo help
+	$ minimo 
 
 ## 功能拓展 Extensions
 在 minimo 的项目实例中，可以自定义 sub-commands 来实现功能的拓展。
@@ -69,7 +69,7 @@ the two types can be mixed, such as:
 	from minimo import register
 
 	@register("sub-cmd-name", "help string")
-	def my_cmd_handler(*args):
+	def my_cmd_handler(args = {}):
 		# ...
 
 	# in __init__.py
