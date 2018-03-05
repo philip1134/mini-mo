@@ -22,6 +22,7 @@ def minimo_generate_project(args = {}):
         project_dir = os.path.join(os.getcwd(), project_dir_name)
         config = {
             "project_name": project_name_camelized,
+            "date": time.strftime("%Y-%m-%d")
         }
 
         # checking target path
