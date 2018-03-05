@@ -5,8 +5,6 @@
     Alias for minimo.run for the command line.
 """
 
-import os
-import runpy
 from . import main   
 
 if "__main__" == __name__:

@@ -1,15 +1,12 @@
 #!/usr/bin/env python
+# -*- coding:utf-8 -*-
+"""
+    minimo.__main__
 
-import os
-import runpy
+    Alias for minimo.run for the command line.
+"""
 
-def main():
-    bin_path = os.path.join(os.getcwd(), "bin", "minimo")
-    if os.path.exists(bin_path):
-        runpy.run_path(bin_path)
-    else:
-        from minimo import MoApplication
-        MoApplication().run()    
+from minimo import main   
 
 if "__main__" == __name__:
     main()
