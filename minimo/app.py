@@ -67,7 +67,7 @@ class MoApplication(object):
                 error(_("error.unrecognized_command"))
         except:
             error(_("error.wrong_usage"))
-            print format_traceback()
+            # print format_traceback()
 
     def add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will 

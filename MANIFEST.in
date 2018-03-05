@@ -1,7 +1,8 @@
 include LICENSE
-recursive-include images *.jpg
 recursive-include minimo *.mot
+recursive-include minimo *.mo
 recursive-include minimo *.po_en
+recursive-include minimo *.po_zh
 recursive-include minimo *.template
 
 global-exclude *.py[co] .placeholder
