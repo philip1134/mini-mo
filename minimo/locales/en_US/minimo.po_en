@@ -81,6 +81,18 @@ msgstr " "
 "\n"
 "{split}"
 
+msgid "info.succeed_to_perform_task"
+msgstr "succeed to perform {0}/{1}"
+
+msgid "info.fail_to_perform_task"
+msgstr "fail to perform {0}/{1}"
+
+msgid "info.exception_occured_in_task"
+msgstr "error occured while performing {0}/{1}"
+
+msgid "info.failed_tasks"
+msgstr "failed tasks:\nx {0}"
+
 #####################################################################
 # warnings
 #####################################################################

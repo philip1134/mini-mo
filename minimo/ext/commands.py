@@ -59,14 +59,14 @@ def minimo_run_cases(args = {}):
             
     g.task_suite = "{0}_{1}".format(task_suite, time.strftime("%Y_%m_%d_%H_%M_%S"))   
          
-    if "concorrence" == g.app.run_cases:
+    if "concorrence" == g.app.run_cases and not args.has_key("s"):
         _run_cases_concorrence(tasks)
     else:
         _run_cases_serial(tasks)
          
     info(_("info.report_mission_complete"), BLOCK_SPLITTER, len(tasks), len(g.errors))  
     if len(g.errors) > 0:
-        info(u"异常任务包括:\nx {0}".format("\nx ".join(g.errors)))
+        info(_("info.failed_tasks"), "\nx ".join(g.errors))
 
 def _run_cases_serial(tasks = {}):
     """serial type to run cases"""
@@ -80,8 +80,7 @@ def _run_cases_serial(tasks = {}):
                 
             runpy.run_path(_path)
         except:
-            tb = format_traceback()
-            report_exception(_name, tb)
+            report_exception(_name, format_traceback())
             error(_("error.exception_in_case"), _name)
 
 def _run_cases_concorrence(tasks = {}):
@@ -91,23 +90,19 @@ def _run_cases_concorrence(tasks = {}):
     for _name, _path in tasks.items():
         try:
             info(_("info.executing_task"), _name)
-            module_path = os.path.abspath(os.path.join(_path, ".."))
-
-            if module_path not in sys.path:
-                os.environ["PYTHONPATH"] = module_path
-
-            sp.append(subprocess.Popen(["python", _path]))
+            sp_env = os.environ.copy()
+            sp_env['PYTHONPATH'] = ";".join([\
+                g.app.root_path, 
+                os.path.abspath(os.path.join(_path, ".."))
+            ])
+            sp.append(subprocess.Popen(\
+                ["minimo", "run", _name, "-s"], 
+                cwd = g.app.root_path,
+                env = sp_env
+            ))
         except:
-            tb = format_traceback()
-            report_exception(_name, tb)
+            report_exception(_name, format_traceback())
             error(_("error.exception_in_case"), _name)     
 
     for s in sp:
         s.wait()   
-
-def _before_concorrence(case_path):
-    g.app.add_modules_path()
-
-    module_path = os.path.abspath(os.path.join(_path, ".."))
-    if module_path not in sys.path:
-        sys.path.insert(0, module_path)

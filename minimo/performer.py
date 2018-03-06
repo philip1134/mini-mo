@@ -92,12 +92,15 @@ class MoPerformer(object):
                 
             if action_step:
                 if _r:
-                    self.logger.success(u"成功执行 {0}/{1} ！".format(self.name, func.__desc__ or func.__name__))
+                    self.logger.success(_("info.succeed_to_perform_task"), 
+                        self.name, func.__desc__ or func.__name__)
                 else:
-                    self.logger.fail(u"在执行 {0}/{1} 时出现错误！".format(self.name, func.__desc__ or func.__name__))
+                    self.logger.fail(_("info.fail_to_perform_task"), 
+                        self.name, func.__desc__ or func.__name__)
             elif not _r:
                 result = False
-                self.logger.fail(u"在执行 {0}/{1} 时出现错误，操作中断！".format(self.name, func.__desc__ or func.__name__))
+                self.logger.fail(_("info.exception_occured_in_task"), 
+                    self.name, func.__desc__ or func.__name__)
                 break
             
         return result
