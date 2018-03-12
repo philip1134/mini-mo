@@ -11,16 +11,37 @@ from .logger import Logger
 from .timer import Timer
         
 class MoPerformer(object):
-    """mini-mo base performer to perform task case."""
+    """mini-mo base performer to perform task case.
+
+    parameters:
+    - name: task name
+    - logger: 
+        logging handler, if set to none, will use minimo 
+        style logger. for customized logger, it should respond 
+        to the following methods:
+            * open(): setup logger staff
+            * close(): teardown logger 
+            * report(): print summary
+            * info(message, *args, **kwargs): print normal information message
+            * warning(message, *args, **kwargs): print warning message
+            * error(message, *args, **kwargs): print error message
+            * success(message, *args, **kwargs): print task success message
+            * fail(message, *args, **kwargs): print task failure message
+    """
     
     def __init__(
         self, 
-        name
+        name,
+        logger = None
     ):
         self.name = name
-        self.logger = Logger(name, 
-                        g.task_suite,  
-                        g.app.root_path).open()
+        if logger is None:
+            self.logger = Logger(name, 
+                            g.task_suite,  
+                            g.app.root_path).open()
+        else:
+            self.logger = logger.open()
+
         self.__exceptions = []
 
     def run(self):
@@ -46,15 +67,8 @@ class MoPerformer(object):
 
     def _report(self):
         """print mission report"""
-        
-        self.logger.info(_("info.performer_report"), 
-            split = SECTION_SPLITTER, 
-            success = self.logger.counters["success"],
-            failure = self.logger.counters["failure"],
-            error = self.logger.counters["error"],
-            warning = self.logger.counters["warning"],
-            exception = len(self.__exceptions),
-            duration = format_duration(self.__timer.duration()))       
+        self.logger.summary(\
+            duration=format_duration(self.__timer.duration()))
 
         for tb in self.__exceptions:
             self.logger.info(tb)

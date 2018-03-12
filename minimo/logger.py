@@ -9,7 +9,7 @@ import os
 import sys
 import time
 import logging
-from .globals import g
+from .globals import g, SECTION_SPLITTER
 
 
 SUCCESS = logging.INFO + 1
@@ -24,6 +24,13 @@ _LVL_PREFIX = {
     SUCCESS: "[SUCCESS] ",
     FAILURE: "[FAILURE] "
 }
+
+class MoFilter(logging.Filter):
+    def filter(self, record):
+        record.line = g.line
+        g.line += 1
+        record.lvl = _LVL_PREFIX[record.levelno]
+        return True
     
 class Logger(object):
     """print log to log file and stdout. log directory will be 
@@ -35,7 +42,8 @@ class Logger(object):
         case = "my_case", 
         suite = None, 
         root = ".", 
-        max_flush_count = 10
+        max_flush_count = 10,
+        handler = "file"
     ):       
         self.case = case
         self.suite = suite
@@ -61,7 +69,8 @@ class Logger(object):
         self.__logger.setLevel(logging.INFO)
 
         # create stdout/file handler and set level
-        formatter = logging.Formatter("[%(asctime)s] %(message)s") 
+        self.__logger.addFilter(MoFilter())
+        formatter = logging.Formatter("[%(asctime)s] #%(line)d %(lvl)s%(message)s") 
         timestamp = time.strftime("%Y_%m_%d_%H_%M_%S")
 
         # add stdout handlers to logger
@@ -110,6 +119,15 @@ class Logger(object):
                 # do nothing
                 pass
             self.__closed = True
+
+    def summary(self, *args, **kwargs):
+        self.info(_("info.performer_summary"), 
+            split = SECTION_SPLITTER,
+            success = self.counters["success"],
+            failure = self.counters["failure"],
+            error = self.counters["error"],
+            warning = self.counters["warning"],
+            duration = kwargs["duration"])       
             
     def info(self, message, *args, **kwargs):
         self._write(message.format(*args, **kwargs), logging.INFO)
@@ -141,14 +159,10 @@ class Logger(object):
             '[timestamp] #line-no level-prefix message' 
         """
         if not self.__closed:
-            _printed = "#{0} {1}{2}".format(g.line, _LVL_PREFIX[level], message)
-            try:        
-                self.__logger.log(level, _printed)
-                g.line += 1
-                self.__flush_count += 1
-                if self.__flush_count >= self.__max_flush_count:
-                    for handler in self.__filehandlers:
-                        handler.flush()
-                    self.__flush_count = 0        
-            except:
-                print _printed
+            self.__logger.log(level, message)
+            self.__flush_count += 1
+            if self.__flush_count >= self.__max_flush_count:
+                for handler in self.__filehandlers:
+                    handler.flush()
+                self.__flush_count = 0        
+
