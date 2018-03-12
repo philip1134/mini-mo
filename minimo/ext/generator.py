@@ -125,7 +125,7 @@ def _copy_template_file(dest, src, config = {}):
     except:
         error(_("error.fail_to_create_file"), os.path.basename(dest), format_traceback())
 
-def _copy_template_dir(dest_dir, template_dir, template_file_afterfix, config):
+def _copy_template_dir(dest_dir, template_dir, template_file_suffix, config):
     """copy template directory to dest"""
 
     for dirpath, dirs, files in os.walk(template_dir):
@@ -144,6 +144,6 @@ def _copy_template_dir(dest_dir, template_dir, template_file_afterfix, config):
             
         for file in files:
             _copy_template_file(
-                os.path.join(dest_subdir, file.replace(template_file_afterfix, "")), 
+                os.path.join(dest_subdir, file.replace(template_file_suffix, "")), 
                 os.path.join(dirpath, file), 
                 config)
