@@ -11,11 +11,11 @@ class Config(dict):
         print config.foo
         config.bar = bar2
     """
-    
-    def __init__(self, defaults = {}):
+
+    def __init__(self, defaults={}):
         dict.__init__(self, defaults)
 
-    def __getattr__(self, attrname):  
+    def __getattr__(self, attrname):
         return self[attrname]
 
     def __setattr__(self, attrname, value):

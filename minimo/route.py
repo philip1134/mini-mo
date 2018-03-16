@@ -10,7 +10,7 @@ from .globals import g
 
 g.routes = collections.OrderedDict()
 
-def register(cmd, help = "", trans = False):
+def register(cmd, help="", trans=False):
     """register command to minimo application interface."""
 
     def decorator(f):

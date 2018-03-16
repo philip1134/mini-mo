@@ -6,18 +6,19 @@
 
 import os
 import sys
+import re
+import gettext
+import importlib
+from .globals import g
+from .helpers import *
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-import re
-import gettext 
-import importlib
-from .globals import *
-from .helpers import *
-
 
 class MoApplication(object):
-    """the MoApplication object implements the basic entry of minimo framework"""
+    """the MoApplication object implements the basic entry of minimo
+    framework"""
 
     # project name, set in project instance
     name = "minimo"
@@ -30,7 +31,8 @@ class MoApplication(object):
     #   api: call commands/functions as api
     interface = "cli"
 
-    # case running type, should be "serial" or "concorrence", default is "serial"
+    # case running type, should be "serial" or "concorrence",
+    # default is "serial"
     #   serial: run cases one by one
     #   concorrence: run cases concorrently by subprocess.
     run_cases = "serial"
@@ -38,29 +40,30 @@ class MoApplication(object):
     # project locale, currently supports zh_CN, en_US. default is zh_CN
     locale = "zh_CN"
 
-    # project modules path, which will be inserted into sys.path at application 
-    # started. by default, "lib", "ext", "cases", "vendors" will be added mandatory.
+    # project modules path, which will be inserted into sys.path at application
+    # started. by default, "lib", "ext", "cases", "vendors" will be added
+    # mandatory.
     modules_path = []
     mandatory_modules_path = ["lib", "ext", "cases", "vendors"]
 
     def __init__(self):
-        gettext.translation("minimo", 
-                            os.path.join(os.path.dirname(__file__), "locales"), 
-                            languages = [self.locale]).install()
+        gettext.translation("minimo",
+                            os.path.join(os.path.dirname(__file__), "locales"),
+                            languages=[self.locale]).install()
         g.app = self
 
-    def run(self, options = {}):
+    def run(self, options={}):
         """application runner"""
-        
+
         try:
             if "cli" == self.interface:
                 _options = self.parse_cli()
             else:
                 _options = options
-        
+
             cmd = _options.pop("cmd")
             self.add_extensions()
-            if g.routes.has_key(cmd):
+            if cmd in g.routes:
                 self.add_modules_path()
                 getattr(self.__ext, g.routes[cmd]["handler"])(_options)
             else:
@@ -70,7 +73,7 @@ class MoApplication(object):
             # print format_traceback()
 
     def add_modules_path(self):
-        """walk through modules_path, if there's __init__.py, the folder will 
+        """walk through modules_path, if there's __init__.py, the folder will
         be added into sys.path"""
 
         if self.root_path is None:
@@ -89,8 +92,8 @@ class MoApplication(object):
         # add mini-mo basic extensions
         self.__ext = importlib.import_module("minimo.ext")
 
-        if self.root_path is not None and \
-            os.path.exists(os.path.join(self.root_path, "ext")):
+        if self.root_path is not None \
+            and os.path.exists(os.path.join(self.root_path, "ext")):
             # add project instance related extensions
             self.__ext.__dict__.update(importlib.import_module("ext").__dict__)
 
@@ -100,7 +103,7 @@ class MoApplication(object):
 
         argv = sys.argv[:]
         argv.pop(0)
-        options = { "cmd": argv.pop(0) }
+        options = {"cmd": argv.pop(0)}
 
         index = 0
         while index < len(argv):
@@ -118,6 +121,6 @@ class MoApplication(object):
             else:
                 index += 1
 
-        options["args"] = argv                  
+        options["args"] = argv
         return options
 # end

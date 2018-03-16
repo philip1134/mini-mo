@@ -54,7 +54,7 @@ def upperfirst(value):
         return value[0].upper()
 
 def camelize(value):
-    """convert string to camelcase, will split string by '_' and 
+    """convert string to camelcase, will split string by '_' and
     capitalize the followed word, such as:
         foo_bar => FooBar
     """
@@ -74,7 +74,7 @@ def validate_keys(targets, keys):
     and keys is a dict contains key:error_message pairs"""
     result = True
     for key, msg in keys.items():
-        if not targets.has_key(key):
+        if key not in targets:
             error(msg)
             result = False
             # don't break here, check all the items once.

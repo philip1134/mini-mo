@@ -31,33 +31,33 @@ class MoFilter(logging.Filter):
         g.line += 1
         record.lvl = _LVL_PREFIX[record.levelno]
         return True
-    
+
 class Logger(object):
-    """print log to log file and stdout. log directory will be 
-    placed under project.root/logs. by default, it will create 
-    two kinds of log file which are fulltrace and errors only."""
-    
+    """print log to log file and stdout. log directory will be placed under
+    project.root/logs. by default, it will create two kinds of log file which
+    are fulltrace and errors only."""
+
     def __init__(
-        self, 
-        case = "my_case", 
-        suite = None, 
-        root = ".", 
-        max_flush_count = 10,
-        handler = "file"
-    ):       
+        self,
+        case="my_case",
+        suite=None,
+        root=".",
+        max_flush_count=10,
+        handler="file"
+    ):
         self.case = case
         self.suite = suite
         self.root = os.path.join(root, "logs")
         self.counters = { "error": 0, "warning": 0, "success": 0, "failure": 0 }
-        
+
         self.__flush_count = 0
         self.__max_flush_count = max_flush_count
         self.__filehandlers = []
 
     def open(
         self,
-        stdout = True,
-        outputs = {
+        stdout=True,
+        outputs={
             "fulltrace": logging.INFO,
             "error": logging.ERROR,
         }
@@ -70,7 +70,8 @@ class Logger(object):
 
         # create stdout/file handler and set level
         self.__logger.addFilter(MoFilter())
-        formatter = logging.Formatter("[%(asctime)s] #%(line)d %(lvl)s%(message)s") 
+        formatter = \
+            logging.Formatter("[%(asctime)s] #%(line)d %(lvl)s%(message)s")
         timestamp = time.strftime("%Y_%m_%d_%H_%M_%S")
 
         # add stdout handlers to logger
@@ -87,27 +88,33 @@ class Logger(object):
             else:
                 dirpath = os.path.join(self.root, self.case)
             basename = os.path.join(dirpath, \
-                "{0}_{1}".format(self.case, timestamp))  
-            
+                "{0}_{1}".format(self.case, timestamp))
+
             # check out dirs
             if not os.path.exists(dirpath):
                 os.makedirs(dirpath)
 
             for term, level in outputs.items():
-                handler = logging.FileHandler("{0}.{1}.log".format(basename, term))
+                handler = logging.FileHandler(\
+                    "{0}.{1}.log".format(basename, term))
                 handler.setLevel(level)
                 handler.setFormatter(formatter)
                 self.__filehandlers.append(handler)
                 self.__logger.addHandler(handler)
-        
-        self.__closed = False   
+
+        self.__closed = False
         return self
-    
+
     def close(self):
-        """close log system, flush all messages to log file, 
+        """close log system, flush all messages to log file,
         and clear message counters"""
         if not self.__closed:
-            self.counters = { "error": 0, "warning": 0, "success": 0, "failure": 0 }
+            self.counters = {
+                "error": 0,
+                "warning": 0,
+                "success": 0,
+                "failure": 0
+            }
 
             try:
                 self.__flush_count = 0
@@ -121,42 +128,42 @@ class Logger(object):
             self.__closed = True
 
     def summary(self, *args, **kwargs):
-        self.info(_("info.performer_summary"), 
+        self.info(_("info.performer_summary"),
             split = SECTION_SPLITTER,
             success = self.counters["success"],
             failure = self.counters["failure"],
             error = self.counters["error"],
             warning = self.counters["warning"],
-            duration = kwargs["duration"])       
-            
+            duration = kwargs["duration"])
+
     def info(self, message, *args, **kwargs):
         self._write(message.format(*args, **kwargs), logging.INFO)
-        
+
     def error(self, message, *args, **kwargs):
         """print error message"""
         self.counters["error"] += 1
         self._write(message.format(*args, **kwargs), logging.ERROR)
-        
+
     def warning(self, message, *args, **kwargs):
         """print warning message"""
         self.counters["warning"] += 1
         self._write(message.format(*args, **kwargs), logging.WARNING)
-        
+
     def success(self, message, *args, **kwargs):
         """print task success message"""
         self.counters["success"] += 1
         self._write(message.format(*args, **kwargs), SUCCESS)
-        
+
     def fail(self, message, *args, **kwargs):
         """print task failure message"""
         self.counters["failure"] += 1
         self._write(message.format(*args, **kwargs), FAILURE)
-    
-    def _write(self, message, level = logging.INFO):
+
+    def _write(self, message, level=logging.INFO):
         """print message to log handler according to logging level.
 
-        message format looks like: 
-            '[timestamp] #line-no level-prefix message' 
+        message format looks like:
+            '[timestamp] #line-no level-prefix message'
         """
         if not self.__closed:
             self.__logger.log(level, message)
@@ -164,5 +171,5 @@ class Logger(object):
             if self.__flush_count >= self.__max_flush_count:
                 for handler in self.__filehandlers:
                     handler.flush()
-                self.__flush_count = 0        
+                self.__flush_count = 0
 

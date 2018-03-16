@@ -7,7 +7,7 @@
 import time
 
 class Timer(object):
-    """计时器，初始化时即开始计时"""
+    """timer, started at initialized."""
     
     timers = {}
     
@@ -18,11 +18,11 @@ class Timer(object):
         Timer.timers[name] = self
 
     def duration(self):
-        """计算起始到当前所经历的时间，单位'秒'"""
+        """calculate duration started from timer initialized. unit is sec."""
         return time.time() - self.started_at
     
     @classmethod
     def get(cls, name):
-        """获取指定 {name} 的计时器"""
+        """get named timer with {name}"""
         return cls.timers[name]
 # end
