@@ -4,6 +4,7 @@
 # date: 2018-02-25
 #
 
+
 class Config(dict):
     """Works like dict but provides methods to get attribute by '.',
     such as:

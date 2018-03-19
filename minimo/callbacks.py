@@ -71,7 +71,9 @@ class Callbacks(object):
         else:
             list[key] = [value]
 
+
 g.callbacks = Callbacks()
+
 
 def __get_caller_id_by_frame(caller):
     return "{0}.{1}".format(caller.f_locals["__module__"],

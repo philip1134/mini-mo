@@ -25,12 +25,14 @@ _LVL_PREFIX = {
     FAILURE: "[FAILURE] "
 }
 
+
 class MoFilter(logging.Filter):
     def filter(self, record):
         record.line = g.line
         g.line += 1
         record.lvl = _LVL_PREFIX[record.levelno]
         return True
+
 
 class Logger(object):
     """print log to log file and stdout. log directory will be placed under
@@ -48,7 +50,7 @@ class Logger(object):
         self.case = case
         self.suite = suite
         self.root = os.path.join(root, "logs")
-        self.counters = { "error": 0, "warning": 0, "success": 0, "failure": 0 }
+        self.counters = {"error": 0, "warning": 0, "success": 0, "failure": 0}
 
         self.__flush_count = 0
         self.__max_flush_count = max_flush_count
@@ -129,12 +131,12 @@ class Logger(object):
 
     def summary(self, *args, **kwargs):
         self.info(_("info.performer_summary"),
-            split = SECTION_SPLITTER,
-            success = self.counters["success"],
-            failure = self.counters["failure"],
-            error = self.counters["error"],
-            warning = self.counters["warning"],
-            duration = kwargs["duration"])
+            split=SECTION_SPLITTER,
+            success=self.counters["success"],
+            failure=self.counters["failure"],
+            error=self.counters["error"],
+            warning=self.counters["warning"],
+            duration=kwargs["duration"])
 
     def info(self, message, *args, **kwargs):
         self._write(message.format(*args, **kwargs), logging.INFO)
@@ -172,4 +174,3 @@ class Logger(object):
                 for handler in self.__filehandlers:
                     handler.flush()
                 self.__flush_count = 0
-

@@ -9,6 +9,7 @@ import traceback
 
 TRACE_SPLITTER = "*" * 50
 
+
 def format_duration(time):
     """format duration, unit of input time should be 'second'"""
     fmt = ""
@@ -37,11 +38,13 @@ def format_duration(time):
         fmt = _("format.time.day").format(day, hour, min, sec)
     return fmt
 
+
 def format_traceback():
     """format traceback message"""
-    tb = "{splitter}\n{traceback}\n{splitter}\n".format(\
-        splitter = TRACE_SPLITTER, traceback = traceback.format_exc())
+    tb = "{splitter}\n{traceback}\n{splitter}\n".format(
+        splitter=TRACE_SPLITTER, traceback=traceback.format_exc())
     return unicode(tb, "utf-8")
+
 
 def upperfirst(value):
     """upper first word of string, and does not change the rest case,
@@ -53,13 +56,15 @@ def upperfirst(value):
     else:
         return value[0].upper()
 
+
 def camelize(value):
     """convert string to camelcase, will split string by '_' and
     capitalize the followed word, such as:
         foo_bar => FooBar
     """
-    return upperfirst(re.sub(r'(?!^)_([a-zA-Z])', \
+    return upperfirst(re.sub(r'(?!^)_([a-zA-Z])',
         lambda m: m.group(1).upper(), value))
+
 
 def underscore(value):
     """convert string to underscore case, will split string by capitalized
@@ -68,6 +73,7 @@ def underscore(value):
     """
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', value)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
 
 def validate_keys(targets, keys):
     """check out keys exist in targets or not, targets should be a dict, \
@@ -80,11 +86,14 @@ def validate_keys(targets, keys):
             # don't break here, check all the items once.
     return result
 
+
 def info(message, *args, **kwargs):
     print message.format(*args, **kwargs)
 
+
 def warning(message, *args, **kwargs):
     print u"(!) WARNING " + message.format(*args, **kwargs)
+
 
 def error(message, *args, **kwargs):
     print u"(x) ERROR " + message.format(*args, **kwargs)

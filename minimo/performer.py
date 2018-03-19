@@ -10,6 +10,7 @@ from .helpers import *
 from .logger import Logger
 from .timer import Timer
 
+
 class MoPerformer(object):
     """mini-mo base performer to perform task case.
 
