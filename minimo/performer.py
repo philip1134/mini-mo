@@ -72,7 +72,7 @@ class MoPerformer(object):
             duration=format_duration(self.__timer.duration()))
 
         for tb in self.__exceptions:
-            self.logger.info(tb)
+            self.logger.info(tb,)
 
     def __do_before_actions(self):
         """execute before_action functions"""

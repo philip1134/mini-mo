@@ -68,7 +68,7 @@ msgstr " "
 "totally {1} cases were executed,  {2} cases raised exception."
 
 msgid "info.performer_summary"
-msgstr " " 
+msgstr " "
 "\n{split}\n"
 "mission complete!\n"
 "{success} success\n"
@@ -142,9 +142,9 @@ msgstr "unrecognized project template '{0}'."
 #####################################################################
 msgid "help.app"
 msgstr "** {project_name} **\n"
-"\n"   
+"\n"
 "usage: minimo <sub-command> [options] [args]\n"
-"\n" 
+"\n"
 "available sub-commands:\n"
 "{sub_commands}"
 
@@ -173,13 +173,16 @@ msgstr "perform the specified task suite or case\n"
 "or: minimo run [task-suite/task-case]\n"
 "\n"
 "that means, we can perform the whole task-suite or a single task-case (or some task-cases). "
-"such as: 'my_tasksuite' or 'my_tasksuite/my_taskcase'. " 
+"such as: 'my_tasksuite' or 'my_tasksuite/my_taskcase'. "
 "if task suite is specified, all the cases under that suite will be performed.\n"
 "the two types can be mixed, such as:\n"
 "    minimo run my-task-suite1 my-task-suite2/case1 my-task-suite3/case3"
 
 msgid "help.help"
 msgstr "show help information"
+
+msgid "help.version"
+msgstr "print version number"
 
 #####################################################################
 # formats

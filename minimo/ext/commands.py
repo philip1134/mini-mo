@@ -15,6 +15,13 @@ from ..globals import *
 from ..helpers import *
 from ..route import register
 
+
+@register("version", "help.version", True)
+def minimo_print_version(*args):
+    """print minimo version number"""
+    import minimo
+    info("minimo {}".format(minimo.__version__))
+
 @register("help", "help.help", True)
 def minimo_print_usage(*args):
     """show usage"""

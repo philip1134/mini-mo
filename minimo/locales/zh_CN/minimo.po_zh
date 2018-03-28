@@ -142,9 +142,9 @@ msgstr "未识别的模板名 '{0}'"
 #####################################################################
 msgid "help.app"
 msgstr "** {project_name} **\n"
-"\n"   
+"\n"
 "用法： minimo <sub-command> [options] [args]\n"
-"\n" 
+"\n"
 "可用的子命令：\n"
 "{sub_commands}"
 
@@ -180,6 +180,9 @@ msgstr "执行指定的任务用例集或用例\n"
 
 msgid "help.help"
 msgstr "显示帮助信息"
+
+msgid "help.version"
+msgstr "显示版本信息"
 
 #####################################################################
 # formats

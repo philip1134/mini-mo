@@ -89,7 +89,7 @@ class Logger(object):
                 dirpath = os.path.join(self.root, self.suite)
             else:
                 dirpath = os.path.join(self.root, self.case)
-            basename = os.path.join(dirpath, \
+            basename = os.path.join(dirpath,
                 "{0}_{1}".format(self.case, timestamp))
 
             # check out dirs
@@ -97,7 +97,7 @@ class Logger(object):
                 os.makedirs(dirpath)
 
             for term, level in outputs.items():
-                handler = logging.FileHandler(\
+                handler = logging.FileHandler(
                     "{0}.{1}.log".format(basename, term))
                 handler.setLevel(level)
                 handler.setFormatter(formatter)
