@@ -1,0 +1,35 @@
+<%!
+    import minimo.filters as flt
+%>
+# -*- coding:utf-8 -*-
+#!/usr/bin/env python
+
+
+import os
+from minimo import MoApplication
+
+
+class MoScaffold(MoApplication):
+    """minimo scaffold for ${project_name | flt.camelize}"""
+
+    # project name
+    name = "${project_name | flt.camelize}"
+
+    # project type, normally don't change this type, otherwise you should add
+    # your own customized extensions for the project type.
+    type = "flask"
+
+    # project root path, normally need not change the following code
+    root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    # project locale, currently supports zh_CN, en_US. default is zh_CN
+    # locale = "zh_CN"
+
+    def __init__(self):
+        super(MoScaffold, self).__init__()
+
+
+MoScaffold().run()
+
+
+# end

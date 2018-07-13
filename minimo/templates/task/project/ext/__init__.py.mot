@@ -1,0 +1,8 @@
+# -*- coding:utf-8 -*-
+
+# import your extensions here, recommend to use "from xx import *"
+
+# from .my-extension import *
+
+
+# end

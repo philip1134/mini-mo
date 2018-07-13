@@ -5,7 +5,9 @@
     Alias for minimo.run for the command line.
 """
 
-from . import main   
+from . import main
 
 if "__main__" == __name__:
     main()
+
+# end

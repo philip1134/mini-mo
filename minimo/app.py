@@ -9,7 +9,7 @@ import sys
 import re
 import gettext
 import importlib
-from .globals import g
+from .globals import g, GLOBAL_NS, MINIMO_ROOT
 from .helpers import *
 
 reload(sys)
@@ -22,6 +22,9 @@ class MoApplication(object):
 
     # project name, set in project instance
     name = "minimo"
+
+    # project type, default is "minimo"
+    type = GLOBAL_NS
 
     # project root path, auto set in project instance
     root_path = None
@@ -48,7 +51,7 @@ class MoApplication(object):
 
     def __init__(self):
         gettext.translation("minimo",
-                            os.path.join(os.path.dirname(__file__), "locales"),
+                            os.path.join(MINIMO_ROOT, "locales"),
                             languages=[self.locale]).install()
         g.app = self
 
@@ -62,15 +65,23 @@ class MoApplication(object):
                 _options = options
 
             cmd = _options.pop("cmd")
+            k_cmd = "{}:{}".format(self.type, cmd)
+            k_common = "{}:{}".format(GLOBAL_NS, cmd)
+
             self.add_extensions()
-            if cmd in g.routes:
+            if k_cmd in g.routes:
+                # project type specified command
                 self.add_modules_path()
-                getattr(self.__ext, g.routes[cmd]["handler"])(_options)
+                getattr(self.__ext, g.routes[k_cmd]["handler"])(_options)
+            elif k_common in g.routes:
+                # common command
+                getattr(self.__ext, g.routes[k_common]["handler"])(_options)
             else:
+                # unrecognized command
                 error(_("error.unrecognized_command"))
         except:
             error(_("error.wrong_usage"))
-            # print format_traceback()
+            print format_traceback()
 
     def add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will
@@ -123,4 +134,5 @@ class MoApplication(object):
 
         options["args"] = argv
         return options
+
 # end

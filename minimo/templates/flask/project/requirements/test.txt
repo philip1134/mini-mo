@@ -1,0 +1,9 @@
+# Project dependencies under test environment,
+# and run the following command to install your bundle
+#
+#   $ pip install -r path/to/this/test.txt
+#
+
+-r base.txt
+
+# package-name==package-version

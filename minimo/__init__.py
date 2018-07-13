@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
-__version__ = "0.1.2"
+
+
+__version__ = "0.2.2"
+
 
 import os
 import runpy
@@ -9,6 +12,7 @@ from .callbacks import before_action, action_step, after_action
 from .helpers import *
 from .route import register
 
+
 def main():
     bin_path = os.path.join(os.getcwd(), "bin", "minimo")
     if os.path.exists(bin_path):
@@ -16,3 +20,5 @@ def main():
     else:
         from minimo import MoApplication
         MoApplication().run()
+
+# end

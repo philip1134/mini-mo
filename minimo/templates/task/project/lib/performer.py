@@ -1,0 +1,23 @@
+# -*- coding:utf-8 -*-
+
+
+from minimo import MoPerformer, \
+    before_action, action_step, after_action
+
+
+class BasePerformer(MoPerformer):
+    """docstring for BasePerformer"""
+
+    def __init__(self, name):
+        super(BasePerformer, self).__init__(name)
+
+    def setup(self):
+        """setup performer environment."""
+        pass
+
+    def teardown(self):
+        """tear down performer environment."""
+        pass
+
+
+# end

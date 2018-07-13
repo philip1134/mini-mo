@@ -27,7 +27,10 @@ setup(
     platforms='any',
     include_package_data=True,
     zip_safe=False,
-    # install_requires=[],
+    install_requires=[
+        "mako >= 1.0.7",
+        "alembic >= 0.9.6"
+    ],
     extras_require={
         'dev': [
             'tox',

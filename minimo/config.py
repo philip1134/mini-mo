@@ -17,7 +17,9 @@ class Config(dict):
         dict.__init__(self, defaults)
 
     def __getattr__(self, attrname):
-        return self[attrname]
+        return self.get(attrname)
 
     def __setattr__(self, attrname, value):
         self[attrname] = value
+
+# end

@@ -2,3 +2,5 @@
 
 from .generator import *
 from .commands import *
+from .flask import *
+from .task import *

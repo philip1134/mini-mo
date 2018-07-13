@@ -97,3 +97,5 @@ def warning(message, *args, **kwargs):
 
 def error(message, *args, **kwargs):
     print u"(x) ERROR " + message.format(*args, **kwargs)
+
+# end

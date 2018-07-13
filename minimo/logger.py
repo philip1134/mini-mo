@@ -49,7 +49,7 @@ class Logger(object):
     ):
         self.case = case
         self.suite = suite
-        self.root = os.path.join(root, "logs")
+        self.root = os.path.join(root, "log")
         self.counters = {"error": 0, "warning": 0, "success": 0, "failure": 0}
 
         self.__flush_count = 0
@@ -174,3 +174,4 @@ class Logger(object):
                 for handler in self.__filehandlers:
                     handler.flush()
                 self.__flush_count = 0
+# end

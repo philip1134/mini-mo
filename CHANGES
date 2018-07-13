@@ -1,0 +1,55 @@
+Mini-MO Changelog
+===============
+
+Here you can see the full list of changes between each mini-mo release.
+
+Version 0.2.2
+------------
+
+unreleased
+
+- use mako filter to customize template
+
+
+Version 0.2.1
+------------
+
+Released on 2018-05-21
+
+- help string for init, add project template list
+- revert to mako template
+- migrations for flask template
+
+
+Version 0.2.0
+------------
+
+Released on 2018-04-13
+
+- classified commands by project type
+- supported project type: task, flask
+
+
+Version 0.1.2
+------------
+
+Released on 2018-03-28
+
+- allow customized logger for performer
+- command to print minimo version number
+
+
+Version 0.1.1
+------------
+
+Released on 2018-03-05
+
+- init project by templates
+- locale supported
+- run tasks by serial or concorrence type
+
+
+Version 0.1.0
+-----------
+
+First public preview release.

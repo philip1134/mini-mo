@@ -1,0 +1,41 @@
+# MySQL. Versions 5.0+ are recommended.
+#
+# And be sure to use new-style password hashing:
+#     http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+#
+
+
+default: &default
+    pool: 50
+
+development:
+    <<: *default
+    user: root
+    password:
+    host: localhost
+    port: 3306
+    database:
+
+test:
+    <<: *default
+    user: $${project_abbreviation}_MYSQL_USER
+    password: $${project_abbreviation}_MYSQL_PASSWORD
+    host: $${project_abbreviation}_MYSQL_HOST
+    port: $${project_abbreviation}_MYSQL_PORT
+    database: $${project_abbreviation}_MYSQL_DATABASE
+
+staging:
+    <<: *default
+    user: $${project_abbreviation}_MYSQL_USER
+    password: $${project_abbreviation}_MYSQL_PASSWORD
+    host: $${project_abbreviation}_MYSQL_HOST
+    port: $${project_abbreviation}_MYSQL_PORT
+    database: $${project_abbreviation}_MYSQL_DATABASE
+
+production:
+    <<: *default
+    user: $${project_abbreviation}_MYSQL_USER
+    password: $${project_abbreviation}_MYSQL_PASSWORD
+    host: $${project_abbreviation}_MYSQL_HOST
+    port: $${project_abbreviation}_MYSQL_PORT
+    database: $${project_abbreviation}_MYSQL_DATABASE

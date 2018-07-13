@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+
 ###############################################################################
 # infos
 ###############################################################################
@@ -26,29 +27,8 @@ msgstr "    create file {0}"
 msgid "info.create_dir"
 msgstr "create directory {0}"
 
-msgid "info.skip_creating_dir_for_existence"
+msgid "info.directory_existed"
 msgstr "directory {0} already exsited"
-
-msgid "info.prepare_to_create_case"
-msgstr "prepare to create case..."
-
-msgid "info.creating_case_dir"
-msgstr "create directory cases/{0}"
-
-msgid "info.creating_case_by_template"
-msgstr "create case by project template {0}"
-
-msgid "info.add_task"
-msgstr "add task {0}"
-
-msgid "info.executing_task"
-msgstr "run task {0}"
-
-msgid "info.not_standard_case"
-msgstr "not standard case"
-
-msgid "info.case_created"
-msgstr "case created, please check it out under {0}.root/cases"
 
 msgid "info.report_case_exception"
 msgstr "{0}: exception occured\n{1}"
@@ -58,14 +38,6 @@ msgstr "failed action: {0}\n{1}"
 
 msgid "info.start_action"
 msgstr "start action {0}..."
-
-msgid "info.report_mission_complete"
-msgstr " "
-"\n"
-"\n"
-"{0}\n"
-"mission complete!\n"
-"totally {1} cases were executed,  {2} cases raised exception."
 
 msgid "info.performer_summary"
 msgstr " "
@@ -89,23 +61,66 @@ msgstr "fail to perform {0}/{1}"
 msgid "info.exception_occured_in_task"
 msgstr "error occured while performing {0}/{1}"
 
-msgid "info.failed_tasks"
+msgid "info.task.failed_tasks"
 msgstr "failed tasks:\nx {0}"
+
+msgid "info.task.report_mission_complete"
+msgstr " "
+"\n"
+"\n"
+"{0}\n"
+"mission complete!\n"
+"totally {1} cases were executed,  {2} cases raised exception."
+
+msgid "info.task.prepare_to_create_case"
+msgstr "prepare to create case..."
+
+msgid "info.task.creating_case_dir"
+msgstr "create directory cases/{0}"
+
+msgid "info.task.creating_case_by_template"
+msgstr "create case by project template {0}"
+
+msgid "info.task.add_task"
+msgstr "add task {0}"
+
+msgid "info.task.executing_task"
+msgstr "run task {0}"
+
+msgid "info.task.not_standard_case"
+msgstr "not standard case"
+
+msgid "info.task.case_created"
+msgstr "case created, please check it out under {0}.root/cases"
+
+msgid "info.flask.file_create"
+msgstr "creating {} file: {}"
+
+msgid "info.flask.creating_dir"
+msgstr "create folder: {}"
+
 
 #####################################################################
 # warnings
 #####################################################################
-msgid "warning.abort_creating_case_for_no_template"
-msgstr "no template found, abort creating task under cases/{0}"
-
-msgid "warning.abort_creating_case_for_existence"
-msgstr "directory cases/{0} already existed, skip creating!"
-
-msgid "warning.abort_creating_dir_for_existence"
+msgid "warning.directory_existed"
 msgstr "directory {0} already existed, skip creating!"
 
-msgid "warning.not_standard_case"
+msgid "warning.file_existed"
+msgstr "file already existed, skip creating!"
+
+msgid "warning.task.not_standard_case"
 msgstr "{0} is not {1} standard case, please run it respectively."
+
+msgid "warning.task.no_template"
+msgstr "no template found, abort creating task under cases/{0}"
+
+msgid "warning.task.case_existed"
+msgstr "directory cases/{0} already existed, skip creating!"
+
+msgid "warning.flask.no_template"
+msgstr "no template found!"
+
 
 #####################################################################
 # errors
@@ -113,14 +128,11 @@ msgstr "{0} is not {1} standard case, please run it respectively."
 msgid "error.fail_to_create_file"
 msgstr "fail to create file {0}!\nreason:\n{1}"
 
-msgid "error.case_author_name_required"
-msgstr "case author name required: python {0} new [task-case] -a [author]"
+msgid "error.author_name_required"
+msgstr "author name required! use option '-a [author]' to specify author name"
 
 msgid "error.wrong_usage"
 msgstr "wrong usage, please get help by 'minimo help'"
-
-msgid "error.exception_in_case"
-msgstr "exception occured while performing {0}"
 
 msgid "error.unrecognized_command"
 msgstr "unrecognized command, please get help by 'minimo help'"
@@ -131,11 +143,15 @@ msgstr "error occured, please check out your task code!\n{0}"
 msgid "error.invalid_minimo_project_directory"
 msgstr "not in minimo project root folder，please get help by 'minimo help'"
 
-msgid "error.author_name_required"
-msgstr "author name required: minimo new TASK-SUITE/TASK-CASE -a AUTHOR"
-
 msgid "error.unrecognized_project_template"
 msgstr "unrecognized project template '{0}'."
+
+msgid "error.task.exception_in_case"
+msgstr "exception occured while performing {0}"
+
+msgid "error.invalid_alembic_env"
+msgstr "invalid alembic environment! please run this step under project root, or run command 'alembic init migrations' to initialize enviroment."
+
 
 #####################################################################
 # help messages
@@ -150,13 +166,27 @@ msgstr "** {project_name} **\n"
 
 msgid "help.init"
 msgstr "create a new minimo project\n"
-"usage: minimo init PROJECT_NAME -t TEMPLATE_NAME"
+"usage: minimo init PROJECT_NAME -t TEMPLATE_NAME -s PROJECT_ABBREVIATION\n"
+"\n"
+"-s PROJECT_ABBREVIATION specify project abbreviation, optional. \n"
 "\n"
 "-t TEMPLATE_NAME specify project template, optional\n"
 "TEMPLATE_NAME can be a template name, minimo will search the name under minimo/templates and create project as it, "
-"or, it can be a directory path, minimo will check out that path and create project as it."
+"or, it can be a directory path, minimo will check out that path and create project as it.\n"
+"currently supported templates:\n"
+"    flask - web project based on python flask framework\n"
+"    task - task execution project based on minimo task management libs, normally applied in automated test and task management related project"
 
-msgid "help.new"
+msgid "help.help"
+msgstr "show help information"
+
+msgid "help.version"
+msgstr "print version number"
+
+#--------------------------------------------------------------------
+# task
+#--------------------------------------------------------------------
+msgid "help.task.new"
 msgstr "create a new task case by the template\n"
 "usage: minimo new TASK_SUITE/TASK_CASE -a AUTHOR\n"
 "or:   minimo new TASK_CASE -a AUTHOR\n"
@@ -167,7 +197,7 @@ msgstr "create a new task case by the template\n"
 "\n"
 "-a AUTHOR specify the author name, it's required."
 
-msgid "help.run"
+msgid "help.task.run"
 msgstr "perform the specified task suite or case\n"
 "usage: minimo run [task-suite]\n"
 "or: minimo run [task-suite/task-case]\n"
@@ -178,11 +208,22 @@ msgstr "perform the specified task suite or case\n"
 "the two types can be mixed, such as:\n"
 "    minimo run my-task-suite1 my-task-suite2/case1 my-task-suite3/case3"
 
-msgid "help.help"
-msgstr "show help information"
+#--------------------------------------------------------------------
+# flask
+#--------------------------------------------------------------------
+msgid "help.flask.model"
+msgstr "create model for flask project, and the related migration script.\n"
+"usage: minimo model ModelName -a AuthorName\n"
+"\n"
+"that will create model_name.py under 'app/models' folder, and migration script file [timestamp]_create_model_name.py under 'migrations' folder via alembic.\n"
+"if used --without-migration, it will not create migration script."
 
-msgid "help.version"
-msgstr "print version number"
+msgid "help.flask.migration"
+msgstr "create migration script.\n"
+"usage: minimo migration migration_script_name\n"
+"\n"
+"that will create [timestamp]_migration_script_name.py under 'migrations' folder via alembic."
+
 
 #####################################################################
 # formats

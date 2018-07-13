@@ -1,0 +1,10 @@
+# Basic dependencies for all kinds of environments.
+# This file should be included in env file respectively.
+#
+
+# package-name==package-version
+Flask==0.12.2
+SQLAlchemy==1.1.15
+alembic==0.9.6
+Flask-SQLAlchemy==2.3.2
+PyYaml==3.12

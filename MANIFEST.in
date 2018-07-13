@@ -1,8 +1,5 @@
 include LICENSE README.md
-recursive-include minimo *.mot
-recursive-include minimo *.mo
-recursive-include minimo *.po_en
-recursive-include minimo *.po_zh
-recursive-include minimo *.template
+recursive-include minimo/templates *
+recursive-include minimo/locales *.mo
 
-global-exclude *.py[co] .placeholder
+global-exclude *.py[co]

@@ -1,0 +1,56 @@
+<%!
+    import minimo.filters as flt
+%>
+# -*- coding:utf-8 -*-
+
+__author__ = "${author}"
+__date__ = "${date}"
+
+
+from datetime import datetime
+from config import db
+
+
+class ${model_name | flt.camelize}(db.Model):
+    __tablename__ = "${model_name | flt.underscore}"
+
+
+    # fields:
+    id = db.Column("id", db.Integer, primary_key=True, autoincrement=True)
+
+    # int_number = db.Column("int_number", db.Integer)
+    # float_number = db.Column("float_number", db.FLOAT)
+    # string_field = db.Column("string_field", db.String(256))
+    # text_field = db.Column("text_field", db.TEXT)
+
+    created_at = db.Column(db.TIMESTAMP)
+    updated_at = db.Column(db.TIMESTAMP)
+
+
+    def __init__(
+        self,
+        name,
+        ...
+        created_at=None,
+        updated_at=None
+    ):
+        # initialize fields
+
+        # timestamps
+        _now = datetime.now()
+        self.created_at = created_at or _now
+        self.updated_at = updated_at or _now
+
+
+    def __repr__(self):
+        return '<${model_name | flt.camelize} %r>' % self.id
+
+
+    def to_dict(self):
+        _dict = {}
+        _dict.update(self.__dict__)
+        if "_sa_instance_state" in _dict:
+            del _dict['_sa_instance_state']
+        return _dict
+
+# end
