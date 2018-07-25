@@ -14,9 +14,8 @@ from .timer import Timer
 class MoPerformer(object):
     """mini-mo base performer to perform task case.
 
-    parameters:
-    - name: task name
-    - logger:
+    :param name: task name
+    :param logger:
         logging handler, if set to none, will use minimo
         style logger. for customized logger, it should respond
         to the following methods:
@@ -126,4 +125,5 @@ class MoPerformer(object):
 
     def __get_caller_id(self):
         return "{0}.{1}".format(self.__module__, self.__class__.__name__)
+
 # end

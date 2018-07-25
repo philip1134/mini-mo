@@ -1,6 +1,1 @@
-# -*- coding:utf-8 -*-
-
-
-
-
-# end
+<%text># -*- coding:utf-8 -*-</%text>

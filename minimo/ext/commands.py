@@ -13,13 +13,13 @@ from minimo import __version__
 
 @register("version", "help.version", True)
 def minimo_print_version(*args):
-    """print minimo version number"""
+    """print minimo version number."""
     info("minimo {}".format(__version__))
 
 
 @register("help", "help.help", True)
 def minimo_print_usage(*args):
-    """show usage"""
+    """show help information."""
 
     sub_commands = ""
     for cmd, conf in g.routes.items():

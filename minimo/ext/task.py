@@ -18,11 +18,13 @@ from generator import copy_template_file, copy_template_folder
 
 
 @register("new", "help.task.new", True, "task")
-def task_generate_cases(args = {}):
-    """generate case from templates. it will walk through the sub-directory
-    of task suite, if templates exists in task suite, it initializes the case
-    by the suite specified templates, otherwise, by the project default
-    templates."""
+def task_generate_cases(args={}):
+    """generate case from templates.
+
+    it will walk through the sub-directory of task suite, if templates exists
+    in task suite, it initializes the case by the suite specified templates,
+    otherwise, by the project default templates.
+    """
 
     if g.app.root_path is None:
         error(_("error.invalid_minimo_project_directory"))
@@ -56,8 +58,7 @@ def task_generate_cases(args = {}):
             # checking target path
             target = os.path.join(g.app.root_path, "cases", case)
             if os.path.exists(target):
-                warning(_("warning.task.case_existed"),
-                    case)
+                warning(_("warning.task.case_existed"), case)
                 continue
             else:
                 info(_("info.task.creating_case_dir"), case)
@@ -73,9 +74,30 @@ def task_generate_cases(args = {}):
             info(_("info.task.case_created"), g.app.name)
 
 
+@register("ls", "help.task.ls", True, "task")
+def minimo_list_cases(args={}):
+    """list all valid cases."""
+
+    cases = []
+    pattern = "|".join(args["args"])
+
+    # loop for standard case
+    case_dir = os.path.join(g.app.root_path, "cases")
+    for _root, _dirs, _files in os.walk(case_dir):
+        if "__main__.py" in _files:
+            _name = _get_case_name(_root)
+            if pattern:
+                if re.match(pattern, _name):
+                    cases.append(_name)
+            else:
+                cases.append(_name)
+
+    info("\n".join(sorted(cases)))
+
+
 @register("run", "help.task.run", True, "task")
-def task_run_cases(args = {}):
-    """run task cases"""
+def task_run_cases(args={}):
+    """run task cases."""
 
     tasks = collections.OrderedDict()
     task_suite = "task"
@@ -89,9 +111,7 @@ def task_run_cases(args = {}):
         valid_case = False
         for _root, _dirs, _files in os.walk(runner_path):
             if "__main__.py" in _files:
-                _name = _root.replace(\
-                    os.path.join(g.app.root_path, "cases"), "")[1:]\
-                    .replace("\\", "/")
+                _name = _get_case_name(_root)
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
@@ -105,9 +125,9 @@ def task_run_cases(args = {}):
         time.strftime("%Y_%m_%d_%H_%M_%S"))
 
     if "concorrence" == g.app.run_cases and "s" not in args:
-        _run_cases_concorrence(tasks)
+        _run_cases_concurrently(tasks)
     else:
-        _run_cases_serial(tasks)
+        _run_cases_serially(tasks)
 
     info(_("info.task.report_mission_complete"),
         BLOCK_SPLITTER, len(tasks), len(g.errors))
@@ -115,8 +135,12 @@ def task_run_cases(args = {}):
         info(_("info.task.failed_tasks"), "\nx ".join(g.errors))
 
 
-def _run_cases_serial(tasks = {}):
-    """serial type to run cases"""
+def _run_cases_serially(tasks):
+    """serial type to run cases.
+
+    :param tasks: dict for tasks, key is task name, value is the path for task
+                  module, task should have __main__ entry.
+    """
 
     for _name, _path in tasks.items():
         try:
@@ -131,8 +155,12 @@ def _run_cases_serial(tasks = {}):
             error(_("error.task.exception_in_case"), _name)
 
 
-def _run_cases_concorrence(tasks = {}):
-    """concorrence type to run cases"""
+def _run_cases_concurrently(tasks):
+    """concorrence type to run cases.
+
+    :param tasks: dict for tasks, key is task name, value is the path for task
+                  module, task should have __main__ entry.
+    """
 
     sp = []
     for _name, _path in tasks.items():
@@ -154,5 +182,12 @@ def _run_cases_concorrence(tasks = {}):
 
     for s in sp:
         s.wait()
+
+
+def _get_case_name(case_path):
+    """extract case name from case path."""
+    return case_path.replace(os.path.join(
+        g.app.root_path, "cases"), "")[1:].replace("\\", "/")
+
 
 # end

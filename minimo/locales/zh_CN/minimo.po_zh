@@ -208,6 +208,15 @@ msgstr "执行指定的任务用例集或用例\n"
 "这两种方式可以一起使用，例如：\n"
 "    minimo run my-task-suite1 my-task-suite2/case1 my-task-suite3/case3"
 
+msgid "help.task.ls"
+msgstr "列出所有标准的任务用例\n"
+"用法: minimo ls [pattern...]\n"
+"\n"
+"如果不指定pattern，则会列出所有cases目录下的标准用例名称。\n"
+"如果指定pattern，则按照该模式正则匹配查找对应的用例名称。\n"
+"pattern可以指定多个，例如：\n"
+"    minimo ls foo bar.*"
+
 
 #--------------------------------------------------------------------
 # flask

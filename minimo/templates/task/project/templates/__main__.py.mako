@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+<%text># -*- coding:utf-8 -*-</%text>
 
 __author__ = "${author}"
 __date__ = "${date}"

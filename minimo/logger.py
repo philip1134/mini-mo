@@ -27,6 +27,8 @@ _LVL_PREFIX = {
 
 
 class MoFilter(logging.Filter):
+    """MO filter to print line number (message count) into log message."""
+
     def filter(self, record):
         record.line = g.line
         g.line += 1
@@ -35,22 +37,50 @@ class MoFilter(logging.Filter):
 
 
 class Logger(object):
-    """print log to log file and stdout. log directory will be placed under
+    """print log to log file and stdout.
+
+    log directory will be placed under
     project.root/logs. by default, it will create two kinds of log file which
-    are fulltrace and errors only."""
+    are fulltrace and errors only.
+
+    :param case: task case name, used as log file prefix.
+    :param suite: task suite name, if specified suite name, mini-mo will create
+                  suite folder to contain all case log files.
+    :param root: project root, log file will be created under root/log.
+    :param max_flush_count: threshold to flush message to log file,
+                            set to 10 by default.
+
+    usage::
+        logger = Logger(
+            "case name",
+            "suite name",
+            "path/to/project/root"
+        ).open()
+
+        logger.info("information")
+        logger.warning("warning message")
+        logger.error("error message")
+
+        logger.summary()
+        logger.close()
+    """
 
     def __init__(
         self,
         case="my_case",
         suite=None,
         root=".",
-        max_flush_count=10,
-        handler="file"
+        max_flush_count=10
     ):
         self.case = case
         self.suite = suite
         self.root = os.path.join(root, "log")
-        self.counters = {"error": 0, "warning": 0, "success": 0, "failure": 0}
+        self.counters = {
+            "error": 0,
+            "warning": 0,
+            "success": 0,
+            "failure": 0
+        }
 
         self.__flush_count = 0
         self.__max_flush_count = max_flush_count
@@ -61,10 +91,10 @@ class Logger(object):
         stdout=True,
         outputs={
             "fulltrace": logging.INFO,
-            "error": logging.ERROR,
+            "error": logging.ERROR
         }
     ):
-        """open log system by the specified outputs"""
+        """open log system and print log to the specified outputs"""
 
         # create logger
         self.__logger = logging.getLogger("log-{0}".format(self.case))
@@ -109,14 +139,11 @@ class Logger(object):
 
     def close(self):
         """close log system, flush all messages to log file,
-        and clear message counters"""
+        and clear message counters
+        """
         if not self.__closed:
-            self.counters = {
-                "error": 0,
-                "warning": 0,
-                "success": 0,
-                "failure": 0
-            }
+            for k in self.counters.keys():
+                self.counters[k] = 0
 
             try:
                 self.__flush_count = 0
@@ -127,9 +154,11 @@ class Logger(object):
             except:
                 # do nothing
                 pass
+
             self.__closed = True
 
     def summary(self, *args, **kwargs):
+        """print summary as normal information"""
         self.info(_("info.performer_summary"),
             split=SECTION_SPLITTER,
             success=self.counters["success"],
@@ -139,6 +168,7 @@ class Logger(object):
             duration=kwargs["duration"])
 
     def info(self, message, *args, **kwargs):
+        """print normal information"""
         self._write(message.format(*args, **kwargs), logging.INFO)
 
     def error(self, message, *args, **kwargs):
@@ -174,4 +204,5 @@ class Logger(object):
                 for handler in self.__filehandlers:
                     handler.flush()
                 self.__flush_count = 0
+
 # end

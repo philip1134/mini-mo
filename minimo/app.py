@@ -18,7 +18,8 @@ sys.setdefaultencoding('utf-8')
 
 class MoApplication(object):
     """the MoApplication object implements the basic entry of minimo
-    framework"""
+    framework.
+    """
 
     # project name, set in project instance
     name = "minimo"
@@ -44,10 +45,10 @@ class MoApplication(object):
     locale = "zh_CN"
 
     # project modules path, which will be inserted into sys.path at application
-    # started. by default, "lib", "ext", "cases", "vendors" will be added
+    # started. by default, "lib", "ext", "cases", "vendor" will be added
     # mandatory.
     modules_path = []
-    mandatory_modules_path = ["lib", "ext", "cases", "vendors"]
+    mandatory_modules_path = ["lib", "ext", "cases", "vendor"]
 
     def __init__(self):
         gettext.translation("minimo",
@@ -56,7 +57,7 @@ class MoApplication(object):
         g.app = self
 
     def run(self, options={}):
-        """application runner"""
+        """application main entry."""
 
         try:
             if "cli" == self.interface:
@@ -81,12 +82,11 @@ class MoApplication(object):
                 error(_("error.unrecognized_command"))
         except:
             error(_("error.wrong_usage"))
-            print format_traceback()
 
     def add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will
-        be added into sys.path"""
-
+        be added into sys.path
+        """
         if self.root_path is None:
             return
 

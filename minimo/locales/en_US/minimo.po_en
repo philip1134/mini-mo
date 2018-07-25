@@ -208,6 +208,15 @@ msgstr "perform the specified task suite or case\n"
 "the two types can be mixed, such as:\n"
 "    minimo run my-task-suite1 my-task-suite2/case1 my-task-suite3/case3"
 
+msgid "help.task.ls"
+msgstr "list all standard task cases\n"
+"usage: minimo ls [pattern...]\n"
+"\n"
+"if not specified 'pattern', it will list all standard cases' names under 'cases' folder.\n"
+"if specified 'pattern', it will search the case name by 'pattern' with regex.\n"
+"can give multiple patterns, such as：\n"
+"    minimo ls foo bar.*"
+
 #--------------------------------------------------------------------
 # flask
 #--------------------------------------------------------------------

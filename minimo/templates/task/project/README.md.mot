@@ -1,11 +1,10 @@
 <%!
     import minimo.filters as flt
-%>
-# ${project_name | flt.camelize}
+%># ${project_name | flt.camelize}
 
 **created at:** ${date}
 **authors:**
-
+<%text>
 ## Summary
 
 ## Description
@@ -13,3 +12,4 @@
 ## Configurations
 
 ## Usage
+</%text>

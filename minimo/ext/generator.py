@@ -15,13 +15,8 @@ from ..route import register
 from minimo import __version__
 
 
-__template_hooks = {
-    "vue-webpack": "vue init webpack {}",
-    "vue-webpack-simple": "vue init webpack-simple {}"
-}
-
 @register("init", "help.init", True)
-def minimo_generate_project(args = {}):
+def minimo_generate_project(args={}):
     """initialize project from templates"""
 
     for project_name in args["args"]:
@@ -76,7 +71,7 @@ def minimo_generate_project(args = {}):
 def copy_template_file(
     dest,
     src,
-    config = {}
+    config={}
 ):
     """copy template file from src to dest, replace the placeholder in template
     file by the given config keywords."""
@@ -110,7 +105,7 @@ def copy_template_folder(
     template_file_suffix,
     config
 ):
-    """copy template directory to dest"""
+    """copy template directory to dest."""
 
     for dirpath, dirs, files in os.walk(template_dir):
         dest_subdir_name = os.path.relpath(dirpath, template_dir)

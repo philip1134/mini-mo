@@ -29,7 +29,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "mako >= 1.0.7",
-        "alembic >= 0.9.6"
+        # "alembic >= 0.9.6"
     ],
     extras_require={
         'dev': [
@@ -40,7 +40,7 @@ setup(
     },
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Environment :: Test Automation',
+        'Environment :: Automation',
         'Framework :: minimo',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -51,7 +51,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords='Python Test Automation',
+    keywords='Python Automation',
     entry_points={
         'console_scripts': [
             'minimo = minimo:main',

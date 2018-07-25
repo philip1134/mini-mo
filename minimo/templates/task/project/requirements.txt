@@ -5,4 +5,3 @@
 #
 
 # package-name==package-version
-selenium==3.5.0

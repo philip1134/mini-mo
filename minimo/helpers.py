@@ -11,7 +11,8 @@ TRACE_SPLITTER = "*" * 50
 
 
 def format_duration(time):
-    """format duration, unit of input time should be 'second'"""
+    """format duration, unit of input time should be 'second'."""
+
     fmt = ""
     if time < 1:
         fmt = _("format.time.ms").format(time * 1000)
@@ -40,7 +41,7 @@ def format_duration(time):
 
 
 def format_traceback():
-    """format traceback message"""
+    """format traceback message."""
     tb = "{splitter}\n{traceback}\n{splitter}\n".format(
         splitter=TRACE_SPLITTER, traceback=traceback.format_exc())
     return unicode(tb, "utf-8")
@@ -77,7 +78,8 @@ def underscore(value):
 
 def validate_keys(targets, keys):
     """check out keys exist in targets or not, targets should be a dict, \
-    and keys is a dict contains key:error_message pairs"""
+    and keys is a dict contains key:error_message pairs.
+    """
     result = True
     for key, msg in keys.items():
         if key not in targets:
@@ -88,14 +90,17 @@ def validate_keys(targets, keys):
 
 
 def info(message, *args, **kwargs):
+    """print normal message in stdout."""
     print message.format(*args, **kwargs)
 
 
 def warning(message, *args, **kwargs):
+    """print warning message in stdout."""
     print u"(!) WARNING " + message.format(*args, **kwargs)
 
 
 def error(message, *args, **kwargs):
+    """print error message in stdout."""
     print u"(x) ERROR " + message.format(*args, **kwargs)
 
 # end

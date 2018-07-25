@@ -3,12 +3,15 @@ Mini-MO Changelog
 
 Here you can see the full list of changes between each mini-mo release.
 
+
+
 Version 0.2.2
 ------------
 
 unreleased
 
 - use mako filter to customize template
+- add "ls" command to list all standard cases
 
 
 Version 0.2.1

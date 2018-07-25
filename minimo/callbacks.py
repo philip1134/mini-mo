@@ -35,7 +35,8 @@ class Callbacks(object):
 
     def get_before_actions(self, key):
         """get before_action filters, return an empty array if there's
-        no function in filter list."""
+        no function in filter list.
+        """
         if key in self.before_action_funcs:
             return self.before_action_funcs[key]
         else:
@@ -47,7 +48,8 @@ class Callbacks(object):
 
     def get_action_steps(self, key):
         """get action_step list, return an empty array if there's
-        no function in that list."""
+        no function in that list.
+        """
         if key in self.action_step_funcs:
             return self.action_step_funcs[key]
         else:
@@ -59,7 +61,8 @@ class Callbacks(object):
 
     def get_after_actions(self, key):
         """get after_action filters, return an empty array if there's
-        no function in filter list."""
+        no function in filter list.
+        """
         if key in self.after_action_funcs:
             return self.after_action_funcs[key]
         else:
@@ -108,7 +111,8 @@ def after_action(desc):
 def action_step(desc):
     """to specify the action is one task step.
     the specified action should return True or False to
-    represent success or failure of that task step."""
+    represent success or failure of that task step.
+    """
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
