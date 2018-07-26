@@ -212,10 +212,11 @@ msgid "help.task.ls"
 msgstr "列出所有标准的任务用例\n"
 "用法: minimo ls [pattern...]\n"
 "\n"
+"pattern为unix shell-style的文件名称匹配模板，即使用*, ?作为通配符。\n"
 "如果不指定pattern，则会列出所有cases目录下的标准用例名称。\n"
-"如果指定pattern，则按照该模式正则匹配查找对应的用例名称。\n"
+"如果指定pattern，则按照该模式匹配查找对应的用例名称。\n"
 "pattern可以指定多个，例如：\n"
-"    minimo ls foo bar.*"
+"    minimo ls foo bar*"
 
 
 #--------------------------------------------------------------------

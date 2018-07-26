@@ -212,10 +212,11 @@ msgid "help.task.ls"
 msgstr "list all standard task cases\n"
 "usage: minimo ls [pattern...]\n"
 "\n"
+"'pattern' supports Unix shell-style wildcards, such as * or ?."
 "if not specified 'pattern', it will list all standard cases' names under 'cases' folder.\n"
-"if specified 'pattern', it will search the case name by 'pattern' with regex.\n"
+"if specified 'pattern', it will search the case name by 'pattern'.\n"
 "can give multiple patterns, such as：\n"
-"    minimo ls foo bar.*"
+"    minimo ls foo bar*"
 
 #--------------------------------------------------------------------
 # flask

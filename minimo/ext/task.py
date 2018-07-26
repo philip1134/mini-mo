@@ -7,6 +7,7 @@
 import os
 import sys
 import re
+import fnmatch
 import time
 import runpy
 import subprocess
@@ -79,7 +80,7 @@ def minimo_list_cases(args={}):
     """list all valid cases."""
 
     cases = []
-    pattern = "|".join(args["args"])
+    pattern = "|".join([fnmatch.translate(ptn) for ptn in args["args"]])
 
     # loop for standard case
     case_dir = os.path.join(g.app.root_path, "cases")
