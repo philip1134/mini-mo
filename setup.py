@@ -40,8 +40,7 @@ setup(
     },
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Environment :: Automation',
-        'Framework :: minimo',
+        'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -49,7 +48,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Software Development :: Testing',
     ],
     keywords='Python Automation',
     entry_points={
