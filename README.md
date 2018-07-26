@@ -11,8 +11,7 @@ minimo 是一款轻量级的研发效率支持框架，主要功能包括支持�
 
 使用 `setup.py` 安装:
 
-	# download the package
-	$ python setup.py install
+	$ pip install minimo
 
 **创建项目:**
 
