@@ -83,8 +83,9 @@ def copy_template_file(
 
         content = Template(
             filename=src,
-            default_filters=["trim"],
-            output_encoding="utf-8"
+            default_filters=["trim", "convert_newline"],
+            output_encoding="utf-8",
+            imports=["from minimo.filters import convert_newline"]
         ).render(**config)
 
         with open(dest, "w") as f:
