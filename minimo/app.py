@@ -6,19 +6,16 @@
 
 import os
 import sys
-import re
-import gettext
 import importlib
-from .globals import g, GLOBAL_NS, MINIMO_ROOT
+from .ext import __autoload__
+from .interface import InterfaceFactory
+from .globals import g, GLOBAL_NS
 from .helpers import *
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
 class MoApplication(object):
-    """the MoApplication object implements the basic entry of minimo
-    framework.
+    """the MoApplication object implements the basic entry of
+    minimo framework.
     """
 
     # project name, set in project instance
@@ -41,53 +38,60 @@ class MoApplication(object):
     #   concorrence: run cases concorrently by subprocess.
     run_cases = "serial"
 
-    # project locale, currently supports zh_CN, en_US. default is zh_CN
-    locale = "zh_CN"
-
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
     # mandatory.
-    modules_path = []
     mandatory_modules_path = ["lib", "ext", "cases", "vendor"]
+    modules_path = []
 
-    def __init__(self):
-        gettext.translation("minimo",
-                            os.path.join(MINIMO_ROOT, "locales"),
-                            languages=[self.locale]).install()
+    def __init__(self, **attrs):
+        super(MoApplication, self).__init__()
+
+        self._loaded_plugins = \
+            self._loaded_extensions = \
+            self._loaded_modules_path = False
+
+        self.__interface = InterfaceFactory.get(self.type, **attrs)
+
+        # add default cli
+        for cli in __autoload__:
+            self.__interface.add_command(cli)
+
         g.app = self
 
-    def run(self, options={}):
-        """application main entry."""
+    def run(self, *args, **kwargs):
+        """alias for :meth:`main`."""
+        self.main(*args, **kwargs)
 
-        try:
-            if "cli" == self.interface:
-                _options = self.parse_cli()
-            else:
-                _options = options
+    def main(self, *args, **kwargs):
+        # main function entry, we just load modules path to sys.path before
+        # app running up
+        self._add_modules_path()
 
-            cmd = _options.pop("cmd")
-            k_cmd = "{}:{}".format(self.type, cmd)
-            k_common = "{}:{}".format(GLOBAL_NS, cmd)
+        return self.__interface.main(*args, **kwargs)
 
-            self.add_extensions()
-            if k_cmd in g.routes:
-                # project type specified command
-                self.add_modules_path()
-                getattr(self.__ext, g.routes[k_cmd]["handler"])(_options)
-            elif k_common in g.routes:
-                # common command
-                getattr(self.__ext, g.routes[k_common]["handler"])(_options)
-            else:
-                # unrecognized command
-                error(_("error.unrecognized_command"))
-        except:
-            error(_("error.wrong_usage"))
+    def get_command(self, ctx, name):
+        # We load plugins and extension with built-in commands as these should
+        # always be the same no matter what the app does.
+        self._load_plugins()
+        self._load_extensions()
 
-    def add_modules_path(self):
+        return self.__interface.get_command(self, ctx, name)
+
+    def list_commands(self, ctx):
+        # we always load plugins and extensions with minimo builtin commands.
+        self._load_plugins()
+        self._load_extensions()
+
+        rv = set(self.__interface.list_commands(self, ctx))
+        return sorted(rv)
+
+    def _add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will
         be added into sys.path
         """
-        if self.root_path is None:
+
+        if self._loaded_modules_path or self.root_path is None:
             return
 
         for target in set(self.modules_path + self.mandatory_modules_path):
@@ -97,42 +101,42 @@ class MoApplication(object):
                     if "__init__.py" in files:
                         sys.path.insert(0, dirpath)
 
-    def add_extensions(self):
-        """add extended functionalities into application environment."""
+        self._loaded_modules_path = True
 
-        # add mini-mo basic extensions
-        self.__ext = importlib.import_module("minimo.ext")
+    def _load_plugins(self):
+        """load plugins which were registered as 'minimo.commands'."""
+
+        if self._loaded_plugins:
+            return
+
+        try:
+            import pkg_resources
+        except ImportError:
+            self._loaded_plugins = True
+            return
+
+        for ep in pkg_resources.iter_entry_points('minimo.commands'):
+            self.__interface.add_command(ep.load(), ep.name)
+        self._loaded_plugins = True
+
+    def _load_extensions(self):
+        """load extensions for minimo style project. such extensions will be
+        placed under project/ext folder, as minimo does, add the extended
+        commands to __autoload__ tuple, and minimo will load them
+        automatically.
+        """
+
+        if self._loaded_extensions:
+            return
 
         if self.root_path is not None \
-            and os.path.exists(os.path.join(self.root_path, "ext")):
-            # add project instance related extensions
-            self.__ext.__dict__.update(importlib.import_module("ext").__dict__)
-
-    @staticmethod
-    def parse_cli():
-        """parse cli to get options"""
-
-        argv = sys.argv[:]
-        argv.pop(0)
-        options = {"cmd": argv.pop(0)}
-
-        index = 0
-        while index < len(argv):
-            arg = argv[index]
-
-            # check out options
-            if "-" == arg[0]:
-                k = re.sub("^-+", "", argv.pop(index))
-
-                # check out parameter
-                if index < len(argv) and argv[index][0] != "-":
-                    options[k] = argv.pop(index)
-                else:
-                    options[k] = True
-            else:
-                index += 1
-
-        options["args"] = argv
-        return options
-
+           and os.path.exists(os.path.join(self.root_path, "ext")):
+            try:
+                for cli in importlib.import_module("ext").__autoload__:
+                    self.__interface.add_command(cli)
+            except Exception:
+                # do nothing
+                self._loaded_extensions = True
+                return
+        self._loaded_extensions = True
 # end

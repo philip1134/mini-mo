@@ -31,9 +31,6 @@ class Application(MoApplication):
     #   concorrence: run cases concorrently by subprocess.
     # run_cases = "serial"
 
-    # project locale, currently supports zh_CN, en_US. default is zh_CN
-    # locale = "zh_CN"
-
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "cases", "vendors" will be added mandatory.
     modules_path = []

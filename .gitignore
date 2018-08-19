@@ -7,3 +7,10 @@ dist/
 __pycache__/
 *.so
 *~
+.directory
+.idea
+.project
+/log/*
+/tmp/*
+/test/*
+/venv/*

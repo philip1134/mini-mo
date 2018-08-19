@@ -6,6 +6,7 @@
 
 import re
 import traceback
+import click
 
 TRACE_SPLITTER = "*" * 50
 
@@ -15,28 +16,29 @@ def format_duration(time):
 
     fmt = ""
     if time < 1:
-        fmt = _("format.time.ms").format(time * 1000)
+        fmt = "{:.3f} ms".format(time * 1000)
     elif time >= 1 and time < 60:
         # seconds
-        fmt = _("format.time.second").format(time)
+        fmt = "{:.3f} sec".format(time)
     elif time >= 60 and time < 3600:
         # minutes and seconds
         min = int(time / 60)
         sec = time - min * 60
-        fmt = _("format.time.minute").format(min, sec)
+        fmt = "{:d} min {:.3f} sec".format(min, sec)
     elif time >= 3600 and time < 86400:
         # hours, minutes and seconds
         hour = int(time / 3600)
         min = int((time - hour * 3600) / 60)
         sec = time - hour * 3600 - min * 60
-        fmt = _("format.time.hour").format(hour, min, sec)
+        fmt = "{:d} hour {:d} min {:.3f} sec".format(hour, min, sec)
     else:
         # days, hours, minutes and seconds
         day = int(time / 86400)
         hour = int((time - day * 86400) / 3600)
         min = int((time - day * 86400 - hour * 3600) / 60)
         sec = time - day * 86400 - hour * 3600 - min * 60
-        fmt = _("format.time.day").format(day, hour, min, sec)
+        fmt = "{:d} day {:d} hour {:d} min {:.3f} sec".format(day, hour,
+                                                              min, sec)
     return fmt
 
 
@@ -52,7 +54,7 @@ def upperfirst(value):
     such as:
         foobAr => FoobAr
     """
-    if len(value) > 0:
+    if len(value) > 1:
         return value[0].upper() + value[1:]
     else:
         return value[0].upper()
@@ -64,7 +66,7 @@ def camelize(value):
         foo_bar => FooBar
     """
     return upperfirst(re.sub(r'(?!^)_([a-zA-Z])',
-        lambda m: m.group(1).upper(), value))
+                      lambda m: m.group(1).upper(), value))
 
 
 def underscore(value):
@@ -89,18 +91,23 @@ def validate_keys(targets, keys):
     return result
 
 
-def info(message, *args, **kwargs):
+def info(message):
     """print normal message in stdout."""
-    print message.format(*args, **kwargs)
+    click.echo(message)
 
 
-def warning(message, *args, **kwargs):
+def stage(message):
+    """print stage message in stdout."""
+    click.secho(message, fg="green")
+
+
+def warning(message):
     """print warning message in stdout."""
-    print u"(!) WARNING " + message.format(*args, **kwargs)
+    click.secho(u"[WARNING] " + message, fg="yellow")
 
 
-def error(message, *args, **kwargs):
+def error(message):
     """print error message in stdout."""
-    print u"(x) ERROR " + message.format(*args, **kwargs)
+    click.secho(u"[ERROR] " + message, fg="red")
 
 # end

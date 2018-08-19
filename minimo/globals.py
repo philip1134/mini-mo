@@ -24,7 +24,8 @@ g = Config({
 GLOBAL_NS = "minimo"
 MINIMO_ROOT = os.path.dirname(__file__)
 
+
 def report_exception(point, reason=""):
-    g.errors.append(_("info.report_case_exception").format(point, reason))
+    g.errors.append("{0}: exception occured\n{1}".format(point, reason))
 
 # end

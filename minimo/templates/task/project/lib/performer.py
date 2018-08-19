@@ -11,13 +11,5 @@ class BasePerformer(MoPerformer):
     def __init__(self, name):
         super(BasePerformer, self).__init__(name)
 
-    def setup(self):
-        """setup performer environment."""
-        pass
-
-    def teardown(self):
-        """tear down performer environment."""
-        pass
-
 
 # end

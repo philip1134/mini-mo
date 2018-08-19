@@ -29,7 +29,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "mako >= 1.0.7",
-        # "alembic >= 0.9.6"
+        "click"
     ],
     extras_require={
         'dev': [

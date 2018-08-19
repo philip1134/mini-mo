@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-__version__ = "0.2.2.b3"
+__version__ = "0.3.0.b1"
 
 
 import os
@@ -10,7 +10,6 @@ from .app import MoApplication
 from .performer import MoPerformer
 from .callbacks import before_action, action_step, after_action
 from .helpers import *
-from .route import register
 
 
 def main():
@@ -19,6 +18,6 @@ def main():
         runpy.run_path(bin_path)
     else:
         from minimo import MoApplication
-        MoApplication().run()
+        MoApplication().main()
 
 # end

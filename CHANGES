@@ -5,13 +5,15 @@ Here you can see the full list of changes between each mini-mo release.
 
 
 
-Version 0.2.2
+Version 0.3.0
 ------------
 
 unreleased
 
 - use mako filter to customize template
 - add "ls" command to list all standard cases
+- introduced `click` to organize cli
+- remove locales
 
 
 Version 0.2.1

@@ -9,7 +9,6 @@ import os
 import sys
 import time
 import logging
-from .globals import g, SECTION_SPLITTER
 
 
 SUCCESS = logging.INFO + 1
@@ -30,8 +29,6 @@ class MoFilter(logging.Filter):
     """MO filter to print line number (message count) into log message."""
 
     def filter(self, record):
-        record.line = g.line
-        g.line += 1
         record.lvl = _LVL_PREFIX[record.levelno]
         return True
 
@@ -103,7 +100,7 @@ class Logger(object):
         # create stdout/file handler and set level
         self.__logger.addFilter(MoFilter())
         formatter = \
-            logging.Formatter("[%(asctime)s] #%(line)d %(lvl)s%(message)s")
+            logging.Formatter("[%(asctime)s] %(lvl)s%(message)s")
         timestamp = time.strftime("%Y_%m_%d_%H_%M_%S")
 
         # add stdout handlers to logger
@@ -120,7 +117,7 @@ class Logger(object):
             else:
                 dirpath = os.path.join(self.root, self.case)
             basename = os.path.join(dirpath,
-                "{0}_{1}".format(self.case, timestamp))
+                                    "{0}_{1}".format(self.case, timestamp))
 
             # check out dirs
             if not os.path.exists(dirpath):
@@ -134,7 +131,9 @@ class Logger(object):
                 self.__filehandlers.append(handler)
                 self.__logger.addHandler(handler)
 
+        # initialize flags
         self.__closed = False
+
         return self
 
     def close(self):
@@ -151,51 +150,42 @@ class Logger(object):
                     handler.flush()
                     self.__logger.removeHandler(handler)
                     handler.close()
-            except:
+            except Exception:
                 # do nothing
                 pass
 
+            # reset flags
             self.__closed = True
 
-    def summary(self, *args, **kwargs):
-        """print summary as normal information"""
-        self.info(_("info.performer_summary"),
-            split=SECTION_SPLITTER,
-            success=self.counters["success"],
-            failure=self.counters["failure"],
-            error=self.counters["error"],
-            warning=self.counters["warning"],
-            duration=kwargs["duration"])
-
-    def info(self, message, *args, **kwargs):
+    def info(self, message):
         """print normal information"""
-        self._write(message.format(*args, **kwargs), logging.INFO)
+        self._write(message, logging.INFO)
 
-    def error(self, message, *args, **kwargs):
+    def error(self, message):
         """print error message"""
         self.counters["error"] += 1
-        self._write(message.format(*args, **kwargs), logging.ERROR)
+        self._write(message, logging.ERROR)
 
-    def warning(self, message, *args, **kwargs):
+    def warning(self, message):
         """print warning message"""
         self.counters["warning"] += 1
-        self._write(message.format(*args, **kwargs), logging.WARNING)
+        self._write(message, logging.WARNING)
 
-    def success(self, message, *args, **kwargs):
+    def success(self, message):
         """print task success message"""
         self.counters["success"] += 1
-        self._write(message.format(*args, **kwargs), SUCCESS)
+        self._write(message, SUCCESS)
 
-    def fail(self, message, *args, **kwargs):
+    def fail(self, message):
         """print task failure message"""
         self.counters["failure"] += 1
-        self._write(message.format(*args, **kwargs), FAILURE)
+        self._write(message, FAILURE)
 
     def _write(self, message, level=logging.INFO):
         """print message to log handler according to logging level.
 
         message format looks like:
-            '[timestamp] #line-no level-prefix message'
+            '[timestamp] level-prefix message'
         """
         if not self.__closed:
             self.__logger.log(level, message)
