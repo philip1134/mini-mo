@@ -1,11 +1,10 @@
 # -*- coding:utf-8 -*-
 
 
-from minimo import MoPerformer, \
-    before_action, action_step, after_action
+import minimo
 
 
-class BasePerformer(MoPerformer):
+class BasePerformer(minimo.Performer):
     """docstring for BasePerformer"""
 
     def __init__(self, name):

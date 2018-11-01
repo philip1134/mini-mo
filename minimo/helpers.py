@@ -78,19 +78,6 @@ def underscore(value):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
-def validate_keys(targets, keys):
-    """check out keys exist in targets or not, targets should be a dict, \
-    and keys is a dict contains key:error_message pairs.
-    """
-    result = True
-    for key, msg in keys.items():
-        if key not in targets:
-            error(msg)
-            result = False
-            # don't break here, check all the items once.
-    return result
-
-
 def info(message):
     """print normal message in stdout."""
     click.echo(message)

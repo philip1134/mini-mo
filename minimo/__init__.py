@@ -6,8 +6,8 @@ __version__ = "0.3.0.b1"
 
 import os
 import runpy
-from .app import MoApplication
-from .performer import MoPerformer
+from .app import Application
+from .performer import Performer
 from .callbacks import before_action, action_step, after_action
 from .helpers import *
 
@@ -17,7 +17,7 @@ def main():
     if os.path.exists(bin_path):
         runpy.run_path(bin_path)
     else:
-        from minimo import MoApplication
-        MoApplication().main()
+        from minimo import Application
+        Application().main()
 
 # end

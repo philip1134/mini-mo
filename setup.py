@@ -29,7 +29,8 @@ setup(
     zip_safe=False,
     install_requires=[
         "mako >= 1.0.7",
-        "click"
+        "click",
+        "unittest-xml-reporting"
     ],
     extras_require={
         'dev': [

@@ -13,7 +13,7 @@ from .globals import g, GLOBAL_NS
 from .helpers import *
 
 
-class MoApplication(object):
+class Application(object):
     """the MoApplication object implements the basic entry of
     minimo framework.
     """
@@ -27,10 +27,17 @@ class MoApplication(object):
     # project root path, auto set in project instance
     root_path = None
 
-    # project interface, currently supported "cli", "api", default is "cli"
+    # project interface, supported "cli", "api", default is "cli"
     #   cli: call commands/functions as command line interface
     #   api: call commands/functions as api
     interface = "cli"
+
+    # report format type, supported "text", "html" and "xml",
+    # default is "html"
+    #   text: plain text
+    #   html: html web page
+    #   xml: xml file, can be recognized by most CI system
+    output = "html"
 
     # case running type, should be "serial" or "concorrence",
     # default is "serial"
@@ -45,7 +52,7 @@ class MoApplication(object):
     modules_path = []
 
     def __init__(self, **attrs):
-        super(MoApplication, self).__init__()
+        super(Application, self).__init__()
 
         self._loaded_plugins = \
             self._loaded_extensions = \

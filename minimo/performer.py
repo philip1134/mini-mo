@@ -11,7 +11,7 @@ from .logger import Logger
 from .timer import Timer
 
 
-class MoPerformer(object):
+class Performer(object):
     """mini-mo base performer to perform task case.
 
     :param name: task name
@@ -34,6 +34,8 @@ class MoPerformer(object):
         name,
         logger=None
     ):
+        super(Performer, self).__init__()
+
         self.name = name
         if logger is None:
             self.logger = Logger(name,
@@ -61,7 +63,7 @@ class MoPerformer(object):
             duration=format_duration(self.__timer.duration()))
 
         for tb in self.__exceptions:
-            self.logger.info(tb,)
+            self.logger.info(tb)
 
     def __do_before_actions(self):
         """execute before_action functions"""
@@ -89,11 +91,11 @@ class MoPerformer(object):
                 r = False
                 tb = format_traceback()
                 self.__exceptions.append(
-                    "failed action: {0}\n{1}".format(func.__desc__, tb))
+                    "failed action: %s\n%s" % (func.__desc__, tb))
                 report_exception(self.name, tb)
                 self.logger.error(
                     'error occured, please check out your task code!'
-                    '\n{0}'.format(tb))
+                    '\n%s' % tb)
 
             if isinstance(r, bool):
                 _r = r
@@ -102,23 +104,23 @@ class MoPerformer(object):
 
             if action_step:
                 if _r:
-                    self.logger.success("succeed to perform %s/%s",
+                    self.logger.success("succeed to perform %s/%s" % (
                                         self.name,
-                                        func.__desc__ or func.__name__)
+                                        func.__desc__ or func.__name__))
                 else:
-                    self.logger.fail("fail to perform %s/%s" %
+                    self.logger.fail("fail to perform %s/%s" % (
                                      self.name,
-                                     func.__desc__ or func.__name__)
+                                     func.__desc__ or func.__name__))
             elif not _r:
                 result = False
-                self.logger.fail("error occured while performing %s/%s" %
+                self.logger.fail("error occured while performing %s/%s" % (
                                  self.name,
-                                 func.__desc__ or func.__name__)
+                                 func.__desc__ or func.__name__))
                 break
 
         return result
 
     def __get_caller_id(self):
-        return "{0}.{1}".format(self.__module__, self.__class__.__name__)
+        return "%s.%s" % (self.__module__, self.__class__.__name__)
 
 # end

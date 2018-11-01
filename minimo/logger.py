@@ -9,6 +9,7 @@ import os
 import sys
 import time
 import logging
+from .globals import SECTION_SPLITTER
 
 
 SUCCESS = logging.INFO + 1
@@ -156,6 +157,22 @@ class Logger(object):
 
             # reset flags
             self.__closed = True
+
+    def summary(self, *args, **kwargs):
+        """print summary as normal information"""
+        self.info(
+            "\n%s \
+             \nSUCCESS: %d \
+             \nFAILURE: %d \
+             \nERROR: %d \
+             \nWARNING: %d \
+             \nDURATION: %s" % (
+                SECTION_SPLITTER,
+                self.counters["success"],
+                self.counters["failure"],
+                self.counters["error"],
+                self.counters["warning"],
+                kwargs["duration"]))
 
     def info(self, message):
         """print normal information"""

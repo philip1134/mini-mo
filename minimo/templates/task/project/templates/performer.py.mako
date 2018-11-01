@@ -4,7 +4,6 @@ __author__ = "${author}"
 __date__ = "${date}"
 
 
-from minimo import before_action, action_step, after_action
 from lib import BasePerformer
 import config
 
@@ -14,26 +13,24 @@ class Performer(BasePerformer):
 
     def __init__(self):
         super(Performer, self).__init__("${case_name}")
-
         # add initializing code here
 
-#     @action_step("the first task step")
-#     def first_step_action(self):
-#         """step description"""
-#         result = False
-#
-#         # add your code here
-#
-#         return result
+#    def setUp(self):
+#        """set up test env"""
+#        pass
 
-#     @action_step("the second task step")
-#     def second_step_action(self):
-#         """step description"""
-#         result = False
-#
-#         # add your code here
-#
-#         return result
+#    def tearDown(self):
+#        """tear down test"""
+#        pass
 
+#    def test_first_action(self):
+#        """first test step description"""
+#
+#        self.assert*()
+
+#    def test_second_action(self):
+#        """second test step description"""
+#
+#        self.assert*()
 
 # end

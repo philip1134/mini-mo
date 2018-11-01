@@ -4,10 +4,10 @@
 
 
 import os
-from minimo import MoApplication
+import minimo
 
 
-class Application(MoApplication):
+class Application(minimo.Application):
     """docstring for Application"""
 
     # project name
@@ -20,10 +20,17 @@ class Application(MoApplication):
     # project root path, normally need not change the following code
     root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    # project interface, currently supported "cli", "api", default is "cli"
+    # project interface, supported "cli", "api", default is "cli"
     #   cli: call commands/functions as command line interface
     #   api: call commands/functions as api
-    # interface = "cli"
+    interface = "cli"
+
+    # report format type, supported "text", "html" and "xml",
+    # default is "html"
+    #   text: plain text
+    #   html: html web page
+    #   xml: xml file, can be recognized by most CI system
+    output = "html"
 
     # case running type, should be "serial" or "concorrence",
     # default is "serial"
