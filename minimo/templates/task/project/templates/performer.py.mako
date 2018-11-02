@@ -15,22 +15,30 @@ class Performer(BasePerformer):
         super(Performer, self).__init__("${case_name}")
         # add initializing code here
 
+#    @before_action("step name")
 #    def setUp(self):
 #        """set up test env"""
 #        pass
 
+#    @after_action("step name")
 #    def tearDown(self):
 #        """tear down test"""
 #        pass
 
+#    @action_step("step name")
 #    def test_first_action(self):
 #        """first test step description"""
 #
-#        self.assert*()
+#        # step code
+#
+#        return True # or False
 
+#    @action_step("step name")
 #    def test_second_action(self):
 #        """second test step description"""
 #
-#        self.assert*()
+#        # step code
+#
+#        return True # or False
 
 # end

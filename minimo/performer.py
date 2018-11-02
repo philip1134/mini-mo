@@ -36,7 +36,7 @@ class Performer(object):
     ):
         super(Performer, self).__init__()
 
-        self.name = name
+        self.name = __name__
         if logger is None:
             self.logger = Logger(name,
                                  g.task_suite,
