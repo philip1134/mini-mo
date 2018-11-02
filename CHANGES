@@ -4,11 +4,10 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
-
 Version 0.3.0
 ------------
 
-Released on 2018-11-01
+Released on 2018-11-02
 
 - use mako filter to customize template
 - add "ls" command to list all standard cases

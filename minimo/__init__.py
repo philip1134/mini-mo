@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-__version__ = "0.3.0.b1"
+__version__ = "0.3.0"
 
 
 import os
