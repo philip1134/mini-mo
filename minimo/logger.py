@@ -10,19 +10,23 @@ import sys
 import time
 import logging
 from .globals import SECTION_SPLITTER
+from .helpers import flatten
 
 
 SUCCESS = logging.INFO + 1
 logging.addLevelName(SUCCESS, "SUCCESS")
 FAILURE = logging.ERROR + 1
 logging.addLevelName(FAILURE, "FAILURE")
+REPORT = logging.CRITICAL + 1
+logging.addLevelName(REPORT, "REPORT")
 
 _LVL_PREFIX = {
     logging.INFO: "",
     logging.ERROR: "[ERROR] ",
     logging.WARNING: "[WARNING] ",
     SUCCESS: "[SUCCESS] ",
-    FAILURE: "[FAILURE] "
+    FAILURE: "[FAILURE] ",
+    REPORT: ""
 }
 
 
@@ -82,14 +86,20 @@ class Logger(object):
 
         self.__flush_count = 0
         self.__max_flush_count = max_flush_count
-        self.__filehandlers = []
+
+        # store file handlers as:
+        # {
+        #    level: [handlers]
+        # }
+        self.__filehandlers = {}
 
     def open(
         self,
         stdout=True,
         outputs={
             "fulltrace": logging.INFO,
-            "error": logging.ERROR
+            "error": logging.ERROR,
+            "report": REPORT
         }
     ):
         """open log system and print log to the specified outputs"""
@@ -107,7 +117,7 @@ class Logger(object):
         # add stdout handlers to logger
         if stdout:
             stdout = logging.StreamHandler(sys.stdout)
-            stdout.setLevel(logging.INFO)
+            stdout.setLevel(logging.NOTSET)
             stdout.setFormatter(formatter)
             self.__logger.addHandler(stdout)
 
@@ -129,7 +139,9 @@ class Logger(object):
                     "{0}.{1}.log".format(basename, term))
                 handler.setLevel(level)
                 handler.setFormatter(formatter)
-                self.__filehandlers.append(handler)
+                if level not in self.__filehandlers:
+                    self.__filehandlers[level] = []
+                self.__filehandlers[level].append(handler)
                 self.__logger.addHandler(handler)
 
         # initialize flags
@@ -147,7 +159,7 @@ class Logger(object):
 
             try:
                 self.__flush_count = 0
-                for handler in self.__filehandlers:
+                for handler in flatten(self.__filehandlers.values()):
                     handler.flush()
                     self.__logger.removeHandler(handler)
                     handler.close()
@@ -198,6 +210,19 @@ class Logger(object):
         self.counters["failure"] += 1
         self._write(message, FAILURE)
 
+    def report(self, message):
+        """print report information to report file"""
+
+        # remove error handler
+        errs = self.__filehandlers[logging.ERROR]
+        for handler in errs:
+            self.__logger.removeHandler(handler)
+
+        self._write(message, REPORT)
+
+        for handler in errs:
+            self.__logger.addHandler(handler)
+
     def _write(self, message, level=logging.INFO):
         """print message to log handler according to logging level.
 
@@ -208,7 +233,7 @@ class Logger(object):
             self.__logger.log(level, message)
             self.__flush_count += 1
             if self.__flush_count >= self.__max_flush_count:
-                for handler in self.__filehandlers:
+                for handler in flatten(self.__filehandlers.values()):
                     handler.flush()
                 self.__flush_count = 0
 

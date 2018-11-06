@@ -1,6 +1,7 @@
-# ${case_name}
+# `${case_name}`
 
 **first author:** ${author}
+
 **created at:** ${date}
 
-Case description
+## Case Description

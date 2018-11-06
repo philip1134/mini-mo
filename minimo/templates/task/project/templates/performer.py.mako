@@ -4,6 +4,7 @@ __author__ = "${author}"
 __date__ = "${date}"
 
 
+from minimo import before_action, action_step, after_action
 from lib import BasePerformer
 import config
 

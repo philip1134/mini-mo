@@ -3,6 +3,7 @@
 %># ${project_name | flt.camelize}
 
 **created at:** ${date}
+
 **authors:**
 <%text>
 ## Summary

@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.3.1
+------------
+
+unreleased
+
+- logger: print report to report file
+
+
 Version 0.3.0
 ------------
 

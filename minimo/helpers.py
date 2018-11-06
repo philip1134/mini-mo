@@ -7,6 +7,8 @@
 import re
 import traceback
 import click
+import collections
+
 
 TRACE_SPLITTER = "*" * 50
 
@@ -76,6 +78,18 @@ def underscore(value):
     """
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', value)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+
+def flatten(l):
+    """make list flatten"""
+
+    for el in l:
+        if isinstance(el, collections.Iterable) and \
+           not isinstance(el, basestring):
+            for sub in flatten(el):
+                yield sub
+        else:
+            yield el
 
 
 def info(message):
