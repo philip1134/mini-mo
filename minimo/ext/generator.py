@@ -12,8 +12,8 @@ import shutil
 from mako.template import Template
 from ..helpers import *
 from ..globals import g, MINIMO_ROOT
-from minimo import __version__
 from ..filters import convert_newline
+from minimo import __version__
 
 
 @click.command("init")
