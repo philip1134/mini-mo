@@ -6,10 +6,6 @@
 
 
 import re
-from .helpers import upperfirst, camelize, underscore
-
-
-def convert_newline(value):
-    return re.sub(r"\r\n", r"\n", value)
+from .helpers import upperfirst, camelize, underscore, convert_newline
 
 # end

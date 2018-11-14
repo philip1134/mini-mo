@@ -13,6 +13,7 @@ from mako.template import Template
 from ..helpers import *
 from ..globals import g, MINIMO_ROOT
 from minimo import __version__
+from ..filters import convert_newline
 
 
 @click.command("init")
@@ -150,13 +151,12 @@ def copy_template_file(
 
         content = Template(
             filename=src,
-            default_filters=["trim", "convert_newline"],
-            output_encoding="utf-8",
-            imports=["from minimo.filters import convert_newline"]
+            default_filters=["trim"],
+            output_encoding="utf-8"
         ).render(**config)
 
         with open(dest, "w") as f:
-            f.write(content)
+            f.write(convert_newline(content))
 
         info("\tcreate file: %s" % os.path.basename(dest))
 

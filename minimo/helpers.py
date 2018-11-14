@@ -92,6 +92,12 @@ def flatten(l):
             yield el
 
 
+def convert_newline(value):
+    """convert CR-LF to unix-like new line as LF"""
+
+    return re.sub(r"\r\n", r"\n", value)
+
+
 def info(message):
     """print normal message in stdout."""
     click.echo(message)

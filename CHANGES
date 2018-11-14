@@ -11,6 +11,7 @@ unreleased
 
 - logger: print report to report file
 - logger: interface to get log dir path
+- bug-fix: convert new line not work while creating file with template
 
 
 Version 0.3.0
