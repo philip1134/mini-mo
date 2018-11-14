@@ -77,6 +77,7 @@ class Logger(object):
         self.case = case
         self.suite = suite
         self.root = os.path.join(root, "log")
+        self.logpath = ""
         self.counters = {
             "error": 0,
             "warning": 0,
@@ -124,15 +125,15 @@ class Logger(object):
         # add file handlers to logger
         if len(outputs) > 0:
             if self.suite is not None:
-                dirpath = os.path.join(self.root, self.suite)
+                self.logpath = os.path.join(self.root, self.suite)
             else:
-                dirpath = os.path.join(self.root, self.case)
-            basename = os.path.join(dirpath,
+                self.logpath = os.path.join(self.root, self.case)
+            basename = os.path.join(self.logpath,
                                     "{0}_{1}".format(self.case, timestamp))
 
             # check out dirs
-            if not os.path.exists(dirpath):
-                os.makedirs(dirpath)
+            if not os.path.exists(self.logpath):
+                os.makedirs(self.logpath)
 
             for term, level in outputs.items():
                 handler = logging.FileHandler(

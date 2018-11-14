@@ -10,6 +10,7 @@ Version 0.3.1
 unreleased
 
 - logger: print report to report file
+- logger: interface to get log path
 
 
 Version 0.3.0

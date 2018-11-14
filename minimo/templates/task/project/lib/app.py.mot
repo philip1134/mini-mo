@@ -30,7 +30,7 @@ class Application(minimo.Application):
     #   text: plain text
     #   html: html web page
     #   xml: xml file, can be recognized by most CI system
-    output = "html"
+    output = "text"
 
     # case running type, should be "serial" or "concorrence",
     # default is "serial"

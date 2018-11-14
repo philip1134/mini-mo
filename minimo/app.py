@@ -58,7 +58,7 @@ class Application(object):
             self._loaded_extensions = \
             self._loaded_modules_path = False
 
-        self.__interface = InterfaceFactory.get(self.type, **attrs)
+        self.__interface = InterfaceFactory.get(self.interface, **attrs)
 
         # add default cli
         for cli in __autoload__:
