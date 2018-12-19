@@ -7,7 +7,7 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.3.1
 ------------
 
-unreleased
+Released on 2018-12-19
 
 - logger: print report to report file
 - logger: interface to get log dir path

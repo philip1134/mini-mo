@@ -5,4 +5,4 @@
 #
 
 # package-name==package-version
-minimo==${version}
+minimo>=${version}
