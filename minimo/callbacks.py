@@ -12,7 +12,7 @@
 
 import inspect
 from functools import wraps
-from .globals import g
+from .globals import ctx
 
 
 class Callbacks(object):
@@ -75,7 +75,7 @@ class Callbacks(object):
             list[key] = [value]
 
 
-g.callbacks = Callbacks()
+ctx.callbacks = Callbacks()
 
 
 def __get_caller_id_by_frame(caller):
@@ -90,7 +90,7 @@ def before_action(desc):
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
-        g.callbacks.append_to_before_actions(
+        ctx.callbacks.append_to_before_actions(
             __get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func
@@ -104,7 +104,7 @@ def after_action(desc):
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
-        g.callbacks.append_to_after_actions(
+        ctx.callbacks.append_to_after_actions(
             __get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func

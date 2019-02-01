@@ -46,6 +46,7 @@ def format_duration(time):
 
 def format_traceback():
     """format traceback message."""
+
     tb = "{splitter}\n{traceback}\n{splitter}\n".format(
         splitter=TRACE_SPLITTER, traceback=traceback.format_exc())
     return unicode(tb, "utf-8")
@@ -56,6 +57,7 @@ def upperfirst(value):
     such as:
         foobAr => FoobAr
     """
+
     if len(value) > 1:
         return value[0].upper() + value[1:]
     else:
@@ -67,6 +69,7 @@ def camelize(value):
     capitalize the followed word, such as:
         foo_bar => FooBar
     """
+
     return upperfirst(re.sub(r'(?!^)_([a-zA-Z])',
                       lambda m: m.group(1).upper(), value))
 
@@ -76,6 +79,7 @@ def underscore(value):
     word and replaced by '_' + lowercase, such as:
         FooBar => foo_bar
     """
+
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', value)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
@@ -100,21 +104,25 @@ def convert_newline(value):
 
 def info(message):
     """print normal message in stdout."""
+
     click.echo(message)
 
 
 def stage(message):
     """print stage message in stdout."""
+
     click.secho(message, fg="green")
 
 
 def warning(message):
     """print warning message in stdout."""
+
     click.secho(u"[WARNING] " + message, fg="yellow")
 
 
 def error(message):
     """print error message in stdout."""
+
     click.secho(u"[ERROR] " + message, fg="red")
 
 # end

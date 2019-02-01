@@ -7,10 +7,13 @@
 import os
 import sys
 import importlib
+import yaml
 from .ext import __autoload__
 from .interface import InterfaceFactory
-from .globals import g, GLOBAL_NS
+from .globals import ctx
 from .helpers import *
+from .counter import Counter
+from .reporter import Reporter
 
 
 class Application(object):
@@ -22,10 +25,7 @@ class Application(object):
     name = "minimo"
 
     # project type, default is "minimo"
-    type = GLOBAL_NS
-
-    # project root path, auto set in project instance
-    root_path = None
+    type = "minimo"
 
     # project interface, supported "cli", "api", default is "cli"
     #   cli: call commands/functions as command line interface
@@ -37,13 +37,13 @@ class Application(object):
     #   text: plain text
     #   html: html web page
     #   xml: xml file, can be recognized by most CI system
-    output = "html"
+    output = "text"
 
     # case running type, should be "serial" or "concorrence",
     # default is "serial"
     #   serial: run cases one by one
     #   concorrence: run cases concorrently by subprocess.
-    run_cases = "serial"
+    running_type = "serial"
 
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
@@ -54,9 +54,15 @@ class Application(object):
     def __init__(self, **attrs):
         super(Application, self).__init__()
 
+        self.root_path = attrs.pop("root_path", None)
+
+        # flags intializing
         self._loaded_plugins = \
             self._loaded_extensions = \
             self._loaded_modules_path = False
+
+        # load config from yaml under project instance's root_path
+        self._load_config()
 
         self.__interface = InterfaceFactory.get(self.interface, **attrs)
 
@@ -64,41 +70,84 @@ class Application(object):
         for cli in __autoload__:
             self.__interface.add_command(cli)
 
-        g.app = self
+        ctx.app = self
 
     def run(self, *args, **kwargs):
         """alias for :meth:`main`."""
+
         self.main(*args, **kwargs)
 
     def main(self, *args, **kwargs):
-        # main function entry, we just load modules path to sys.path before
-        # app running up
+        """main function entry, we just load modules path to sys.path before
+        app running up.
+        """
+
+        # initialize runtime context
+        self._init_context()
+
+        # start timer for the application
+        ctx.counter.start_timer_for_app()
+
         self._add_modules_path()
+        result = self.__interface.main(*args, **kwargs)
 
-        return self.__interface.main(*args, **kwargs)
+        # stop timer for the application
+        ctx.counter.stop_timer_for_app()
 
-    def get_command(self, ctx, name):
-        # We load plugins and extension with built-in commands as these should
-        # always be the same no matter what the app does.
+        return result
+
+    def get_command(self, context, name):
+        """ We load plugins and extension with built-in commands as these should
+        always be the same no matter what the app does.
+        """
+
         self._load_plugins()
         self._load_extensions()
 
-        return self.__interface.get_command(self, ctx, name)
+        return self.__interface.get_command(self, context, name)
 
-    def list_commands(self, ctx):
-        # we always load plugins and extensions with minimo builtin commands.
+    def list_commands(self, context):
+        """we always load plugins and extensions with minimo
+        builtin commands.
+        """
+
         self._load_plugins()
         self._load_extensions()
 
-        rv = set(self.__interface.list_commands(self, ctx))
+        rv = set(self.__interface.list_commands(self, context))
         return sorted(rv)
+
+    def is_cli_mode(self):
+        return "cli" == self.interface
+
+    def is_api_mode(self):
+        return "api" == self.interface
+
+# protected
+    def _load_config(self):
+        """load project configurations: config.yml"""
+
+        if self.root_path is not None:
+            config_path = os.path.join(self.root_path, "config.yml")
+            if self.root_path is not None and os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    settings = yaml.load(f.read())
+
+                self.__dict__.update(settings)
+
+    def _init_context(self):
+        """initialize runtime context"""
+
+        ctx.counter = Counter()
+        ctx.reporter = Reporter()
 
     def _add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will
-        be added into sys.path
+        be added into sys.path.
         """
 
-        if self._loaded_modules_path or self.root_path is None:
+        if self._loaded_modules_path \
+           or self.root_path is None:
             return
 
         for target in set(self.modules_path + self.mandatory_modules_path):

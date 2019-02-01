@@ -4,28 +4,33 @@
 # date: 2017-08-10
 #
 
+
 import os
-from .config import Config
+from .attribute_dict import AttributeDict
+
 
 # constants
 BLOCK_SPLITTER = "=" * 50
 SECTION_SPLITTER = "-" * 50
 
 
-# globals
-g = Config({
-    "app": None,
-    "callbacks": None,
-    "line": 1,
-    "task_suite": None,
-    "errors": []
-})
+# runtime context
+class RuntimeContext(AttributeDict):
+    """stores runtime context, includes application instance, callbacks,
+    test suite name, minimo root path, and etc.
+    """
 
-GLOBAL_NS = "minimo"
-MINIMO_ROOT = os.path.dirname(__file__)
+    def __init__(self):
+        super(RuntimeContext, self).__init__({
+            "app": None,
+            "counter": None,
+            "reporter": None,
+            "callbacks": None,
+            "output_path": None,
+            "minimo_root_path": os.path.dirname(__file__)
+        })
 
 
-def report_exception(point, reason=""):
-    g.errors.append("{0}: exception occured\n{1}".format(point, reason))
+ctx = RuntimeContext()
 
 # end

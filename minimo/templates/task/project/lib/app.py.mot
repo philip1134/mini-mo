@@ -20,30 +20,8 @@ class Application(minimo.Application):
     # project root path, normally need not change the following code
     root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    # project interface, supported "cli", "api", default is "cli"
-    #   cli: call commands/functions as command line interface
-    #   api: call commands/functions as api
-    interface = "cli"
-
-    # report format type, supported "text", "html" and "xml",
-    # default is "html"
-    #   text: plain text
-    #   html: html web page
-    #   xml: xml file, can be recognized by most CI system
-    output = "text"
-
-    # case running type, should be "serial" or "concorrence",
-    # default is "serial"
-    #   serial: run cases one by one
-    #   concorrence: run cases concorrently by subprocess.
-    # run_cases = "serial"
-
-    # project modules path, which will be inserted into sys.path at application
-    # started. by default, "lib", "cases", "vendors" will be added mandatory.
-    modules_path = []
-
     def __init__(self):
-        super(Application, self).__init__()
+        super(Application, self).__init__(root_path=self.root_path)
 
 
 # end

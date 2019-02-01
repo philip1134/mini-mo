@@ -7,9 +7,8 @@
 
 import os
 import sys
-import time
 import logging
-from .globals import SECTION_SPLITTER
+from .globals import SECTION_SPLITTER, ctx
 from .helpers import flatten
 
 
@@ -17,8 +16,6 @@ SUCCESS = logging.INFO + 1
 logging.addLevelName(SUCCESS, "SUCCESS")
 FAILURE = logging.ERROR + 1
 logging.addLevelName(FAILURE, "FAILURE")
-REPORT = logging.CRITICAL + 1
-logging.addLevelName(REPORT, "REPORT")
 
 _LVL_PREFIX = {
     logging.INFO: "",
@@ -26,12 +23,11 @@ _LVL_PREFIX = {
     logging.WARNING: "[WARNING] ",
     SUCCESS: "[SUCCESS] ",
     FAILURE: "[FAILURE] ",
-    REPORT: ""
 }
 
 
 class MoFilter(logging.Filter):
-    """MO filter to print line number (message count) into log message."""
+    """MO filter to map customized level."""
 
     def filter(self, record):
         record.lvl = _LVL_PREFIX[record.levelno]
@@ -46,44 +42,34 @@ class Logger(object):
     are fulltrace and errors only.
 
     :param case: task case name, used as log file prefix.
-    :param suite: task suite name, if specified suite name, mini-mo will create
-                  suite folder to contain all case log files.
-    :param root: project root, log file will be created under root/log.
+    :param output_path: project output path, log file and report file will be
+                        created under this path, normally it's `app_root/log`.
     :param max_flush_count: threshold to flush message to log file,
                             set to 10 by default.
 
     usage::
         logger = Logger(
             "case name",
-            "suite name",
-            "path/to/project/root"
-        ).open()
+            "path/to/project/output_path"
+        )
 
         logger.info("information")
         logger.warning("warning message")
         logger.error("error message")
 
-        logger.summary()
         logger.close()
     """
 
     def __init__(
         self,
-        case="my_case",
-        suite=None,
-        root=".",
-        max_flush_count=10
+        name="my_case",
+        output_path=".",
+        max_flush_count=10,
+        setup=True,
+        stdout=True
     ):
-        self.case = case
-        self.suite = suite
-        self.root = os.path.join(root, "log")
-        self.logpath = ""
-        self.counters = {
-            "error": 0,
-            "warning": 0,
-            "success": 0,
-            "failure": 0
-        }
+        self.name = name
+        self.output_path = output_path
 
         self.__flush_count = 0
         self.__max_flush_count = max_flush_count
@@ -94,26 +80,27 @@ class Logger(object):
         # }
         self.__filehandlers = {}
 
+        if setup:
+            self.open(stdout=stdout)
+
     def open(
         self,
         stdout=True,
         outputs={
             "fulltrace": logging.INFO,
             "error": logging.ERROR,
-            "report": REPORT
         }
     ):
         """open log system and print log to the specified outputs"""
 
         # create logger
-        self.__logger = logging.getLogger("log-{0}".format(self.case))
+        self.__logger = logging.getLogger("log-{0}".format(self.name))
         self.__logger.setLevel(logging.INFO)
 
         # create stdout/file handler and set level
         self.__logger.addFilter(MoFilter())
         formatter = \
             logging.Formatter("[%(asctime)s] %(lvl)s%(message)s")
-        timestamp = time.strftime("%Y_%m_%d_%H_%M_%S")
 
         # add stdout handlers to logger
         if stdout:
@@ -124,16 +111,11 @@ class Logger(object):
 
         # add file handlers to logger
         if len(outputs) > 0:
-            if self.suite is not None:
-                self.logpath = os.path.join(self.root, self.suite)
-            else:
-                self.logpath = os.path.join(self.root, self.case)
-            basename = os.path.join(self.logpath,
-                                    "{0}_{1}".format(self.case, timestamp))
+            basename = os.path.join(self.output_path, self.name)
 
             # check out dirs
-            if not os.path.exists(self.logpath):
-                os.makedirs(self.logpath)
+            if not os.path.exists(self.output_path):
+                os.makedirs(self.output_path)
 
             for term, level in outputs.items():
                 handler = logging.FileHandler(
@@ -155,9 +137,6 @@ class Logger(object):
         and clear message counters
         """
         if not self.__closed:
-            for k in self.counters.keys():
-                self.counters[k] = 0
-
             try:
                 self.__flush_count = 0
                 for handler in flatten(self.__filehandlers.values()):
@@ -189,40 +168,32 @@ class Logger(object):
 
     def info(self, message):
         """print normal information"""
+
         self._write(message, logging.INFO)
 
     def error(self, message):
         """print error message"""
-        self.counters["error"] += 1
+
+        ctx.counter.append_error(self.name, message)
         self._write(message, logging.ERROR)
 
     def warning(self, message):
         """print warning message"""
-        self.counters["warning"] += 1
+
+        ctx.counter.append_warning(self.name, message)
         self._write(message, logging.WARNING)
 
     def success(self, message):
         """print task success message"""
-        self.counters["success"] += 1
+
+        ctx.counter.append_success(self.name, message)
         self._write(message, SUCCESS)
 
     def fail(self, message):
         """print task failure message"""
-        self.counters["failure"] += 1
+
+        ctx.counter.append_failure(self.name, message)
         self._write(message, FAILURE)
-
-    def report(self, message):
-        """print report information to report file"""
-
-        # remove error handler
-        errs = self.__filehandlers[logging.ERROR]
-        for handler in errs:
-            self.__logger.removeHandler(handler)
-
-        self._write(message, REPORT)
-
-        for handler in errs:
-            self.__logger.addHandler(handler)
 
     def _write(self, message, level=logging.INFO):
         """print message to log handler according to logging level.

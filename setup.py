@@ -30,7 +30,8 @@ setup(
     install_requires=[
         "mako >= 1.0.7",
         "click",
-        "unittest-xml-reporting"
+        "unittest-xml-reporting",
+        "yaml"
     ],
     extras_require={
         'dev': [
@@ -55,6 +56,7 @@ setup(
     entry_points={
         'console_scripts': [
             'minimo = minimo:main',
+            'mmo = minimo:main',
         ],
     }
 )

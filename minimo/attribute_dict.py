@@ -5,13 +5,13 @@
 #
 
 
-class Config(dict):
+class AttributeDict(dict):
     """Works like dict but provides methods to get attribute by '.'.
 
     such as::
-        config = Config({'foo': foo, 'bar': bar})
-        print config.foo
-        config.bar = bar2
+        attrDict = AttributeDict({'foo': foo, 'bar': bar})
+        print attrDict.foo
+        attrDict.bar = bar2
     """
 
     def __init__(self, defaults={}):

@@ -11,7 +11,7 @@ import click
 import shutil
 from mako.template import Template
 from ..helpers import *
-from ..globals import g, MINIMO_ROOT
+from ..globals import ctx
 from ..filters import convert_newline
 from minimo import __version__
 
@@ -51,7 +51,7 @@ def init_project(name, template, short_name):
         if template:
             user_template_path = os.path.join(os.getcwd(), template)
             minimo_named_template_path = os.path.join(
-                MINIMO_ROOT, "templates", template, "project")
+                ctx.minimo_root_path, "templates", template, "project")
 
             if os.path.exists(user_template_path):
                 # user specified template path
@@ -65,7 +65,7 @@ def init_project(name, template, short_name):
         else:
             # use minimo default template
             template_dir = os.path.join(
-                MINIMO_ROOT, "templates", "task", "project")
+                ctx.minimo_root_path, "templates", "task", "project")
 
         if template_dir is not None:
             info("create directory: %s" % project_dir_name)
@@ -85,7 +85,7 @@ def create_new_cases(cases, author):
     otherwise, by the project default templates.
     """
 
-    if g.app.root_path is None:
+    if ctx.app.root_path is None:
         error('not in minimo project root folder')
         return
 
@@ -105,7 +105,7 @@ def create_new_cases(cases, author):
         template_dir = None
         while len(dirs) > 0:
             dirs.pop()
-            _templatedir = os.path.join(g.app.root_path,
+            _templatedir = os.path.join(ctx.app.root_path,
                                         *(dirs + ["templates"]))
             if os.path.exists(_templatedir):
                 template_dir = _templatedir
@@ -116,7 +116,7 @@ def create_new_cases(cases, author):
                 "no template found, abort creating task under cases/%s" % case)
         else:
             # checking target path
-            target = os.path.join(g.app.root_path, "cases", case)
+            target = os.path.join(ctx.app.root_path, "cases", case)
             if os.path.exists(target):
                 warning(
                     "directory cases/%s already existed, skip this step!" %
@@ -127,13 +127,14 @@ def create_new_cases(cases, author):
                 os.makedirs(target)
 
             info("create case by project template %s" % (
-                template_dir.replace(g.app.root_path, "%s.root" % g.app.name)))
+                template_dir.replace(ctx.app.root_path,
+                                     "%s.root" % ctx.app.name)))
 
             # copy files
             config["case_name"] = os.path.basename(case)
             copy_template_folder(target, template_dir, ".mako", config)
 
-            stage("case created under %s.root/cases" % g.app.name)
+            stage("case created under %s.root/cases" % ctx.app.name)
 
 
 def copy_template_file(

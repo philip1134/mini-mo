@@ -10,6 +10,7 @@ import time
 import click
 import runpy
 import fnmatch
+import threading
 import collections
 from ..helpers import *
 from ..globals import *
@@ -41,7 +42,7 @@ def list_cases(patterns):
     pattern = "|".join([fnmatch.translate(ptn) for ptn in patterns])
 
     # loop for standard case
-    case_dir = os.path.join(g.app.root_path, "cases")
+    case_dir = os.path.join(ctx.app.root_path, "cases")
     for _root, _dirs, _files in os.walk(case_dir):
         if "__main__.py" in _files:
             _name = _get_case_name(_root)
@@ -59,15 +60,15 @@ def list_cases(patterns):
 
 @click.command("run")
 @click.argument("cases", nargs=-1)
-def run_cases(cases):
-    """run task cases."""
+def run_suite(cases):
+    """run task suite."""
 
     tasks = collections.OrderedDict()
     task_suite = "task"
 
     # check case runner
     for case in set(cases):
-        runner_path = os.path.join(g.app.root_path, "cases", case)
+        runner_path = os.path.join(ctx.app.root_path, "cases", case)
         task_suite = "{0}_{1}".format(task_suite, case.replace("/", "_"))
 
         # loop for __main__.py
@@ -78,30 +79,45 @@ def run_cases(cases):
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
-                    info("add task %s" % _name)
+                    info("add task '%s'" % _name)
 
         if not valid_case:
             warning(
                 "%s is not %s standard case, please run it respectively." % (
-                    case, g.app.name))
-            report_exception(case, "not standard case")
+                    case, ctx.app.name))
+            ctx.counter.append_exception(case, "not standard case")
 
-    g.task_suite = "{0}_{1}".format(task_suite,
-                                    time.strftime("%Y_%m_%d_%H_%M_%S"))
+    # append timestamp
+    task_suite = "{0}_{1}".format(task_suite,
+                                  time.strftime("%Y_%m_%d_%H_%M_%S"))
 
-    if "concorrence" == g.app.run_cases and "s" not in args:
-        _run_cases_concurrently(tasks)
+    ctx.output_path = os.path.join(ctx.app.root_path, "log", task_suite)
+
+    if "concorrence" == ctx.app.running_type:
+        _run_suite_concurrently(tasks)
     else:
-        _run_cases_serially(tasks)
+        _run_suite_serially(tasks)
 
-    stage('\n\n%s\nmission complete!\n'
-          'totally %s cases were executed, %s cases raised exception.' %
-          (BLOCK_SPLITTER, len(tasks), len(g.errors)))
-    if len(g.errors) > 0:
-        stage("failed tasks:\nx %s" % "\nx ".join(g.errors))
+    ctx.reporter.report()
 
 
-def _run_cases_serially(tasks):
+def run_case(case, path, context):
+    """run case from the specified path as named 'case'."""
+
+    try:
+        stage("running task '%s'..." % case)
+
+        module_path = os.path.abspath(os.path.join(path, ".."))
+        if module_path not in sys.path:
+            sys.path.insert(0, module_path)
+
+        runpy.run_path(path)
+    except Exception:
+        context.counter.append_exception(case, format_traceback())
+        error("exception occured while performing '%s'" % case)
+
+
+def _run_suite_serially(tasks):
     """serial type to run cases.
 
     :param tasks: dict for tasks, key is task name, value is the path for task
@@ -109,48 +125,62 @@ def _run_cases_serially(tasks):
     """
 
     for _name, _path in tasks.items():
-        try:
-            stage("run task %s" % _name)
-            module_path = os.path.abspath(os.path.join(_path, ".."))
-            if module_path not in sys.path:
-                sys.path.insert(0, module_path)
-
-            runpy.run_path(_path)
-        except Exception:
-            report_exception(_name, format_traceback())
-            error("exception occured while performing '%s'" % _name)
+        run_case(_name, _path, ctx)
 
 
-def _run_cases_concurrently(tasks):
+def _run_suite_concurrently(tasks):
     """concorrence type to run cases.
 
-    :param tasks: dict for tasks, key is task name, value is the path for task
-                  module, task should have __main__ entry.
+    :param tasks: dict for tasks, key is task name, value is the path for
+                  task module, task should have __main__ entry.
     """
 
-    sp = []
+    threads = []
     for _name, _path in tasks.items():
-        try:
-            stage("run task %s" % _name)
-            sp_env = os.environ.copy()
-            sp_env['PYTHONPATH'] = ";".join([
-                g.app.root_path,
-                os.path.abspath(os.path.join(_path, ".."))
-            ])
-            sp.append(subprocess.Popen(
-                ["minimo", "run", _name, "-s"],
-                cwd=g.app.root_path,
-                env=sp_env
-            ))
-        except Exception:
-            report_exception(_name, format_traceback())
-            error("exception occured while performing '%s'" % _name)
+        threads.append(threading.Thread(
+            name=_name,
+            target=run_case,
+            kwargs={
+                "case": _name,
+                "path": _path,
+                "context": ctx
+            })
+        )
 
-    for s in sp:
-        s.wait()
+    for t in threads:
+        t.join()
+
+
+# def _run_suite_concurrently(tasks):
+#     """concorrence type to run cases.
+
+#     :param tasks: dict for tasks, key is task name, value is the path for
+#                   task module, task should have __main__ entry.
+#     """
+
+#     sp = []
+#     for _name, _path in tasks.items():
+#         try:
+#             sp_env = os.environ.copy()
+#             sp_env['PYTHONPATH'] = ";".join([
+#                 ctx.app.root_path,
+#                 os.path.abspath(os.path.join(_path, ".."))
+#             ])
+#             sp.append(subprocess.Popen(
+#                 ["minimo", "run", _name, "-s"],
+#                 cwd=ctx.app.root_path,
+#                 env=sp_env
+#             ))
+#         except Exception:
+#             ctx.app.report_exception(_name, format_traceback())
+#             error("exception occured while performing '%s'" % _name)
+
+#     for s in sp:
+#         s.wait()
 
 
 def _get_case_name(case_path):
     """extract case name from case path."""
+
     return case_path.replace(os.path.join(
-        g.app.root_path, "cases"), "")[1:].replace("\\", "/")
+        ctx.app.root_path, "cases"), "")[1:].replace("\\", "/")
