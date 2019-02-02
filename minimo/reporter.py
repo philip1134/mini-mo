@@ -6,6 +6,7 @@
 
 
 import os
+from mako.template import Template
 from .globals import ctx, BLOCK_SPLITTER, SECTION_SPLITTER
 from .helpers import *
 
@@ -25,7 +26,7 @@ class Reporter(object):
             'mission completed in %s\n'
             'totally %d cases were executed with:\n'
             '    %d warning, %d error, %d exception\n'
-            '    %d success, %d failure\n' % (
+            '    %d success, %d failure' % (
                 format_duration(ctx.counter.get_duration_of_app()),
                 len(ctx.counter),
                 ctx.counter.total_warning(),
@@ -57,31 +58,52 @@ class Reporter(object):
 
         file_path = os.path.join(path, "report.txt")
 
-        report = self.summary + "\n\n"
+        # report = self.summary + "\n\n"
 
-        for case in counter.keys():
-            report += "%s\n%s: %s\n\n" % (
-                SECTION_SPLITTER,
-                case,
-                format_duration(counter.get_duration_of(case)))
+        # for case in counter.keys():
+        #     report += "%s\n%s: %s\n\n" % (
+        #         SECTION_SPLITTER,
+        #         case,
+        #         format_duration(counter.get_duration_of(case)))
 
-            for flag in ("error", "exception", "warning"):
-                lst = getattr(counter, "get_%s" % flag)(case)
-                report += "%s: %d\n" % (flag, len(lst))
-                for item in lst:
-                    report += "- %s\n" % item
-                report += "\n"
+        #     for flag in ("error", "exception", "warning"):
+        #         lst = getattr(counter, "get_%s" % flag)(case)
+        #         report += "%s: %d\n" % (flag, len(lst))
+        #         for item in lst:
+        #             report += "- %s\n" % item
+        #         report += "\n"
+
+        # with open(file_path, "w") as f:
+        #     f.write(report)
+
+        content = Template(
+            filename=os.path.join(ctx.minimo_root_path,
+                                  "templates",
+                                  "reports",
+                                  "report.txt.mako"),
+            output_encoding="utf-8"
+        ).render(summary=self.summary, counter=counter)
 
         with open(file_path, "w") as f:
-            f.write(report)
+            f.write(convert_newline(content))
 
         return file_path
 
     def _print_to_xml(self, path, counter):
         """print report to xml file"""
 
-        print ">> here in print to xml"
         file_path = os.path.join(path, "report.xml")
+
+        content = Template(
+            filename=os.path.join(ctx.minimo_root_path,
+                                  "templates",
+                                  "reports",
+                                  "report.xml.mako"),
+            output_encoding="utf-8"
+        ).render(summary=self.summary, counter=counter)
+
+        with open(file_path, "w") as f:
+            f.write(convert_newline(content))
 
         return file_path
 

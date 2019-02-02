@@ -6,6 +6,7 @@
 
 
 import re
-from .helpers import upperfirst, camelize, underscore, convert_newline
+from .helpers import upperfirst, camelize, underscore, \
+    convert_newline, format_duration
 
 # end
