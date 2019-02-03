@@ -26,6 +26,7 @@ class RuntimeContext(AttributeDict):
             "counter": None,
             "reporter": None,
             "callbacks": None,
+            "suite_name": None,
             "output_path": None,
             "minimo_root_path": os.path.dirname(__file__)
         })

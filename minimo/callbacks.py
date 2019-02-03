@@ -121,7 +121,7 @@ def action_step(desc):
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
-        g.callbacks.append_to_action_steps(
+        ctx.callbacks.append_to_action_steps(
             __get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func

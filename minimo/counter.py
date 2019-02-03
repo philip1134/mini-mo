@@ -28,6 +28,11 @@ class Counter(collections.OrderedDict):
 
         # count application informations respectively
         self._app = {
+            self.ERROR: None,
+            self.EXCEPTION: None,
+            self.WARNING: None,
+            self.SUCCESS: None,
+            self.FAILURE: None,
             self.TIMER: None
         }
 
@@ -83,14 +88,17 @@ class Counter(collections.OrderedDict):
 
         return self._app[self.TIMER].duration()
 
-    def count_flag(self, flag):
+    def count_flag(self, flag, force_count=False):
         """count total number for the specified flag"""
 
-        count = 0
-        for key, value in self.items():
-            count += len(value[flag])
+        if force_count or self._app.get(flag) is None:
+            count = 0
+            for key, value in self.items():
+                count += len(value[flag])
 
-        return count
+            self._app[flag] = count
+
+        return self._app[flag]
 
 # private
     def __get_initialized_data(self):
@@ -119,8 +127,8 @@ def make_get_method(flag):
 
 
 def make_count_method(flag):
-    def _count(self):
-        return self.count_flag(flag)
+    def _count(self, force_count=False):
+        return self.count_flag(flag, force_count)
     return _count
 
 

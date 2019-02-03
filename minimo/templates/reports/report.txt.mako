@@ -1,6 +1,8 @@
 <%!
     import minimo.filters as flt
 %>
+${suite_name}
+
 ${summary}
 
 % for case in counter.keys():

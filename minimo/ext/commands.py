@@ -88,6 +88,7 @@ def run_suite(cases):
             ctx.counter.append_exception(case, "not standard case")
 
     # append timestamp
+    ctx.suite_name = task_suite
     task_suite = "{0}_{1}".format(task_suite,
                                   time.strftime("%Y_%m_%d_%H_%M_%S"))
 
@@ -113,8 +114,9 @@ def run_case(case, path, context):
 
         runpy.run_path(path)
     except Exception:
-        context.counter.append_exception(case, format_traceback())
-        error("exception occured while performing '%s'" % case)
+        tb = format_traceback()
+        context.counter.append_exception(case, tb)
+        error("exception occured while performing '%s':\n%s" % (case, tb))
 
 
 def _run_suite_serially(tasks):

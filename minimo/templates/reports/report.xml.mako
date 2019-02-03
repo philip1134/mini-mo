@@ -1,7 +1,21 @@
 <report>
-    <summary>
-    ${summary}
-    </summary>
+    <suite>
+        <name>
+            ${suite_name}
+        </name>
+        <duration>
+            ${counter.get_duration_of_app()}
+        </duration>
+        <details>
+        % for flag in ("error", "exception", "warning", "success", "failure"):
+            <${flag}>
+                <count>
+                    ${getattr(counter, "total_%s" % flag)()}
+                </count>
+            </${flag}>
+        % endfor
+        </details>
+    </suite>
     <cases>
     % for case in counter.keys():
         <case>
