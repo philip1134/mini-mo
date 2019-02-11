@@ -111,7 +111,14 @@ def run_case(case, path, context):
         if module_path not in sys.path:
             sys.path.insert(0, module_path)
 
-        runpy.run_path(path)
+        if os.path.basename(path) != "__main__.py":
+            # definitely set the __main__ path to
+            # avoid multiple thread conflict
+            _path = os.path.join(path, "__main__.py")
+        else:
+            _path = path
+
+        runpy.run_path(_path)
     except Exception:
         tb = format_traceback()
         context.counter.append_exception(case, tb)
@@ -145,39 +152,11 @@ def _run_suite_concurrently(tasks):
                 "case": _name,
                 "path": _path,
                 "context": ctx
-            })
-        )
+            }))
+        threads[-1].start()
 
     for t in threads:
         t.join()
-
-
-# def _run_suite_concurrently(tasks):
-#     """concorrence type to run cases.
-
-#     :param tasks: dict for tasks, key is task name, value is the path for
-#                   task module, task should have __main__ entry.
-#     """
-
-#     sp = []
-#     for _name, _path in tasks.items():
-#         try:
-#             sp_env = os.environ.copy()
-#             sp_env['PYTHONPATH'] = ";".join([
-#                 ctx.app.root_path,
-#                 os.path.abspath(os.path.join(_path, ".."))
-#             ])
-#             sp.append(subprocess.Popen(
-#                 ["minimo", "run", _name, "-s"],
-#                 cwd=ctx.app.root_path,
-#                 env=sp_env
-#             ))
-#         except Exception:
-#             ctx.app.report_exception(_name, format_traceback())
-#             error("exception occured while performing '%s'" % _name)
-
-#     for s in sp:
-#         s.wait()
 
 
 def _get_case_name(case_path):

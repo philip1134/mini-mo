@@ -23,20 +23,24 @@ class Callbacks(object):
 
     def clear_before_action(self, key):
         """clear before_action filters"""
+
         self.before_action_funcs[key] = []
 
     def clear_after_action(self, key):
         """clear after_action filters"""
+
         self.after_action_funcs[key] = []
 
     def append_to_before_actions(self, key, value):
         """append function to before_action filters"""
+
         self.__append_to(key, value, self.before_action_funcs)
 
     def get_before_actions(self, key):
         """get before_action filters, return an empty array if there's
         no function in filter list.
         """
+
         if key in self.before_action_funcs:
             return self.before_action_funcs[key]
         else:
@@ -44,12 +48,14 @@ class Callbacks(object):
 
     def append_to_action_steps(self, key, value):
         """append function to action_step list"""
+
         self.__append_to(key, value, self.action_step_funcs)
 
     def get_action_steps(self, key):
         """get action_step list, return an empty array if there's
         no function in that list.
         """
+
         if key in self.action_step_funcs:
             return self.action_step_funcs[key]
         else:
@@ -57,12 +63,14 @@ class Callbacks(object):
 
     def append_to_after_actions(self, key, value):
         """append function to after_action filters"""
+
         self.__append_to(key, value, self.after_action_funcs)
 
     def get_after_actions(self, key):
         """get after_action filters, return an empty array if there's
         no function in filter list.
         """
+
         if key in self.after_action_funcs:
             return self.after_action_funcs[key]
         else:
@@ -85,6 +93,7 @@ def __get_caller_id_by_frame(caller):
 
 def before_action(desc):
     """to specify the action will be executed before task."""
+
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
@@ -99,6 +108,7 @@ def before_action(desc):
 
 def after_action(desc):
     """to specify the action will be executed after task."""
+
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
@@ -116,6 +126,7 @@ def action_step(desc):
     the specified action should return True or False to
     represent success or failure of that task step.
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):

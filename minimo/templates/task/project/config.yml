@@ -7,13 +7,13 @@ interface: cli
 # default is "html"
 #   text: plain text
 #   html: html web page
-#   xml: xml file, can be recognized by most CI system
+#   xml: xml file
 output: text
 
 # case running type, should be "serial" or "concorrence",
 # default is "serial"
 #   serial: run cases one by one
-#   concorrence: run cases concorrently by subprocess.
+#   concorrence: run cases concorrently by threads.
 running_type: serial
 
 # project modules path, which will be inserted into sys.path at application

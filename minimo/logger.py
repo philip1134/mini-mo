@@ -115,7 +115,11 @@ class Logger(object):
 
             # check out dirs
             if not os.path.exists(self.output_path):
-                os.makedirs(self.output_path)
+                try:
+                    # may conflict in concorrence running type
+                    os.makedirs(self.output_path)
+                except Exception:
+                    pass
 
             for term, level in outputs.items():
                 handler = logging.FileHandler(

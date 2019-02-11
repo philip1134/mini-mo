@@ -78,7 +78,7 @@ class Counter(collections.OrderedDict):
     def get_duration_of(self, key):
         """get timer counted duration of the specified key (task-case)."""
 
-        if key in self:
+        if key in self and self[key][self.TIMER] is not None:
             return self[key][self.TIMER].duration()
         else:
             return None
