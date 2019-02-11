@@ -19,6 +19,8 @@ class Reporter(object):
     def __init__(self):
         super(Reporter, self).__init__()
 
+        self.output_path = None
+
     def report(self):
         """print report to file according to output type."""
 
@@ -42,12 +44,15 @@ class Reporter(object):
             if ctx.app.output in ("text", "xml", "html") \
                and ctx.output_path is not None:
 
-                report_path = getattr(self, "_print_to_%s" % ctx.app.output)(
+                self.output_path = getattr(
+                    self, "_print_to_%s" % ctx.app.output)(
                     ctx.output_path, ctx.counter)
 
-                stage("\nreport in:\n%s" % report_path)
+                stage("\nreport in:\n%s" % self.output_path)
         except Exception:
             error("error occured in reporting:\n%s" % format_traceback())
+        finally:
+            return self.output_path
 
 # protected
     def _print_to_stdout(self, counter):

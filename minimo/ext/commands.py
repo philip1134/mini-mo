@@ -38,6 +38,10 @@ def list_cases(patterns):
         $ minimo ls foo bar*
     """
 
+    if ctx.app.root_path is None:
+        error('not in minimo project root folder')
+        return
+
     cases = []
     pattern = "|".join([fnmatch.translate(ptn) for ptn in patterns])
 
@@ -62,6 +66,10 @@ def list_cases(patterns):
 @click.argument("cases", nargs=-1)
 def run_suite(cases):
     """run task suite."""
+
+    if ctx.app.root_path is None:
+        error('not in minimo project root folder')
+        return
 
     tasks = collections.OrderedDict()
     task_suite = "task"
@@ -98,10 +106,10 @@ def run_suite(cases):
     else:
         _run_suite_serially(tasks)
 
-    ctx.reporter.report()
+    return ctx.reporter.report()
 
 
-def run_case(case, path, context):
+def _run_case(case, path, context):
     """run case from the specified path as named 'case'."""
 
     try:
@@ -135,7 +143,7 @@ def _run_suite_serially(tasks):
     """
 
     for _name, _path in tasks.items():
-        run_case(_name, _path, ctx)
+        _run_case(_name, _path, ctx)
 
 
 def _run_suite_concurrently(tasks):
@@ -149,7 +157,7 @@ def _run_suite_concurrently(tasks):
     for _name, _path in tasks.items():
         threads.append(threading.Thread(
             name=_name,
-            target=run_case,
+            target=_run_case,
             kwargs={
                 "case": _name,
                 "path": _path,
@@ -166,3 +174,5 @@ def _get_case_name(case_path):
 
     return case_path.replace(os.path.join(
         ctx.app.root_path, "cases"), "")[1:].replace("\\", "/")
+
+# end
