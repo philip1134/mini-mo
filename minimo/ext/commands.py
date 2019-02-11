@@ -88,11 +88,10 @@ def run_suite(cases):
             ctx.counter.append_exception(case, "not standard case")
 
     # append timestamp
-    ctx.suite_name = task_suite
-    task_suite = "{0}_{1}".format(task_suite,
-                                  time.strftime("%Y_%m_%d_%H_%M_%S"))
+    ctx.suite_name = "{0}_{1}".format(task_suite,
+                                      time.strftime("%Y_%m_%d_%H_%M_%S"))
 
-    ctx.output_path = os.path.join(ctx.app.root_path, "log", task_suite)
+    ctx.output_path = os.path.join(ctx.app.root_path, "log", ctx.suite_name)
 
     if "concorrence" == ctx.app.running_type:
         _run_suite_concurrently(tasks)
