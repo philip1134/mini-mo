@@ -19,25 +19,16 @@ from minimo import __version__
 @click.command("init")
 @click.argument("name", nargs=1)
 @click.option("-t", "--template", default=None,
-              help=('specify project template, optional'))
-@click.option("-s", "--short-name", default=None,
-              help=('specify project abbreviation, optional.'))
-def init_project(name, template, short_name):
+              help=('specify project template, optional, default is `task`'))
+def init_project(name, template):
     """create new project from the specified template."""
 
     project_name = camelize(name.replace("-", "_"))
     project_dir_name = underscore(project_name)
     project_dir = os.path.join(os.getcwd(), project_dir_name)
 
-    # check out project short name
-    if short_name:
-        project_abbreviation = short_name.upper()
-    else:
-        project_abbreviation = project_name[:3].upper()
-
     config = {
         "project_name": project_name,
-        "project_abbreviation": project_abbreviation,
         "date": time.strftime("%Y-%m-%d"),
         "version": __version__
     }
