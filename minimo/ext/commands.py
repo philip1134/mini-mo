@@ -111,10 +111,12 @@ def run_case(case, path, context):
         if module_path not in sys.path:
             sys.path.insert(0, module_path)
 
-        if os.path.basename(path) != "__main__.py":
-            # definitely set the __main__ path to
+        mainpy_path = os.path.join(path, "__main__.py")
+        if os.path.basename(path) != "__main__.py" and \
+           os.path.exists(mainpy_path):
+            # definitely set the __main__.py path to
             # avoid multiple thread conflict
-            _path = os.path.join(path, "__main__.py")
+            _path = mainpy_path
         else:
             _path = path
 

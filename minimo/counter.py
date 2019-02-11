@@ -81,7 +81,7 @@ class Counter(collections.OrderedDict):
         if key in self and self[key][self.TIMER] is not None:
             return self[key][self.TIMER].duration()
         else:
-            return None
+            return 0
 
     def get_duration_of_app(self):
         """get timer counted duration of the application."""
