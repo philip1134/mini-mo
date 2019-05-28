@@ -21,7 +21,19 @@ from minimo import __version__
 @click.option("-t", "--template", default=None,
               help=("specify project template, optional, default is 'task'"))
 def init_project(name, template):
-    """create new project from the specified template."""
+    """create new project from the specified template.
+
+    usage:
+
+        $mmo init [project-name] [-t template-name-or-path]
+
+    the project will be created under current working directory. if not
+    specified template, minimo will initialized the project with 'task'
+    template. currenty template name only supports 'task', or you can
+    specify a path which contains the template.
+
+    tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+    """
 
     project_name = camelize(name.replace("-", "_"))
     project_dir_name = underscore(project_name)
@@ -72,9 +84,22 @@ def init_project(name, template):
 def create_new_cases(cases, author):
     """generate case from templates.
 
-    it will walk through the sub-directory of task suite, if templates exists
-    in task suite, it initializes the case by the suite specified templates,
-    otherwise, by the project default templates.
+    usage:
+
+        $mmo new [cases...] [-a author]
+
+    for example:
+
+        $mmo new suite1/case1 suite2/case2 case3 [-a hellokitty]
+
+    minimo will walk through the sub-directory of task suite, if templates
+    exists in task suite, it initializes the case by the suite specified
+    templates, otherwise, by the project default templates.
+
+    if specified author name, it will be filled in the template file, or minimo
+    will get the current system user as the author name.
+
+    tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
     """
 
     if ctx.app.root_path is None:

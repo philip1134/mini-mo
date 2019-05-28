@@ -29,13 +29,17 @@ def list_cases(patterns):
     """list all standard task cases.
 
     usage:
-        $ minimo ls [pattern...]
+
+        $ mmo ls [pattern...]
 
     "pattern" supports Unix shell-style wildcards, such as * or ?.
     if not specified "pattern", it will list all standard cases' names under
     "cases" folder. if specified "pattern", it will search the case name by
     "pattern". can give multiple patterns, such as：
-        $ minimo ls foo bar*
+
+        $ mmo ls foo bar*
+
+    tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
     """
 
     if ctx.app.root_path is None:
@@ -65,7 +69,24 @@ def list_cases(patterns):
 @click.command("run")
 @click.argument("cases", nargs=-1)
 def run_suite(cases):
-    """run task suite."""
+    """run task suite.
+
+    usage:
+
+        $mmo run [case...]
+
+    can specify some cases separated by whitespace as:
+
+        $mmo run case1 case2 case3
+
+    and also can specify some suites (case group under one folder) as:
+
+        $mmo run suite1 suite2 suite3
+
+    minimo will run all cases under those suites.
+
+    tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+    """
 
     if ctx.app.root_path is None:
         error('not in minimo project root folder')
