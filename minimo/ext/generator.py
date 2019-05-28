@@ -19,7 +19,7 @@ from minimo import __version__
 @click.command("init")
 @click.argument("name", nargs=1)
 @click.option("-t", "--template", default=None,
-              help=('specify project template, optional, default is `task`'))
+              help=("specify project template, optional, default is 'task'"))
 def init_project(name, template):
     """create new project from the specified template."""
 
@@ -35,12 +35,13 @@ def init_project(name, template):
 
     # check out target path
     if os.path.exists(project_dir):
-        warning("directory %s already exsited" % project_dir_name)
+        warning("directory '%s' already exsited" % project_dir_name)
     else:
         # check out template path
         template_dir = None
         if template:
-            user_template_path = os.path.join(os.getcwd(), template)
+            # user_template_path = os.path.join(os.getcwd(), template)
+            user_template_path = os.path.abspath(template)
             minimo_named_template_path = os.path.join(
                 ctx.minimo_root_path, "templates", template, "project")
 
@@ -52,7 +53,7 @@ def init_project(name, template):
                 template_dir = minimo_named_template_path
             else:
                 # unrecognized template name
-                error("unrecognized project template '%s'" % template)
+                error("unrecognized project template: '%s'" % template)
         else:
             # use minimo default template
             template_dir = os.path.join(
