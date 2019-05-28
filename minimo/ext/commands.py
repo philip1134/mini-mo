@@ -19,7 +19,12 @@ from minimo import __version__
 
 @click.command("version")
 def print_version():
-    """print minimo version number."""
+    """print minimo version number.
+
+    usage:
+
+        $ mmo version
+    """
     info("minimo {}".format(__version__))
 
 
@@ -73,15 +78,15 @@ def run_suite(cases):
 
     usage:
 
-        $mmo run [case...]
+        $ mmo run [case...]
 
     can specify some cases separated by whitespace as:
 
-        $mmo run case1 case2 case3
+        $ mmo run case1 case2 case3
 
     and also can specify some suites (case group under one folder) as:
 
-        $mmo run suite1 suite2 suite3
+        $ mmo run suite1 suite2 suite3
 
     minimo will run all cases under those suites.
 

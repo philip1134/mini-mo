@@ -25,7 +25,7 @@ def init_project(name, template):
 
     usage:
 
-        $mmo init [project-name] [-t template-name-or-path]
+        $ mmo init [project-name] [-t template-name-or-path]
 
     the project will be created under current working directory. if not
     specified template, minimo will initialized the project with 'task'
@@ -86,11 +86,11 @@ def create_new_cases(cases, author):
 
     usage:
 
-        $mmo new [cases...] [-a author]
+        $ mmo new [cases...] [-a author]
 
     for example:
 
-        $mmo new suite1/case1 suite2/case2 case3 [-a hellokitty]
+        $ mmo new suite1/case1 suite2/case2 case3 [-a hellokitty]
 
     minimo will walk through the sub-directory of task suite, if templates
     exists in task suite, it initializes the case by the suite specified
