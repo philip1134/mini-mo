@@ -27,11 +27,6 @@ class Application(object):
     # project type, default is "minimo"
     type = "minimo"
 
-    # project interface, supported "cli", "api", default is "cli"
-    #   cli: call commands/functions as command line interface
-    #   api: call commands/functions as api
-    interface = "cli"
-
     # report format type, supported "text", "html" and "xml",
     # default is "html"
     #   text: plain text
@@ -54,7 +49,13 @@ class Application(object):
     def __init__(self, **attrs):
         super(Application, self).__init__()
 
-        self.root_path = attrs.pop("root_path", None)
+        # root path of project instance
+        self.inst_path = attrs.pop("root_path", None)
+
+        # project interface, supported "cli", "api", default is "cli"
+        #   cli: call commands/functions as command line interface
+        #   api: call commands/functions as api
+        self.interface = attrs.pop("interface", "cli")
 
         # flags intializing
         self._loaded_plugins = \
@@ -127,9 +128,9 @@ class Application(object):
     def _load_config(self):
         """load project configurations: config.yml"""
 
-        if self.root_path is not None:
-            config_path = os.path.join(self.root_path, "config.yml")
-            if self.root_path is not None and os.path.exists(config_path):
+        if self.inst_path is not None:
+            config_path = os.path.join(self.inst_path, "config.yml")
+            if self.inst_path is not None and os.path.exists(config_path):
                 with open(config_path, "r") as f:
                     settings = yaml.load(f.read())
 
@@ -147,11 +148,11 @@ class Application(object):
         """
 
         if self._loaded_modules_path \
-           or self.root_path is None:
+           or self.inst_path is None:
             return
 
         for target in set(self.modules_path + self.mandatory_modules_path):
-            target_dir = os.path.join(self.root_path, target)
+            target_dir = os.path.join(self.inst_path, target)
             if os.path.exists(target_dir):
                 for dirpath, dirs, files in os.walk(target_dir):
                     if "__init__.py" in files:
@@ -185,8 +186,8 @@ class Application(object):
         if self._loaded_extensions:
             return
 
-        if self.root_path is not None \
-           and os.path.exists(os.path.join(self.root_path, "ext")):
+        if self.inst_path is not None \
+           and os.path.exists(os.path.join(self.inst_path, "ext")):
             try:
                 for cli in importlib.import_module("ext").__autoload__:
                     self.__interface.add_command(cli)

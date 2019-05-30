@@ -102,7 +102,7 @@ def create_new_cases(cases, author):
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
     """
 
-    if ctx.app.root_path is None:
+    if ctx.app.inst_path is None:
         error('not in minimo project root folder')
         return
 
@@ -122,7 +122,7 @@ def create_new_cases(cases, author):
         template_dir = None
         while len(dirs) > 0:
             dirs.pop()
-            _templatedir = os.path.join(ctx.app.root_path,
+            _templatedir = os.path.join(ctx.app.inst_path,
                                         *(dirs + ["templates"]))
             if os.path.exists(_templatedir):
                 template_dir = _templatedir
@@ -133,7 +133,7 @@ def create_new_cases(cases, author):
                 "no template found, abort creating task under cases/%s" % case)
         else:
             # checking target path
-            target = os.path.join(ctx.app.root_path, "cases", case)
+            target = os.path.join(ctx.app.inst_path, "cases", case)
             if os.path.exists(target):
                 warning(
                     "directory cases/%s already existed, skip this step!" %
@@ -144,7 +144,7 @@ def create_new_cases(cases, author):
                 os.makedirs(target)
 
             info("create case by project template %s" % (
-                template_dir.replace(ctx.app.root_path,
+                template_dir.replace(ctx.app.inst_path,
                                      "%s.root" % ctx.app.name)))
 
             # copy files

@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 
 
-from .generator import init_project, create_new_cases
+from .generator import init_project, create_new_cases, \
+    copy_template_file, copy_template_folder
 from .commands import print_version, list_cases, run_suite
 
 

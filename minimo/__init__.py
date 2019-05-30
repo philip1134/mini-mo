@@ -10,6 +10,9 @@ from .app import Application
 from .performer import Performer
 from .callbacks import before_action, action_step, after_action
 from .helpers import *
+from .attribute_dict import AttributeDict
+from .logger import Logger
+from .ext import copy_template_file, copy_template_folder
 
 
 def main():
@@ -17,7 +20,6 @@ def main():
     if os.path.exists(bin_path):
         runpy.run_path(bin_path)
     else:
-        from minimo import Application
         Application().main()
 
 # end

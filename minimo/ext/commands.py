@@ -47,7 +47,7 @@ def list_cases(patterns):
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
     """
 
-    if ctx.app.root_path is None:
+    if ctx.app.inst_path is None:
         error('not in minimo project root folder')
         return
 
@@ -55,7 +55,7 @@ def list_cases(patterns):
     pattern = "|".join([fnmatch.translate(ptn) for ptn in patterns])
 
     # loop for standard case
-    case_dir = os.path.join(ctx.app.root_path, "cases")
+    case_dir = os.path.join(ctx.app.inst_path, "cases")
     for _root, _dirs, _files in os.walk(case_dir):
         if "__main__.py" in _files:
             _name = _get_case_name(_root)
@@ -93,7 +93,7 @@ def run_suite(cases):
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
     """
 
-    if ctx.app.root_path is None:
+    if ctx.app.inst_path is None:
         error('not in minimo project root folder')
         return
 
@@ -102,7 +102,7 @@ def run_suite(cases):
 
     # check case runner
     for case in set(cases):
-        runner_path = os.path.join(ctx.app.root_path, "cases", case)
+        runner_path = os.path.join(ctx.app.inst_path, "cases", case)
         task_suite = "{0}_{1}".format(task_suite, case.replace("/", "_"))
 
         # loop for __main__.py
@@ -125,7 +125,7 @@ def run_suite(cases):
     ctx.suite_name = "{0}_{1}".format(task_suite,
                                       time.strftime("%Y_%m_%d_%H_%M_%S"))
 
-    ctx.output_path = os.path.join(ctx.app.root_path, "log", ctx.suite_name)
+    ctx.output_path = os.path.join(ctx.app.inst_path, "log", ctx.suite_name)
 
     if "concorrence" == ctx.app.running_type:
         _run_suite_concurrently(tasks)
@@ -199,6 +199,6 @@ def _get_case_name(case_path):
     """extract case name from case path."""
 
     return case_path.replace(os.path.join(
-        ctx.app.root_path, "cases"), "")[1:].replace("\\", "/")
+        ctx.app.inst_path, "cases"), "")[1:].replace("\\", "/")
 
 # end
