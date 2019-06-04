@@ -19,7 +19,7 @@ using minimo, you can create some standardized project instances by
 |- <b>templates</b>     <i># case template</i><br/>
 |- <b>vendor</b>        <i># third-party libraries</i><br/>
 |- config.yml           <i># project configuration</i><br/>
-|- README.md
+|- README.md<br/>
 |- requirements.txt     <i># dependencies here, can use `pip install -r requirements.txt` to install all dependencies</i><br/>
 
 after project created, under the project root path you can use minimo commands
