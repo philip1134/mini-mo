@@ -48,7 +48,7 @@ def list_cases(patterns):
     """
 
     if ctx.app.inst_path is None:
-        error('not in minimo project root folder')
+        error('not in minimo project root folder.')
         return
 
     cases = []
@@ -94,7 +94,7 @@ def run_suite(cases):
     """
 
     if ctx.app.inst_path is None:
-        error('not in minimo project root folder')
+        error('not in minimo project root folder.')
         return
 
     tasks = collections.OrderedDict()
