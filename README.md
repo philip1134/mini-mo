@@ -10,18 +10,18 @@ using minimo, you can create some standardized project instances by
 `mmo init` command. it will generate project with the organized folders like:
 
 ```
-    <b>project-root-folder-with-project-name</b>
-    |- <b>bin</b>      <i># minimo reserved command, don't touch it</i>
-    |- <b>cases</b>    <i># suite and cases here</i>
-    |- <b>ext</b>      <i># customized extensions, will be loaded before running commands</i>
-    |- <b>lib</b>      <i># customized library, put all your common code here</i>
-    &nbsp;&nbsp;&nbsp;&nbsp;|- app.py
-    &nbsp;&nbsp;&nbsp;&nbsp;|- performer.py
-    |- <b>templates</b>     <i># case template</i>
-    |- <b>vendor</b>        <i># third-party libraries</i>
-    |- config.yml           <i># project configuration</i>
-    |- README.md
-    |- requirements.txt     <i># dependencies here, can use `pip install -r requirements.txt` to install all dependencies</i>
+<b>project-root-folder-with-project-name</b>
+|- <b>bin</b>      <i># minimo reserved command, don't touch it</i>
+|- <b>cases</b>    <i># suite and cases here</i>
+|- <b>ext</b>      <i># customized extensions, will be loaded before running commands</i>
+|- <b>lib</b>      <i># customized library, put all your common code here</i>
+&nbsp;&nbsp;&nbsp;&nbsp;|- app.py
+&nbsp;&nbsp;&nbsp;&nbsp;|- performer.py
+|- <b>templates</b>     <i># case template</i>
+|- <b>vendor</b>        <i># third-party libraries</i>
+|- config.yml           <i># project configuration</i>
+|- README.md
+|- requirements.txt     <i># dependencies here, can use `pip install -r requirements.txt` to install all dependencies</i>
 ```
 
 after project created, under the project root path you can use minimo commands
