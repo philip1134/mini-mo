@@ -40,62 +40,62 @@ tip: we can use `mmo` or `minimo` as the main command after v0.4.0, but in older
 
 ### Create project instance
 
-    usage:
+usage:
 
-        $ mmo init [project-name] [-t template-name-or-path]
+    $ mmo init [project-name] [-t template-name-or-path]
 
-    the project will be created under current working directory. if not
-    specified template, minimo will initialize the project with 'task'
-    template. currenty template name only supports 'task', or you can
-    specify a path which contains the template.
+the project will be created under current working directory. if not
+specified template, minimo will initialize the project with 'task'
+template. currenty template name only supports 'task', or you can
+specify a path which contains the template.
 
 ### Create new cases
 
-    usage:
+usage:
 
-        $ mmo new [cases...] [-a author]
+    $ mmo new [cases...] [-a author]
 
-    for example:
+for example:
 
-        $ mmo new suite1/case1 suite2/case2 case3 [-a hellokitty]
+    $ mmo new suite1/case1 suite2/case2 case3 [-a hellokitty]
 
-    minimo will walk through the sub-directory of task suite, if templates
-    exists in task suite, it initializes the case by the suite specified
-    templates, otherwise, by the project default templates.
+minimo will walk through the sub-directory of task suite, if templates
+exists in task suite, it initializes the case by the suite specified
+templates, otherwise, by the project default templates.
 
-    if specified author name, it will be filled in the template file, or minimo
-    will get the current system user as the author name.
+if specified author name, it will be filled in the template file, or minimo
+will get the current system user as the author name.
 
- template file is written in mako's syntax, check out [mako](https://www.makotemplates.org). 
+template file is written in mako's syntax, check out [mako](https://www.makotemplates.org). 
 
 ### List all standard cases
 
-    usage:
+usage:
 
-        $ mmo ls [pattern...]
+    $ mmo ls [pattern...]
 
-    "pattern" supports Unix shell-style wildcards, such as * or ?.
-    if not specified "pattern", it will list all standard cases' names under
-    "cases" folder. if specified "pattern", it will search the case name by
-    "pattern". can give multiple patterns, such as：
+"pattern" supports Unix shell-style wildcards, such as * or ?.
+if not specified "pattern", it will list all standard cases' names under
+"cases" folder. if specified "pattern", it will search the case name by
+"pattern". can give multiple patterns, such as：
 
-        $ mmo ls foo bar*
+    $ mmo ls foo bar*
 
 ### Run suite
 
-    usage:
+usage:
 
-        $ mmo run [case...]
+    $ mmo run [case...]
 
-    can specify some cases separated by whitespace as:
+can specify some cases separated by whitespace as:
 
-        $ mmo run case1 case2 case3
+    $ mmo run case1 case2 case3
 
-    and also can specify some suites (case group under one folder) as:
+and also can specify some suites (case group under one folder) as:
 
-        $ mmo run suite1 suite2 suite3
+    $ mmo run suite1 suite2 suite3
 
-    minimo will run all cases under those suites.
+minimo will run all cases under those suites.
 
 ### Get help
 
