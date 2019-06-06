@@ -28,7 +28,7 @@ def init_project(name, template):
         $ mmo init [project-name] [-t template-name-or-path]
 
     the project will be created under current working directory. if not
-    specified template, minimo will initialized the project with 'task'
+    specified template, minimo will initialize the project with 'task'
     template. currenty template name only supports 'task', or you can
     specify a path which contains the template.
 
