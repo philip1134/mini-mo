@@ -61,7 +61,8 @@ tip: we can use `mmo` or `minimo` as the main command after v0.4.0, but in older
 
     minimo will walk through the sub-directory of task suite, if templates
     exists in task suite, it initializes the case by the suite specified
-    templates, otherwise, by the project default templates.
+    templates, otherwise, by the project default templates. template file
+    is written in mako's syntax, check out [mako](https://www.makotemplates.org). 
 
     if specified author name, it will be filled in the template file, or minimo
     will get the current system user as the author name.
