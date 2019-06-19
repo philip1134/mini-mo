@@ -42,7 +42,7 @@ we can use minimo by typing command in console, or calling its apis in your own 
 
 ### Create project instance
 
-usage in cli mode:
+#### usage in cli mode
 
     $ mmo init [project-name] [-t template-name-or-path]
 
@@ -51,26 +51,24 @@ specified template, minimo will initialize the project with 'task'
 template. currenty template name only supports 'task', or you can
 specify a path which contains the template.
 
-----------
-
-usage in api mode:
+#### usage in api mode
 
 ```
-    import minimo
+import minimo
 
-    mmo = minimo.Application(
-                interface="api",
-                root_path=instance_project_path)
+mmo = minimo.Application(
+            interface="api",
+            root_path=instance_project_path)
 
-    # return True or False for `init` result
-    result = mmo.main(
-                    "init",
-                    name="helloKitty")
+# return True or False for `init` result
+result = mmo.main(
+                "init",
+                name="helloKitty")
 ```
 
 ### Create new cases
 
-usage in cli mode:
+#### usage in cli mode
 
     $ mmo new [cases...] [-a author]
 
@@ -85,28 +83,26 @@ templates, otherwise, by the project default templates.
 if specified author name, it will be filled in the template file, or minimo
 will get the current system user as the author name.
 
-----------
-
-usage in api mode:
+#### usage in api mode
 
 ```
-    import minimo
+import minimo
 
-    mmo = minimo.Application(
-                interface="api",
-                root_path=instance_project_path)
+mmo = minimo.Application(
+            interface="api",
+            root_path=instance_project_path)
 
-    # return successfully created cases list
-    cases = mmo.main(
-                "new",
-                cases=["case1", "suite2/case1", "suite2/case2"])
+# return successfully created cases list
+cases = mmo.main(
+            "new",
+            cases=["case1", "suite2/case1", "suite2/case2"])
 ```
 
 template file is written in mako's syntax, check out [mako](https://www.makotemplates.org). 
 
 ### List all standard cases
 
-usage in cli mode:
+#### usage in cli mode
 
     $ mmo ls [pattern...]
 
@@ -117,24 +113,22 @@ if not specified "pattern", it will list all standard cases' names under
 
     $ mmo ls foo bar*
 
-----------
-
-usage in api mode:
+#### usage in api mode
 
 ```
-    import minimo
+import minimo
 
-    mmo = minimo.Application(
-                interface="api",
-                root_path=instance_project_path)
+mmo = minimo.Application(
+            interface="api",
+            root_path=instance_project_path)
 
-    # return sorted valid cases
-    sorted_cases = mmo.main("ls")
+# return sorted valid cases
+sorted_cases = mmo.main("ls")
 ```
 
 ### Run suite
 
-usage in cli mode:
+####  usage in cli mode
 
     $ mmo run [case...]
 
@@ -148,21 +142,19 @@ and also can specify some suites (case group under one folder) as:
 
 minimo will run all cases under those suites.
 
-----------
-
-usage in api mode:
+#### usage in api mode
 
 ```
-    import minimo
+import minimo
 
-    mmo = minimo.Application(
-                interface="api",
-                root_path=instance_project_path)
+mmo = minimo.Application(
+            interface="api",
+            root_path=instance_project_path)
 
-    # return output file path or None if all failed
-    sorted_cases = mmo.main(
-                    "run",
-                    cases=["suite1", "suite2/case1", suite2/case2])
+# return output file path or None if all failed
+sorted_cases = mmo.main(
+                "run",
+                cases=["suite1", "suite2/case1", suite2/case2])
 ```
 
 ### Get help
@@ -174,21 +166,19 @@ seems not useful in api mode
 
 ### Get version
 
-usage in cli mode:
+#### usage in cli mode
 
     $ mmo version
 
-----------
-
-usage in api mode:
+#### usage in api mode
 
 ```
-    import minimo
+import minimo
 
-    mmo = minimo.Application(
-                interface="api",
-                root_path=instance_project_path)
+mmo = minimo.Application(
+            interface="api",
+            root_path=instance_project_path)
 
-    # version string
-    version = mmo.main("version")
+# version string
+version = mmo.main("version")
 ```
