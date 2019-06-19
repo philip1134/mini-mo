@@ -1,8 +1,3 @@
-# project interface, supported "cli", "api", default is "cli"
-#   cli: call commands/functions as command line interface
-#   api: call commands/functions as api
-interface: cli
-
 # report format type, supported "text", "html" and "xml",
 # default is "html"
 #   text: plain text

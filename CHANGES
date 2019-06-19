@@ -10,6 +10,8 @@ Version 0.4.0
 unreleased
 
 - add cli alias: mmo
+- `api` mode enabled and its usage in README
+- bug-fix: wrong package name for PyYAML in setup dependencies
 
 
 Version 0.3.1

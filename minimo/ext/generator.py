@@ -20,10 +20,10 @@ from minimo import __version__
 @click.argument("name", nargs=1)
 @click.option("-t", "--template", default=None,
               help=("specify project template, optional, default is 'task'"))
-def init_project(name, template):
+def init_project(name, template=None):
     """create new project from the specified template.
 
-    usage:
+    usage in cli mode:
 
         $ mmo init [project-name] [-t template-name-or-path]
 
@@ -33,6 +33,21 @@ def init_project(name, template):
     specify a path which contains the template.
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+
+    ----------
+
+    usage in api mode:
+
+        import minimo
+
+        mmo = minimo.Application(
+                    interface="api",
+                    root_path=instance_project_path)
+
+        # return True or False for `init` result
+        result = mmo.main(
+                        "init",
+                        name="helloKitty")
     """
 
     project_name = camelize(name.replace("-", "_"))
@@ -45,14 +60,15 @@ def init_project(name, template):
         "version": __version__
     }
 
+    result = False
+
     # check out target path
     if os.path.exists(project_dir):
-        warning("directory '%s' already exsited" % project_dir_name)
+        error("directory '%s' already exsited" % project_dir_name)
     else:
         # check out template path
         template_dir = None
         if template:
-            # user_template_path = os.path.join(os.getcwd(), template)
             user_template_path = os.path.abspath(template)
             minimo_named_template_path = os.path.join(
                 ctx.minimo_root_path, "templates", template, "project")
@@ -77,14 +93,18 @@ def init_project(name, template):
 
             copy_template_folder(project_dir, template_dir, ".mot", config)
 
+            result = True
+
+    return result
+
 
 @click.command("new")
 @click.argument("cases", nargs=-1)
 @click.option("--author", "-a", nargs=1, type=click.STRING)
-def create_new_cases(cases, author):
+def create_new_cases(cases, author=None):
     """generate case from templates.
 
-    usage:
+    usage in cli mode:
 
         $ mmo new [cases...] [-a author]
 
@@ -100,11 +120,29 @@ def create_new_cases(cases, author):
     will get the current system user as the author name.
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+
+    ----------
+
+    usage in api mode:
+
+        import minimo
+
+        mmo = minimo.Application(
+                    interface="api",
+                    root_path=instance_project_path)
+
+        # return successfully created cases list
+        cases = mmo.main(
+                    "new",
+                    cases=["case1", "suite2/case1", "suite2/case2"])
+
     """
+
+    success_cases = []
 
     if ctx.app.inst_path is None:
         error('not in minimo project root folder')
-        return
+        return success_cases
 
     stage("prepare to create case...")
 
@@ -150,8 +188,11 @@ def create_new_cases(cases, author):
             # copy files
             config["case_name"] = os.path.basename(case)
             copy_template_folder(target, template_dir, ".mako", config)
+            success_cases.append(case)
 
             stage("case created under %s.root/cases" % ctx.app.name)
+
+    return success_cases
 
 
 def copy_template_file(

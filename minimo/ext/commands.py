@@ -21,19 +21,36 @@ from minimo import __version__
 def print_version():
     """print minimo version number.
 
-    usage:
+    usage in cli mode:
 
         $ mmo version
+
+    ----------
+
+    usage in api mode:
+
+        import minimo
+
+        mmo = minimo.Application(
+                    interface="api",
+                    root_path=instance_project_path)
+
+        # version string
+        version = mmo.main("version")
     """
-    info("minimo {}".format(__version__))
+
+    version = "minimo {}".format(__version__)
+
+    info(version)
+    return version
 
 
 @click.command("ls")
 @click.argument("patterns", nargs=-1)
-def list_cases(patterns):
+def list_cases(patterns=[]):
     """list all standard task cases.
 
-    usage:
+    usage in cli mode:
 
         $ mmo ls [pattern...]
 
@@ -45,11 +62,24 @@ def list_cases(patterns):
         $ mmo ls foo bar*
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+
+    ----------
+
+    usage in api mode:
+
+        import minimo
+
+        mmo = minimo.Application(
+                    interface="api",
+                    root_path=instance_project_path)
+
+        # return sorted valid cases
+        sorted_cases = mmo.main("ls")
     """
 
     if ctx.app.inst_path is None:
         error('not in minimo project root folder.')
-        return
+        return []
 
     cases = []
     pattern = "|".join([fnmatch.translate(ptn) for ptn in patterns])
@@ -76,7 +106,7 @@ def list_cases(patterns):
 def run_suite(cases):
     """run task suite.
 
-    usage:
+    usage in cli mode:
 
         $ mmo run [case...]
 
@@ -91,11 +121,26 @@ def run_suite(cases):
     minimo will run all cases under those suites.
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
+
+    ----------
+
+    usage in api mode:
+
+        import minimo
+
+        mmo = minimo.Application(
+                    interface="api",
+                    root_path=instance_project_path)
+
+        # return output file path or None if all failed
+        sorted_cases = mmo.main(
+                        "run",
+                        cases=["suite1", "suite2/case1", suite2/case2])
     """
 
     if ctx.app.inst_path is None:
         error('not in minimo project root folder.')
-        return
+        return None
 
     tasks = collections.OrderedDict()
     task_suite = "task"

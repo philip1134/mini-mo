@@ -31,7 +31,7 @@ setup(
         "mako >= 1.0.7",
         "click",
         "unittest-xml-reporting",
-        "PyYAML"
+        "PyYAML",
     ],
     extras_require={
         'dev': [

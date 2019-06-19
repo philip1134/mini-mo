@@ -39,7 +39,7 @@ class MoApi(object):
         name = name or cmd.name
         if name is None:
             raise TypeError('Command has no name.')
-        self.commands[name] = cmd
+        self.commands[name] = cmd.callback
 
     def get_command(self, ctx, name):
         return self.commands.get(name)
