@@ -15,9 +15,9 @@ class Performer(object):
 
     :param name: task name
     :param logger:
-        logging handler, if set to none, will use minimo
-        style logger. for customized logger, it should respond
-        to the following methods:
+        logging handler, if set to none, will use minimo style logger.
+
+        for customized logger, it should respond to the following methods:
             * open(): setup logger staff
             * close(): teardown logger
             * info(message, *args, **kwargs): print normal information message
