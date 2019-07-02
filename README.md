@@ -4,7 +4,7 @@
 
 `minimo` is a lightweight automation framework. mainly focused on automated test/task. the project name comes from the mini robot M-O in WALL-E as the following guy: 
 
-![home page](./images/walle-mo.jpg "M-O")
+![home page](./artwork/walle-mo.jpg "M-O")
 
 using minimo, you can create some standardized project instances by 
 `mmo init` command. it will generate project with the organized folders like:
@@ -53,17 +53,17 @@ specify a path which contains the template.
 
 #### usage in api mode
 
-```
+```python
 import minimo
 
 mmo = minimo.Application(
-            interface="api",
-            root_path=instance_project_path)
+    interface="api",
+    root_path="path/to/instance_project")
 
 # return True or False for `init` result
 result = mmo.main(
-                "init",
-                name="helloKitty")
+    "init",
+    name="helloKitty")
 ```
 
 ### Create new cases
@@ -85,17 +85,17 @@ will get the current system user as the author name.
 
 #### usage in api mode
 
-```
+```python
 import minimo
 
 mmo = minimo.Application(
-            interface="api",
-            root_path=instance_project_path)
+    interface="api",
+    root_path="path/to/instance_project")
 
 # return successfully created cases list
 cases = mmo.main(
-            "new",
-            cases=["case1", "suite2/case1", "suite2/case2"])
+    "new",
+    cases=["case1", "suite2/case1", "suite2/case2"])
 ```
 
 template file is written in mako's syntax, check out [mako](https://www.makotemplates.org). 
@@ -115,12 +115,12 @@ if not specified "pattern", it will list all standard cases' names under
 
 #### usage in api mode
 
-```
+```python
 import minimo
 
 mmo = minimo.Application(
-            interface="api",
-            root_path=instance_project_path)
+    interface="api",
+    root_path="path/to/instance_project")
 
 # return sorted valid cases
 sorted_cases = mmo.main("ls")
@@ -144,17 +144,17 @@ minimo will run all cases under those suites.
 
 #### usage in api mode
 
-```
+```python
 import minimo
 
 mmo = minimo.Application(
-            interface="api",
-            root_path=instance_project_path)
+    interface="api",
+    root_path="path/to/instance_project")
 
 # return output file path or None if all failed
 sorted_cases = mmo.main(
-                "run",
-                cases=["suite1", "suite2/case1", suite2/case2])
+    "run",
+    cases=["suite1", "suite2/case1", "suite2/case2"])
 ```
 
 ### Get help
@@ -172,12 +172,12 @@ seems not useful in api mode
 
 #### usage in api mode
 
-```
+```python
 import minimo
 
 mmo = minimo.Application(
-            interface="api",
-            root_path=instance_project_path)
+    interface="api",
+    root_path="path/to/instance_project")
 
 # version string
 version = mmo.main("version")
