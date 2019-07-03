@@ -2,13 +2,13 @@
 mini-mo
 =======
 
-.. image:: https://img.shields.io/pypi/v/minimo.svg?color=blue
-   :target: https://pypi.python.org/pypi/minimo
-   :alt: PyPI Version
-
 .. image:: https://travis-ci.org/philip1134/mini-mo.svg?branch=master
    :target: https://travis-ci.org/philip1134/mini-mo
    :alt: Build Status
+
+.. image:: https://img.shields.io/pypi/v/minimo.svg?color=orange
+   :target: https://pypi.python.org/pypi/minimo
+   :alt: PyPI Version
 
 .. image:: https://img.shields.io/pypi/pyversions/minimo.svg
    :target: https://pypi.org/project/minimo/
