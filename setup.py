@@ -5,7 +5,7 @@ import io
 import re
 from setuptools import setup
 
-with io.open('README.md', 'rt', encoding='utf8') as f:
+with io.open('README.rst', 'rt', encoding='utf8') as f:
     readme = f.read()
 
 with io.open('minimo/__init__.py', 'rt', encoding='utf8') as f:
@@ -22,7 +22,7 @@ setup(
     long_description=readme,
     packages=['minimo', 'minimo.ext'],
     package_data={
-        '': ['*.md'],
+        '': ['*.md', '*.rst'],
     },
     platforms='any',
     include_package_data=True,

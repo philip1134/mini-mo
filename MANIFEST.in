@@ -1,5 +1,4 @@
-include LICENSE README.md
+include LICENSE.rst README.rst
 recursive-include minimo/templates *
-recursive-include minimo/locales *.mo
 
 global-exclude *.py[co]
