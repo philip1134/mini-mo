@@ -20,17 +20,20 @@ from minimo import __version__
 @click.argument("name", nargs=1)
 @click.option("-t", "--template", default=None,
               help=("specify project template, optional, default is 'task'"))
-def init_project(name, template=None):
+@click.option("-o", "--output", default=None,
+              help=("generate project to the specified path"))
+def init_project(name, template=None, output=None):
     """create new project from the specified template.
 
     usage in cli mode:
 
-        $ mmo init [project-name] [-t template-name-or-path]
+        $ mmo init [project-name] [-t template-name-or-path] [-o output-path]
 
-    the project will be created under current working directory. if not
-    specified template, minimo will initialize the project with 'task'
-    template. currenty template name only supports 'task', or you can
-    specify a path which contains the template.
+    the project will be created under 'output-path', if no 'output-path'
+    specified, that will be the current working directory. if not specified
+    template, minimo will initialize the project with 'task' template.
+    currenty template name only supports 'task', or you can specify a path
+    which contains the template.
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
 
@@ -41,61 +44,72 @@ def init_project(name, template=None):
         import minimo
 
         mmo = minimo.Application(
-                    interface="api",
-                    root_path=instance_project_path)
+                    interface="api")
 
         # return True or False for `init` result
         result = mmo.main(
                         "init",
-                        name="helloKitty")
+                        name="helloKitty",
+                        output="./myprojects")
     """
 
-    project_name = camelize(name.replace("-", "_"))
-    project_dir_name = underscore(project_name)
-    project_dir = os.path.join(os.getcwd(), project_dir_name)
+    try:
+        result = False
 
-    config = {
-        "project_name": project_name,
-        "date": time.strftime("%Y-%m-%d"),
-        "version": __version__
-    }
+        project_name = camelize(name.replace("-", "_"))
+        project_dir_name = underscore(project_name)
 
-    result = False
-
-    # check out target path
-    if os.path.exists(project_dir):
-        error("directory '%s' already exsited" % project_dir_name)
-    else:
-        # check out template path
-        template_dir = None
-        if template:
-            user_template_path = os.path.abspath(template)
-            minimo_named_template_path = os.path.join(
-                ctx.minimo_root_path, "templates", template, "project")
-
-            if os.path.exists(user_template_path):
-                # user specified template path
-                template_dir = user_template_path
-            elif os.path.exists(minimo_named_template_path):
-                # minimo provides template name
-                template_dir = minimo_named_template_path
-            else:
-                # unrecognized template name
-                error("unrecognized project template: '%s'" % template)
+        if output is None:
+            project_root_dir = os.getcwd()
         else:
-            # use minimo default template
-            template_dir = os.path.join(
-                ctx.minimo_root_path, "templates", "task", "project")
+            project_root_dir = os.path.abspath(output)
+            if not os.path.exists(project_root_dir):
+                os.makedirs(project_root_dir)
 
-        if template_dir is not None:
-            info("create directory: %s" % project_dir_name)
-            os.makedirs(project_dir)
+        project_dir = os.path.join(project_root_dir, project_dir_name)
 
-            copy_template_folder(project_dir, template_dir, ".mot", config)
+        config = {
+            "project_name": project_name,
+            "date": time.strftime("%Y-%m-%d"),
+            "version": __version__
+        }
 
-            result = True
+        # check out target path
+        if os.path.exists(project_dir):
+            error("directory '%s' already exsited" % project_dir_name)
+        else:
+            # check out template path
+            template_dir = None
+            if template:
+                user_template_path = os.path.abspath(template)
+                minimo_named_template_path = os.path.join(
+                    ctx.minimo_root_path, "templates", template, "project")
 
-    return result
+                if os.path.exists(user_template_path):
+                    # user specified template path
+                    template_dir = user_template_path
+                elif os.path.exists(minimo_named_template_path):
+                    # minimo provides template name
+                    template_dir = minimo_named_template_path
+                else:
+                    # unrecognized template name
+                    error("unrecognized project template: '%s'" % template)
+            else:
+                # use minimo default template
+                template_dir = os.path.join(
+                    ctx.minimo_root_path, "templates", "task", "project")
+
+            if template_dir is not None:
+                info("create directory: %s" % project_dir_name)
+                os.makedirs(project_dir)
+
+                copy_template_folder(project_dir, template_dir, ".mot", config)
+
+                result = True
+    except Exception:
+        result = False
+    finally:
+        return result
 
 
 @click.command("new")
@@ -138,61 +152,66 @@ def create_new_cases(cases, author=None):
 
     """
 
-    success_cases = []
+    try:
+        success_cases = []
 
-    if ctx.app.inst_path is None:
-        error('not in minimo project root folder')
-        return success_cases
+        if ctx.app.inst_path is None:
+            error('not in minimo project root folder')
+            return success_cases
 
-    stage("prepare to create case...")
+        stage("prepare to create case...")
 
-    if author is None:
-        import getpass
-        author = getpass.getuser()
+        if author is None:
+            import getpass
+            author = getpass.getuser()
 
-    config = {
-        "author": author,
-        "date": time.strftime("%Y-%m-%d")
-    }
-    for case in set(cases):
-        # checking templates
-        dirs = ["cases"] + case.split("/")
-        template_dir = None
-        while len(dirs) > 0:
-            dirs.pop()
-            _templatedir = os.path.join(ctx.app.inst_path,
-                                        *(dirs + ["templates"]))
-            if os.path.exists(_templatedir):
-                template_dir = _templatedir
-                break
+        config = {
+            "author": author,
+            "date": time.strftime("%Y-%m-%d")
+        }
 
-        if template_dir is None:
-            warning(
-                "no template found, abort creating task under cases/%s" % case)
-        else:
-            # checking target path
-            target = os.path.join(ctx.app.inst_path, "cases", case)
-            if os.path.exists(target):
+        for case in set(cases):
+            # checking templates
+            dirs = ["cases"] + case.split("/")
+            template_dir = None
+            while len(dirs) > 0:
+                dirs.pop()
+                _templatedir = os.path.join(ctx.app.inst_path,
+                                            *(dirs + ["templates"]))
+                if os.path.exists(_templatedir):
+                    template_dir = _templatedir
+                    break
+
+            if template_dir is None:
                 warning(
-                    "directory cases/%s already existed, skip this step!" %
+                    "no template found, abort creating task under cases/%s" %
                     case)
-                continue
             else:
-                info("create directory: cases/%s" % case)
-                os.makedirs(target)
+                # checking target path
+                target = os.path.join(ctx.app.inst_path, "cases", case)
+                if os.path.exists(target):
+                    warning(
+                        "directory cases/%s already existed, skip this step!" %
+                        case)
+                    continue
+                else:
+                    info("create directory: cases/%s" % case)
+                    os.makedirs(target)
 
-            info("create case by project template %s" % (
-                template_dir.replace(ctx.app.inst_path,
-                                     "%s.root" % ctx.app.name)))
+                info("create case by project template %s" % (
+                    template_dir.replace(ctx.app.inst_path,
+                                         "%s.root" % ctx.app.name)))
 
-            # copy files
-            config["case_name"] = os.path.basename(case)
-            copy_template_folder(target, template_dir, ".mako", config)
-            success_cases.append(case)
+                # copy files
+                config["case_name"] = os.path.basename(case)
+                copy_template_folder(target, template_dir, ".mako", config)
+                success_cases.append(case)
 
-            stage("case created under %s.root/cases" % ctx.app.name)
-
-    return success_cases
+                stage("case created under %s.root/cases" % ctx.app.name)
+    except Exception:
+        pass
+    finally:
+        return success_cases
 
 
 def copy_template_file(

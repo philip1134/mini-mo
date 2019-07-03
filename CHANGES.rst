@@ -7,9 +7,10 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.4.1
 -------------
 
-unreleased
+Released on 2019-07-03
 
 - markdown to rst
+- add option to allow specify output path while creating project
 
 Version 0.4.0
 -------------
