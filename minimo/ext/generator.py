@@ -230,8 +230,13 @@ def copy_template_file(
         content = Template(
             filename=src,
             default_filters=["trim"],
-            output_encoding="utf-8"
-        ).render(**config)
+        ).render_unicode(**config)
+
+        if defined_unicode() and isinstance(dest, unicode):
+            # mako `render_unicode` return the template output as a
+            # python unicode object in python 2, but a string in python 3.
+            # so we encode it to utf-8 for python 2.
+            content = content.encode('utf-8')
 
         with open(dest, "w") as f:
             f.write(convert_newline(content))

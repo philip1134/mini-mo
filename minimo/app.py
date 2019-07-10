@@ -132,7 +132,7 @@ class Application(object):
             config_path = os.path.join(self.inst_path, "config.yml")
             if self.inst_path is not None and os.path.exists(config_path):
                 with open(config_path, "r") as f:
-                    settings = yaml.load(f.read())
+                    settings = yaml.full_load(f.read())
 
                 self.__dict__.update(settings)
 

@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.4.2
+-------------
+
+unreleased
+
+- fit python 3
+
+
 Version 0.4.1
 -------------
 

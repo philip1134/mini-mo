@@ -125,4 +125,15 @@ def error(message):
 
     click.secho(u"[ERROR] " + message, fg="red")
 
+
+def defined_unicode():
+    """check `unicode` was defined or not."""
+
+    try:
+        unicode
+    except NameError:
+        return False
+    else:
+        return True
+
 # end

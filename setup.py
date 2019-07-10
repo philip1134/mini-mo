@@ -28,7 +28,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        "mako >= 1.0.7",
+        "mako>=1.0.7",
         "click",
         "unittest-xml-reporting",
         "PyYAML",
@@ -49,14 +49,16 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Testing',
     ],
     keywords='Python Automation',
     entry_points={
         'console_scripts': [
-            'minimo = minimo:main',
-            'mmo = minimo:main',
+            'minimo=minimo:main',
+            'mmo=minimo:main',
         ],
     }
 )
