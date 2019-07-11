@@ -136,4 +136,14 @@ def defined_unicode():
     else:
         return True
 
+
+def encode_utf8(content):
+    if defined_unicode() and isinstance(content, unicode):
+        # mako `render_unicode` return the template output as a
+        # python unicode object in python 2, but a string in python 3.
+        # so we encode it to utf-8 for python 2.
+        content = content.encode('utf-8')
+
+    return content
+
 # end

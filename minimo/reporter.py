@@ -66,16 +66,17 @@ class Reporter(object):
 
         file_path = os.path.join(path, "report.txt")
 
-        content = Template(
-            filename=os.path.join(ctx.minimo_root_path,
-                                  "templates",
-                                  "reports",
-                                  "report.txt.mako"),
-            output_encoding="utf-8"
-        ).render(
-            suite_name=ctx.suite_name,
-            summary=self.summary,
-            counter=counter)
+        content = encode_utf8(
+            Template(
+                filename=os.path.join(ctx.minimo_root_path,
+                                      "templates",
+                                      "reports",
+                                      "report.txt.mako")
+            ).render_unicode(
+                suite_name=ctx.suite_name,
+                summary=self.summary,
+                counter=counter)
+        )
 
         with open(file_path, "w") as f:
             f.write(convert_newline(content))
@@ -87,13 +88,16 @@ class Reporter(object):
 
         file_path = os.path.join(path, "report.xml")
 
-        content = Template(
-            filename=os.path.join(ctx.minimo_root_path,
-                                  "templates",
-                                  "reports",
-                                  "report.xml.mako"),
-            output_encoding="utf-8"
-        ).render(suite_name=ctx.suite_name, counter=counter)
+        content = encode_utf8(
+            Template(
+                filename=os.path.join(ctx.minimo_root_path,
+                                      "templates",
+                                      "reports",
+                                      "report.xml.mako"),
+            ).render_unicode(
+                suite_name=ctx.suite_name,
+                counter=counter)
+        )
 
         with open(file_path, "w") as f:
             f.write(convert_newline(content))
@@ -105,13 +109,16 @@ class Reporter(object):
 
         file_path = os.path.join(path, "report.html")
 
-        content = Template(
-            filename=os.path.join(ctx.minimo_root_path,
-                                  "templates",
-                                  "reports",
-                                  "report.html.mako"),
-            output_encoding="utf-8"
-        ).render(suite_name=ctx.suite_name, counter=counter)
+        content = encode_utf8(
+            Template(
+                filename=os.path.join(ctx.minimo_root_path,
+                                      "templates",
+                                      "reports",
+                                      "report.html.mako"),
+            ).render_unicode(
+                suite_name=ctx.suite_name,
+                counter=counter)
+        )
 
         with open(file_path, "w") as f:
             f.write(convert_newline(content))
