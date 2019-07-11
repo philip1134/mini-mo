@@ -4,12 +4,12 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
-Version 0.4.2
+Version 0.5.0
 -------------
 
-unreleased
+Released on 2019-07-11
 
-- fit python 3
+- compatible with python 3
 
 
 Version 0.4.1
