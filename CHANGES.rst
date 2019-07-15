@@ -7,9 +7,10 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.5.1
 -------------
 
-unreleased
+Released on 2019-07-15
 
 - README updated
+- add `call` to call minimo main function in api mode
 
 
 Version 0.5.0
