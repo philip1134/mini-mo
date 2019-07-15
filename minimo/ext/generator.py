@@ -47,7 +47,7 @@ def init_project(name, template=None, output=None):
                     interface="api")
 
         # return True or False for `init` result
-        result = mmo.main(
+        result = mmo.call(
                         "init",
                         name="helloKitty",
                         output="./myprojects")
@@ -146,7 +146,7 @@ def create_new_cases(cases, author=None):
                     root_path=instance_project_path)
 
         # return successfully created cases list
-        cases = mmo.main(
+        cases = mmo.call(
                     "new",
                     cases=["case1", "suite2/case1", "suite2/case2"])
 

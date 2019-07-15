@@ -33,8 +33,8 @@ folders like:
         |- cases # suite and cases here
         |- ext # customized extensions, will be loaded before running commands
         |- lib # customized library, put all your common code here     
-        |- app.py     
-        |- performer.py
+            |- app.py     
+            |- performer.py
         |- templates # case template
         |- vendor   # third-party libraries
         |- config.yml # project configuration
@@ -99,7 +99,7 @@ usage in api mode
                 root_path=instance_project_path)
 
     # return True or False for `init` result
-    result = mmo.main(
+    result = mmo.call(
                     "init",
                     name="helloKitty",
                     output="./myprojects")
@@ -139,7 +139,7 @@ usage in api mode
         root_path="path/to/instance_project")
 
     # return successfully created cases list
-    cases = mmo.main(
+    cases = mmo.call(
         "new",
         cases=["case1", "suite2/case1", "suite2/case2"])
 
@@ -177,7 +177,7 @@ usage in api mode
         root_path="path/to/instance_project")
 
     # return sorted valid cases
-    sorted_cases = mmo.main("ls")
+    sorted_cases = mmo.call("ls")
 
 Run suite
 ~~~~~~~~~
@@ -215,7 +215,7 @@ usage in api mode
         root_path="path/to/instance_project")
 
     # return output file path or None if all failed
-    sorted_cases = mmo.main(
+    sorted_cases = mmo.call(
         "run",
         cases=["suite1", "suite2/case1", "suite2/case2"])
 
@@ -251,5 +251,5 @@ usage in api mode
         root_path="path/to/instance_project")
 
     # version string
-    version = mmo.main("version")
+    version = mmo.call("version")
 

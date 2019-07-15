@@ -78,6 +78,11 @@ class Application(object):
 
         self.main(*args, **kwargs)
 
+    def call(self, *args, **kwargs):
+        """alias for :meth:`main`."""
+
+        self.main(*args, **kwargs)
+
     def main(self, *args, **kwargs):
         """main function entry, we just load modules path to sys.path before
         app running up.
