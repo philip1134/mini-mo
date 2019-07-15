@@ -36,7 +36,7 @@ def print_version():
                     root_path=instance_project_path)
 
         # version string
-        version = mmo.main("version")
+        version = mmo.call("version")
     """
 
     version = "minimo {}".format(__version__)
@@ -74,7 +74,7 @@ def list_cases(patterns=[]):
                     root_path=instance_project_path)
 
         # return sorted valid cases
-        sorted_cases = mmo.main("ls")
+        sorted_cases = mmo.call("ls")
     """
 
     if ctx.app.inst_path is None:
@@ -133,7 +133,7 @@ def run_suite(cases):
                     root_path=instance_project_path)
 
         # return output file path or None if all failed
-        sorted_cases = mmo.main(
+        sorted_cases = mmo.call(
                         "run",
                         cases=["suite1", "suite2/case1", suite2/case2])
     """
