@@ -49,7 +49,11 @@ def format_traceback():
 
     tb = "{splitter}\n{traceback}\n{splitter}\n".format(
         splitter=TRACE_SPLITTER, traceback=traceback.format_exc())
-    return unicode(tb, "utf-8")
+
+    if defined_unicode():
+        tb = unicode(tb, "utf-8")
+
+    return tb
 
 
 def upperfirst(value):
