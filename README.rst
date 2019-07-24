@@ -52,8 +52,13 @@ under the suite root path.
 
 currently minimo can run suite/cases in two types, which are ``serial``
 and ``concorrence``, they are easy to understand from their names. and
-they can be configured in ``config.yml``. the output can be configured
-too, currently supports ``text``, ``html`` or ``xml``.
+they can be configured in ``config.yml``.
+
+in ``concorrence`` mode, suite/cases will be run by multiprocess pool,
+process count can be configured by ``max_process_count``.
+
+the output can be configured too,
+currently supports ``text``, ``html`` or ``xml``.
 
 tip: we can use ``mmo`` or ``minimo`` as the main command after v0.4.0,
 but in older version, it's only ``minimo``.
