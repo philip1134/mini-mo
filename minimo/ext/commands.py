@@ -224,22 +224,9 @@ def _run_suite_concurrently(tasks, max_process_count=50):
 
     :param tasks: dict for tasks, key is task name, value is the path for
                   task module, task should have __main__ entry.
+
+    :param max_process_count: max process count to run tasks.
     """
-
-    # threads = []
-    # for _name, _path in tasks.items():
-    #     threads.append(threading.Thread(
-    #         name=_name,
-    #         target=_run_case,
-    #         kwargs={
-    #             "case": _name,
-    #             "path": _path,
-    #             "context": ctx
-    #         }))
-    #     threads[-1].start()
-
-    # for t in threads:
-    #     t.join()
 
     if not isinstance(max_process_count, int):
         error("max process count is not number, please check out your config.")
@@ -252,7 +239,7 @@ def _run_suite_concurrently(tasks, max_process_count=50):
         # in python3, Pool is under multiprocessing.pool
         pool = multiprocessing.pool.Pool(max_process_count)
     except AttributeError:
-        # while in python2, it's multiprocessing root
+        # while in python2, that is multiprocessing root
         pool = multiprocessing.Pool(max_process_count)
 
     for _name, _path in tasks.items():
