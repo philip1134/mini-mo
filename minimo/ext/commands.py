@@ -10,7 +10,8 @@ import time
 import click
 import runpy
 import fnmatch
-import threading
+# import threading
+import multiprocessing
 import collections
 from ..helpers import *
 from ..globals import *
@@ -200,6 +201,7 @@ def _run_case(case, path, context):
             _path = path
 
         runpy.run_path(_path)
+
     except Exception:
         tb = format_traceback()
         context.counter.append_exception(case, tb)
@@ -217,27 +219,52 @@ def _run_suite_serially(tasks):
         _run_case(_name, _path, ctx)
 
 
-def _run_suite_concurrently(tasks):
+def _run_suite_concurrently(tasks, max_process_count=50):
     """concorrence type to run cases.
 
     :param tasks: dict for tasks, key is task name, value is the path for
                   task module, task should have __main__ entry.
     """
 
-    threads = []
+    # threads = []
+    # for _name, _path in tasks.items():
+    #     threads.append(threading.Thread(
+    #         name=_name,
+    #         target=_run_case,
+    #         kwargs={
+    #             "case": _name,
+    #             "path": _path,
+    #             "context": ctx
+    #         }))
+    #     threads[-1].start()
+
+    # for t in threads:
+    #     t.join()
+
+    if not isinstance(max_process_count, int):
+        error("max process count is not number, please check out your config.")
+        return
+
+    if max_process_count <= 0 or max_process_count > 1000:
+        max_process_count = 1000
+
+    try:
+        # in python3, Pool is under multiprocessing.pool
+        pool = multiprocessing.pool.Pool(max_process_count)
+    except AttributeError:
+        # while in python2, it's multiprocessing root
+        pool = multiprocessing.Pool(max_process_count)
+
     for _name, _path in tasks.items():
-        threads.append(threading.Thread(
-            name=_name,
-            target=_run_case,
-            kwargs={
+        pool.apply_async(
+            _run_case,
+            kwds={
                 "case": _name,
                 "path": _path,
                 "context": ctx
-            }))
-        threads[-1].start()
-
-    for t in threads:
-        t.join()
+            })
+    pool.close()
+    pool.join()
 
 
 def _get_case_name(case_path):

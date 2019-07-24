@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.5.2
+-------------
+
+Released on 2019-07-24
+
+- run suite/cases with multiprocess pool under `concorrence` mode
+- bug-fix: unicode not defined in python3
+
 Version 0.5.1
 -------------
 

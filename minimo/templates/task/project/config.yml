@@ -11,6 +11,11 @@ output: text
 #   concorrence: run cases concorrently by threads.
 running_type: serial
 
+# set maxinum process count to run the tasks while `running_type`
+# is `concorrence`. if it is set to 0 or greater than 1000, it will be
+# reset to 1000.
+max_process_count: 50
+
 # project modules path, which will be inserted into sys.path at application
 # started. by default, "lib", "cases", "vendor" will be added mandatory.
 # modules_path:

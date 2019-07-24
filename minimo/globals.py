@@ -6,7 +6,9 @@
 
 
 import os
+from multiprocessing.managers import BaseManager
 from .attribute_dict import AttributeDict
+from .counter import Counter
 
 
 # constants
@@ -27,11 +29,17 @@ class RuntimeContext(AttributeDict):
             "reporter": None,
             "callbacks": None,
             "suite_name": None,
-            "output_path": None,
-            "minimo_root_path": os.path.dirname(__file__)
+            "output_path": None
         })
 
 
-ctx = RuntimeContext()
+# share ctx with multiprocessing manager
+BaseManager.register("RuntimeContext", RuntimeContext)
+BaseManager.register("Counter", Counter)
+manager = BaseManager()
+manager.start()
+ctx = manager.RuntimeContext()
+
+ctx.minimo_root_path = os.path.dirname(__file__)
 
 # end

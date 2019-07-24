@@ -31,7 +31,7 @@ class Reporter(object):
                 '    %d warning, %d error, %d exception\n'
                 '    %d success, %d failure' % (
                     format_duration(ctx.counter.get_duration_of_app()),
-                    len(ctx.counter),
+                    ctx.counter.length(),
                     ctx.counter.total_warning(),
                     ctx.counter.total_error(),
                     ctx.counter.total_exception(),

@@ -36,6 +36,17 @@ class Counter(collections.OrderedDict):
             self.TIMER: None
         }
 
+    def length(self):
+        """get map lenght"""
+
+        return len(self)
+
+    def keys(self):
+        """override keys() due to different odict keys()/values() type between
+        python2 and python3."""
+
+        return list(super(Counter, self).keys())
+
     def get(self, key, flag):
         """get key's values"""
 
