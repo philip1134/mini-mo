@@ -47,6 +47,12 @@ class Counter(collections.OrderedDict):
 
         return list(super(Counter, self).keys())
 
+    def values(self):
+        """override values() due to different odict keys()/values() type
+        between python2 and python3."""
+
+        return list(super(Counter, self).values())
+
     def get(self, key, flag):
         """get key's values"""
 
