@@ -101,12 +101,13 @@ usage in api mode
 
     mmo = minimo.Application(
                 interface="api",
-                root_path=instance_project_path)
+                root_path="/path/to/project/instance")
 
     # return True or False for `init` result
     result = mmo.call(
                     "init",
                     name="helloKitty",
+                    template="/path/to/my/template",
                     output="./myprojects")
 
 Create new cases
