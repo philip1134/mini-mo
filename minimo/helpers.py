@@ -92,8 +92,12 @@ def flatten(l):
     """make list flatten"""
 
     for el in l:
-        if isinstance(el, collections.Iterable) and \
-           not isinstance(el, basestring):
+        try:
+            is_basestring = isinstance(el, basestring)
+        except NameError:
+            is_basestring = isinstance(el, str)
+
+        if isinstance(el, collections.Iterable) and not is_basestring:
             for sub in flatten(el):
                 yield sub
         else:
