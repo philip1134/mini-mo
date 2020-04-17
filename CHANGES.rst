@@ -4,13 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
-Version 0.5.3
+Version 0.5.4
 -------------
 
 Released on 2020-04-17
 
 - bug-fix: basestring not defined in python3, use str instead
 - bug-fix: load config module from current case in case template file
+- remove 0.5.3 due to duplicated release
 
 
 Version 0.5.2
