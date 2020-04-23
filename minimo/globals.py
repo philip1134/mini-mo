@@ -6,7 +6,6 @@
 
 
 import os
-from multiprocessing.managers import BaseManager
 from .attribute_dict import AttributeDict
 from .counter import Counter
 
@@ -32,14 +31,8 @@ class RuntimeContext(AttributeDict):
             "output_path": None
         })
 
-
-# share ctx with multiprocessing manager
-BaseManager.register("RuntimeContext", RuntimeContext)
-BaseManager.register("Counter", Counter)
-manager = BaseManager()
-manager.start()
-ctx = manager.RuntimeContext()
-
+ctx = RuntimeContext()
+ctx.counter = Counter()
 ctx.minimo_root_path = os.path.dirname(__file__)
 
 # end

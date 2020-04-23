@@ -10,11 +10,10 @@ import time
 import click
 import runpy
 import fnmatch
-# import threading
-import multiprocessing
 import collections
 from ..helpers import *
 from ..globals import *
+from multiprocessing.dummy import Pool as ThreadPool
 from minimo import __version__
 
 
@@ -235,12 +234,7 @@ def _run_suite_concurrently(tasks, max_process_count=50):
     if max_process_count <= 0 or max_process_count > 1000:
         max_process_count = 1000
 
-    try:
-        # in python3, Pool is under multiprocessing.pool
-        pool = multiprocessing.pool.Pool(max_process_count)
-    except AttributeError:
-        # while in python2, that is multiprocessing root
-        pool = multiprocessing.Pool(max_process_count)
+    pool = ThreadPool(max_process_count)
 
     for _name, _path in tasks.items():
         pool.apply_async(

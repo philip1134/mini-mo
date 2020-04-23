@@ -8,11 +8,10 @@ import os
 import sys
 import importlib
 import yaml
+from .globals import ctx
 from .ext import __autoload__
 from .interface import InterfaceFactory
-from .globals import ctx, manager
 from .helpers import *
-# from .counter import Counter
 from .reporter import Reporter
 
 
@@ -144,8 +143,6 @@ class Application(object):
     def _init_context(self):
         """initialize runtime context"""
 
-        # share counter with multiprocessing manager
-        ctx.counter = manager.Counter()
         ctx.reporter = Reporter()
 
     def _add_modules_path(self):
