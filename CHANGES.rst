@@ -7,7 +7,7 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.6.0
 -------------
 
-- don't support python 2 any longer
+- don't support python2 any more
 
 
 Version 0.6.0
