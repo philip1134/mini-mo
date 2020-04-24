@@ -7,6 +7,12 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.6.0
 -------------
 
+- don't support python 2 any longer
+
+
+Version 0.6.0
+-------------
+
 Released on 2020-04-24
 
 - run suite/cases with multiprocessing thread pool under `concorrence` mode
