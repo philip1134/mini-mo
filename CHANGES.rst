@@ -4,10 +4,12 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
-Version 0.6.0
+Version 0.6.1
 -------------
 
-- don't support python2 any more
+Released on 2020-09-07
+
+- bug-fix: add project instance path to sys.path for api mode
 
 
 Version 0.6.0

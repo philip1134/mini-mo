@@ -154,6 +154,9 @@ class Application(object):
            or self.inst_path is None:
             return
 
+        # add instance path to sys.path
+        sys.path.insert(0, self.inst_path)
+
         for target in set(self.modules_path + self.mandatory_modules_path):
             target_dir = os.path.join(self.inst_path, target)
             if os.path.exists(target_dir):

@@ -16,12 +16,12 @@ class Performer(BasePerformer):
         super(Performer, self).__init__("${case_name}")
         # add initializing code here
 
-#    @before_action("step name")
+#    @before_action("setting up")
 #    def setUp(self):
 #        """set up test env"""
 #        pass
 
-#    @after_action("step name")
+#    @after_action("tearing down")
 #    def tearDown(self):
 #        """tear down test"""
 #        pass
