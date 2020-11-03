@@ -15,7 +15,7 @@ class Application(minimo.Application):
 
     # project type, normally don't change this type, otherwise you should add
     # your own customized extensions for the project type.
-    type = "task"
+    project_type = "task"
 
     # project root path, normally need not change the following code
     root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

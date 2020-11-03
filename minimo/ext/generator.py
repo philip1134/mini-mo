@@ -83,7 +83,7 @@ def init_project(name, template=None, output=None):
             if template:
                 user_template_path = os.path.abspath(template)
                 minimo_named_template_path = os.path.join(
-                    ctx.minimo_root_path, "templates", template, "project")
+                    ctx.minimo_root_path, "templates", "projects", template)
 
                 if os.path.exists(user_template_path):
                     # user specified template path
@@ -97,7 +97,7 @@ def init_project(name, template=None, output=None):
             else:
                 # use minimo default template
                 template_dir = os.path.join(
-                    ctx.minimo_root_path, "templates", "task", "project")
+                    ctx.minimo_root_path, "templates", "projects", "task")
 
             if template_dir is not None:
                 info("create directory: %s" % project_dir_name)
