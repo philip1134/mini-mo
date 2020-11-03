@@ -8,7 +8,7 @@
 import os
 import sys
 import logging
-from .globals import SECTION_SPLITTER, ctx
+from .globals import ctx
 from .helpers import flatten
 
 

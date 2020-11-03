@@ -5,6 +5,9 @@
 #
 
 
+import os
+import copy
+import yaml
 from .globals import *
 from .helpers import *
 from .logger import Logger
@@ -13,28 +16,47 @@ from .logger import Logger
 class Performer(object):
     """mini-mo base performer to perform task case.
 
-    :param name: task name
-    :param logger:
-        logging handler, if set to none, will use minimo style logger.
-
-        for customized logger, it should respond to the following methods:
-            * open(): setup logger staff
-            * close(): teardown logger
-            * info(message, *args, **kwargs): print normal information message
-            * warning(message, *args, **kwargs): print warning message
-            * error(message, *args, **kwargs): print error message
-            * success(message, *args, **kwargs): print task success message
-            * fail(message, *args, **kwargs): print task failure message
+    :attr name: performer name
+    :attr app: ref of application instance
+    :attr config: deepcopy of project config from config.yml
     """
 
     def __init__(
         self,
         name,
-        logger=None
+        logger=None,
+        case_path=None
     ):
+        """performer constructor
+
+        :param name: task name
+        :param logger:
+            logging handler, if set to none, will use minimo style logger.
+
+            for customized logger, it should respond to the following methods:
+                * open(): setup logger staff
+                * close(): teardown logger
+                * info(message, *args, **kwargs): print normal information
+                                                  message
+                * warning(message, *args, **kwargs): print warning message
+                * error(message, *args, **kwargs): print error message
+                * success(message, *args, **kwargs): print task success message
+                * fail(message, *args, **kwargs): print task failure message
+        :param case_path: case folder path
+        """
+
         super(Performer, self).__init__()
 
-        self.name = name or __name__
+        self.name = name
+        self.app = ctx.app
+
+        if case_path is None:
+            self.case_path = None
+        else:
+            self.case_path = os.path.dirname(case_path)
+
+        self._load_config()
+
         if logger is None:
             self.logger = Logger(name=self.name,
                                  output_path=ctx.output_path,
@@ -47,29 +69,44 @@ class Performer(object):
 
         ctx.counter.start_timer_for(self.name)
 
-        self.__do_before_actions() and \
-            self.__do_action_steps() and \
-            self.__do_after_actions()
+        self._do_before_actions() and \
+            self._do_action_steps() and \
+            self._do_after_actions()
 
         ctx.counter.stop_timer_for(self.name)
         self.logger.close()
 
-    def __do_before_actions(self):
+# protected
+    def _load_config(self):
+        """load case configuration under case-folder/config.yml"""
+
+        # copy global config
+        self.config = copy.deepcopy(ctx.config)
+
+        # copy case config
+        if self.case_path is not None:
+            config_path = os.path.join(self.case_path, "config.yml")
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    # load yml to config
+                    self.config.update(yaml.full_load(f.read()))
+
+    def _do_before_actions(self):
         """execute before_action functions"""
-        return self.__do_actions(
-            ctx.callbacks.get_before_actions(self.__get_caller_id()))
+        return self._do_actions(
+            ctx.callbacks.get_before_actions(self._get_caller_id()))
 
-    def __do_action_steps(self):
+    def _do_action_steps(self):
         """execute action_step functions"""
-        return self.__do_actions(
-            ctx.callbacks.get_action_steps(self.__get_caller_id()), True)
+        return self._do_actions(
+            ctx.callbacks.get_action_steps(self._get_caller_id()), True)
 
-    def __do_after_actions(self):
+    def _do_after_actions(self):
         """execute after_step functions"""
-        return self.__do_actions(
-            ctx.callbacks.get_after_actions(self.__get_caller_id()))
+        return self._do_actions(
+            ctx.callbacks.get_after_actions(self._get_caller_id()))
 
-    def __do_actions(self, action_list, action_step=False):
+    def _do_actions(self, action_list, action_step=False):
         result = True
         for func in action_list:
             self.logger.info("start action %s..." % func.__desc__)
@@ -107,7 +144,7 @@ class Performer(object):
 
         return result
 
-    def __get_caller_id(self):
+    def _get_caller_id(self):
         return "%s.%s" % (self.__module__, self.__class__.__name__)
 
 # end

@@ -28,8 +28,10 @@ class RuntimeContext(AttributeDict):
             "reporter": None,
             "callbacks": None,
             "suite_name": None,
-            "output_path": None
+            "output_path": None,
+            "config": AttributeDict(),
         })
+
 
 ctx = RuntimeContext()
 ctx.counter = Counter()

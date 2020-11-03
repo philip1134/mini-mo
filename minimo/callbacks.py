@@ -34,7 +34,7 @@ class Callbacks(object):
     def append_to_before_actions(self, key, value):
         """append function to before_action filters"""
 
-        self.__append_to(key, value, self.before_action_funcs)
+        self._append_to(key, value, self.before_action_funcs)
 
     def get_before_actions(self, key):
         """get before_action filters, return an empty array if there's
@@ -49,7 +49,7 @@ class Callbacks(object):
     def append_to_action_steps(self, key, value):
         """append function to action_step list"""
 
-        self.__append_to(key, value, self.action_step_funcs)
+        self._append_to(key, value, self.action_step_funcs)
 
     def get_action_steps(self, key):
         """get action_step list, return an empty array if there's
@@ -64,7 +64,7 @@ class Callbacks(object):
     def append_to_after_actions(self, key, value):
         """append function to after_action filters"""
 
-        self.__append_to(key, value, self.after_action_funcs)
+        self._append_to(key, value, self.after_action_funcs)
 
     def get_after_actions(self, key):
         """get after_action filters, return an empty array if there's
@@ -76,7 +76,7 @@ class Callbacks(object):
         else:
             return []
 
-    def __append_to(self, key, value, list):
+    def _append_to(self, key, value, list):
         if key in list:
             list[key].append(value)
         else:
@@ -86,7 +86,7 @@ class Callbacks(object):
 ctx.callbacks = Callbacks()
 
 
-def __get_caller_id_by_frame(caller):
+def _get_caller_id_by_frame(caller):
     return "%s.%s" % (caller.f_locals["__module__"],
                       caller.f_code.co_name)
 
@@ -100,7 +100,7 @@ def before_action(desc):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_before_actions(
-            __get_caller_id_by_frame(inspect.currentframe().f_back),
+            _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func
     return decorator
@@ -115,7 +115,7 @@ def after_action(desc):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_after_actions(
-            __get_caller_id_by_frame(inspect.currentframe().f_back),
+            _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func
     return decorator
@@ -133,7 +133,7 @@ def action_step(desc):
             return f(self, *args, **kwargs)
         f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_action_steps(
-            __get_caller_id_by_frame(inspect.currentframe().f_back),
+            _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
         return decorated_func
     return decorator

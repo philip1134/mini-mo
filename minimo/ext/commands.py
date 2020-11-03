@@ -173,7 +173,18 @@ def run_suite(cases):
     ctx.output_path = os.path.join(ctx.app.inst_path, "log", ctx.suite_name)
 
     if "concorrence" == ctx.app.running_type:
-        _run_suite_concurrently(tasks)
+        # check out max_thread_count
+        if hasattr(ctx.config, "max_thread_count"):
+            # up2date minimo version
+            max_thread_count = ctx.config.max_thread_count
+        elif hasattr(ctx.config, "max_process_count"):
+            # previous minimo version
+            max_thread_count = ctx.config.max_process_count
+        else:
+            # no such config, set to 10 threads by default
+            max_thread_count = 10
+
+        _run_suite_concurrently(tasks, max_thread_count)
     else:
         _run_suite_serially(tasks)
 
@@ -218,23 +229,24 @@ def _run_suite_serially(tasks):
         _run_case(_name, _path, ctx)
 
 
-def _run_suite_concurrently(tasks, max_process_count=50):
+def _run_suite_concurrently(tasks, max_thread_count=10):
     """concorrence type to run cases.
 
     :param tasks: dict for tasks, key is task name, value is the path for
                   task module, task should have __main__ entry.
 
-    :param max_process_count: max process count to run tasks.
+    :param max_thread_count: max thread count to run tasks.
     """
 
-    if not isinstance(max_process_count, int):
-        error("max process count is not number, please check out your config.")
+    if not isinstance(max_thread_count, int):
+        error("max thread count is not number, please check out your config.")
         return
 
-    if max_process_count <= 0 or max_process_count > 1000:
-        max_process_count = 1000
+    if max_thread_count <= 0 or max_thread_count > 1000:
+        max_thread_count = 1000
 
-    pool = ThreadPool(max_process_count)
+    info("prepare to run suite in %d thread." % max_thread_count)
+    pool = ThreadPool(max_thread_count)
 
     for _name, _path in tasks.items():
         pool.apply_async(

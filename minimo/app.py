@@ -24,7 +24,7 @@ class Application(object):
     name = "minimo"
 
     # project type, default is "minimo"
-    type = "minimo"
+    project_type = "minimo"
 
     # report format type, supported "text", "html" and "xml",
     # default is "html"
@@ -102,8 +102,8 @@ class Application(object):
         return result
 
     def get_command(self, context, name):
-        """ We load plugins and extension with built-in commands as these should
-        always be the same no matter what the app does.
+        """ We load plugins and extension with built-in commands as these
+        should always be the same no matter what the app does.
         """
 
         self._load_plugins()
@@ -136,9 +136,9 @@ class Application(object):
             config_path = os.path.join(self.inst_path, "config.yml")
             if self.inst_path is not None and os.path.exists(config_path):
                 with open(config_path, "r") as f:
-                    settings = yaml.full_load(f.read())
-
-                self.__dict__.update(settings)
+                    # load yml to config and app attributes
+                    ctx.config.update(yaml.full_load(f.read()))
+                    self.__dict__.update(ctx.config)
 
     def _init_context(self):
         """initialize runtime context"""
