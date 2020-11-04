@@ -12,4 +12,3 @@
 # array:
 #   - flying-cat
 #   - crying-dog
-#
