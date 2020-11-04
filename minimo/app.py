@@ -16,7 +16,7 @@ from .reporter import Reporter
 
 
 class Application(object):
-    """the MoApplication object implements the basic entry of
+    """the Application object implements the basic entry of
     minimo framework.
     """
 

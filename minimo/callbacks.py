@@ -16,7 +16,12 @@ from .globals import ctx
 
 
 class Callbacks(object):
+    """object to store defined callbacks.
+    """
+
     def __init__(self):
+        super(Callbacks, self).__init__()
+
         self.before_action_funcs = {}
         self.after_action_funcs = {}
         self.action_step_funcs = {}
@@ -76,11 +81,13 @@ class Callbacks(object):
         else:
             return []
 
-    def _append_to(self, key, value, list):
-        if key in list:
-            list[key].append(value)
+    def _append_to(self, key, value, container):
+        """append value to container by key"""
+
+        if key in container:
+            container[key].append(value)
         else:
-            list[key] = [value]
+            container[key] = [value]
 
 
 ctx.callbacks = Callbacks()
