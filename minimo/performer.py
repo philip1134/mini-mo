@@ -109,7 +109,8 @@ class Performer(object):
     def _do_actions(self, action_list, action_step=False):
         result = True
         for func in action_list:
-            self.logger.info("start action %s..." % func.__desc__)
+            self.logger.info("[%s] start action '%s'..." % (
+                self.name, func.__desc__))
 
             try:
                 r = func(self)
@@ -118,8 +119,8 @@ class Performer(object):
                 tb = format_traceback()
                 ctx.counter.append_exception(self.name, tb)
                 self.logger.error(
-                    'error occured, please check out your task code!'
-                    '\n%s' % tb)
+                    '[%s] error occured, please check out your task code!'
+                    '\n%s' % (self.name, tb))
 
             if isinstance(r, bool):
                 _r = r
@@ -128,16 +129,16 @@ class Performer(object):
 
             if action_step:
                 if _r:
-                    self.logger.success("succeed to perform %s/%s" % (
+                    self.logger.success("[%s] succeed to perform '%s'" % (
                                         self.name,
                                         func.__desc__ or func.__name__))
                 else:
-                    self.logger.fail("fail to perform %s/%s" % (
+                    self.logger.fail("[%s] fail to perform '%s'" % (
                                      self.name,
                                      func.__desc__ or func.__name__))
             elif not _r:
                 result = False
-                self.logger.fail("error occured while performing %s/%s" % (
+                self.logger.fail("[%s] error occured while performing '%s'" % (
                                  self.name,
                                  func.__desc__ or func.__name__))
                 break
