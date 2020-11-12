@@ -8,11 +8,13 @@ import os
 import sys
 import importlib
 import yaml
+import logging
 from .globals import ctx
 from .ext import __autoload__
 from .interface import InterfaceFactory
 from .helpers import *
 from .reporter import Reporter
+from .logger import StdoutToFileLogger
 
 
 class Application(object):
@@ -36,8 +38,14 @@ class Application(object):
     # case running type, should be "serial" or "concorrence",
     # default is "serial"
     #   serial: run cases one by one
-    #   concorrence: run cases concorrently by subprocess.
+    #   concorrence: run cases concorrently by threads.
     running_type = "serial"
+
+    # redirect stdout message to log file or not.
+    # if running in background, there maybe raises exception due to no stdout
+    # handler, so set this flag to True, print stdout message to log file.
+    # it is forced to redirection under api mode.
+    redirect_stdout_to_file = False
 
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
@@ -87,17 +95,11 @@ class Application(object):
         app running up.
         """
 
-        # initialize runtime context
-        self._init_context()
+        self._setup()
 
-        # start timer for the application
-        ctx.counter.start_timer_for_app()
-
-        self._add_modules_path()
         result = self.__interface.main(*args, **kwargs)
 
-        # stop timer for the application
-        ctx.counter.stop_timer_for_app()
+        self._teardown()
 
         return result
 
@@ -128,7 +130,35 @@ class Application(object):
     def is_api_mode(self):
         return "api" == self.interface
 
+    def echo_to_file(self):
+        """check out if print console message to file"""
+
+        return self.redirect_stdout_to_file or self.is_api_mode()
+
+    def echo_to_stdout(self):
+        """check out if print console message to stdout"""
+
+        return not self.echo_to_file()
+
 # protected
+    def _setup(self):
+        """setup runtime environment"""
+
+        # initialize runtime context
+        self._init_context()
+
+        # start timer for the application
+        ctx.counter.start_timer_for_app()
+
+        # add modules path to sys.path
+        self._add_modules_path()
+
+    def _teardown(self):
+        """tear down runtime environment"""
+
+        # stop timer for the application
+        ctx.counter.stop_timer_for_app()
+
     def _load_config(self):
         """load project configurations: config.yml"""
 
@@ -144,6 +174,18 @@ class Application(object):
         """initialize runtime context"""
 
         ctx.reporter = Reporter()
+
+        if self.echo_to_file():
+            # redirect stdout to log file
+            self._logger = StdoutToFileLogger(
+                name="stdout",
+                output_path=os.path.join(self.inst_path, "log"),
+                outputs={
+                    "fulltrace": logging.DEBUG
+                }
+            )
+
+            sys.stdout = self._logger
 
     def _add_modules_path(self):
         """walk through modules_path, if there's __init__.py, the folder will

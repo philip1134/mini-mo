@@ -56,27 +56,38 @@ class Performer(object):
             self.case_path = os.path.dirname(case_path)
 
         self._load_config()
-
-        if logger is None:
-            self.logger = Logger(name=self.name,
-                                 output_path=ctx.output_path,
-                                 stdout=ctx.app.is_cli_mode())
-        else:
-            self.logger = logger
+        self.logger = logger
 
     def run(self):
         """execute performer"""
 
-        ctx.counter.start_timer_for(self.name)
+        self._setup()
 
         self._do_before_actions() and \
             self._do_action_steps() and \
             self._do_after_actions()
 
-        ctx.counter.stop_timer_for(self.name)
-        self.logger.close()
+        self._teardown()
 
 # protected
+    def _setup(self):
+        """setup environment before performer actions"""
+
+        # setup logger
+        if self.logger is None:
+            self.logger = Logger(name=self.name,
+                                 output_path=ctx.output_path,
+                                 stdout=ctx.app.echo_to_stdout())
+
+        # start timer
+        ctx.counter.start_timer_for(self.name)
+
+    def _teardown(self):
+        """tear down environment after performer actions"""
+
+        # stop timer
+        ctx.counter.stop_timer_for(self.name)
+
     def _load_config(self):
         """load case configuration under case-folder/config.yml"""
 
