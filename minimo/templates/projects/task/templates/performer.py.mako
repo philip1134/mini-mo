@@ -21,7 +21,7 @@ class Performer(BasePerformer):
 
         # add initializing code here
 
-    @before_action("setting up")
+    @before_action()
     def setUp(self):
         """set up test env"""
         pass
@@ -31,7 +31,7 @@ class Performer(BasePerformer):
         """tear down test"""
         pass
 
-    @action_step("step name")
+    @action_step()
     def first_action(self):
         """first test step description"""
 
@@ -39,7 +39,7 @@ class Performer(BasePerformer):
 
         return True
 
-#    @action_step("step name")
+#    @action_step()
 #    def second_action(self):
 #        """second test step description"""
 #

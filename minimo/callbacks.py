@@ -98,14 +98,13 @@ def _get_caller_id_by_frame(caller):
                       caller.f_code.co_name)
 
 
-def before_action(desc):
+def before_action(*params):
     """to specify the action will be executed before task."""
 
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
-        f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_before_actions(
             _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
@@ -113,14 +112,13 @@ def before_action(desc):
     return decorator
 
 
-def after_action(desc):
+def after_action(*params):
     """to specify the action will be executed after task."""
 
     def decorator(f):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
-        f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_after_actions(
             _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)
@@ -128,7 +126,7 @@ def after_action(desc):
     return decorator
 
 
-def action_step(desc):
+def action_step(*params):
     """to specify the action is one task step.
     the specified action should return True or False to
     represent success or failure of that task step.
@@ -138,7 +136,6 @@ def action_step(desc):
         @wraps(f)
         def decorated_func(self, *args, **kwargs):
             return f(self, *args, **kwargs)
-        f.__desc__ = decorated_func.__desc__ = desc
         ctx.callbacks.append_to_action_steps(
             _get_caller_id_by_frame(inspect.currentframe().f_back),
             decorated_func)

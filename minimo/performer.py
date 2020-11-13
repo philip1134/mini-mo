@@ -121,7 +121,7 @@ class Performer(object):
         result = True
         for func in action_list:
             self.logger.info("[%s] start action '%s'..." % (
-                self.name, func.__desc__))
+                self.name, func.__name__))
 
             try:
                 r = func(self)
@@ -142,16 +142,16 @@ class Performer(object):
                 if _r:
                     self.logger.success("[%s] succeed to perform '%s'" % (
                                         self.name,
-                                        func.__desc__ or func.__name__))
+                                        func.__name__))
                 else:
                     self.logger.fail("[%s] fail to perform '%s'" % (
                                      self.name,
-                                     func.__desc__ or func.__name__))
+                                     func.__name__))
             elif not _r:
                 result = False
                 self.logger.fail("[%s] error occured while performing '%s'" % (
                                  self.name,
-                                 func.__desc__ or func.__name__))
+                                 func.__name__))
                 break
 
         return result
