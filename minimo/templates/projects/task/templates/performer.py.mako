@@ -26,7 +26,7 @@ class Performer(BasePerformer):
         """set up test env"""
         pass
 
-    @after_action("tearing down")
+    @after_action()
     def tearDown(self):
         """tear down test"""
         pass

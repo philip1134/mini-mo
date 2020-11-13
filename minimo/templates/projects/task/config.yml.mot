@@ -22,7 +22,7 @@ max_thread_count: 10
 # if running in background, there maybe raises exception due to no stdout
 # handler, so set this flag to True, print stdout message to log file.
 # it is forced to redirection under api mode.
-stdout_to_file: false
+redirect_stdout_to_file: false
 
 # project modules path, which will be inserted into sys.path at application
 # started. by default, "lib", "cases", "vendor" will be added mandatory.
