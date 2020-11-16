@@ -227,12 +227,10 @@ def copy_template_file(
             warning("file already existed, skip this step.")
             return False
 
-        content = encode_utf8(
-            Template(
-                filename=src,
-                default_filters=["trim"],
-            ).render_unicode(**config)
-        )
+        content = Template(
+            filename=src,
+            default_filters=["trim"],
+        ).render_unicode(**config)
 
         with open(dest, "w") as f:
             f.write(convert_newline(content))
