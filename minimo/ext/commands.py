@@ -97,6 +97,7 @@ def list_cases(patterns=[]):
 
     result = sorted(cases)
     info("\n".join(result))
+    stage("totally %d" % len(result))
 
     return result
 
