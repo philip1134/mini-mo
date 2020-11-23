@@ -120,12 +120,12 @@ def stage(message):
 def warning(message):
     """print warning message in stdout."""
 
-    click.secho(u"[WARNING] " + message, fg="yellow")
+    click.secho("[WARNING] " + message, fg="yellow")
 
 
 def error(message):
     """print error message in stdout."""
 
-    click.secho(u"[ERROR] " + message, fg="red")
+    click.secho("[ERROR] " + message, fg="red")
 
 # end
