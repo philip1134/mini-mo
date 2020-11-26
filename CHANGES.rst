@@ -6,11 +6,11 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.7.0
 -------------
 
-Unreleased
+Released on 2020-11-26
 
-- bug-fix: max thread count not works in concorrence mode
 - yaml for case config
 - config option to redirect stdout to log file
+- bug-fix: max thread count not works in concorrence mode
 
 
 Version 0.6.1
