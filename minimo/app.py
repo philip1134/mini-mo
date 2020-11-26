@@ -167,8 +167,10 @@ class Application(object):
             if self.inst_path is not None and os.path.exists(config_path):
                 with open(config_path, "r") as f:
                     # load yml to config and app attributes
-                    ctx.config.update(yaml.full_load(f.read()))
-                    self.__dict__.update(ctx.config)
+                    cfg = yaml.full_load(f.read())
+                    if isinstance(cfg, dict):
+                        ctx.config.update(cfg)
+                        self.__dict__.update(ctx.config)
 
     def _init_context(self):
         """initialize runtime context"""

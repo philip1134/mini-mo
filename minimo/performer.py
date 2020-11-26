@@ -56,7 +56,14 @@ class Performer(object):
             self.case_path = os.path.dirname(case_path)
 
         self._load_config()
-        self.logger = logger
+
+        # setup logger
+        if logger is None:
+            self.logger = Logger(name=self.name,
+                                 output_path=ctx.output_path,
+                                 stdout=ctx.app.echo_to_stdout())
+        else:
+            self.logger = logger
 
     def run(self):
         """execute performer"""
@@ -72,12 +79,6 @@ class Performer(object):
 # protected
     def _setup(self):
         """setup environment before performer actions"""
-
-        # setup logger
-        if self.logger is None:
-            self.logger = Logger(name=self.name,
-                                 output_path=ctx.output_path,
-                                 stdout=ctx.app.echo_to_stdout())
 
         # start timer
         ctx.counter.start_timer_for(self.name)
@@ -100,7 +101,9 @@ class Performer(object):
             if os.path.exists(config_path):
                 with open(config_path, "r") as f:
                     # load yml to config
-                    self.config.update(yaml.full_load(f.read()))
+                    cfg = yaml.full_load(f.read())
+                    if isinstance(cfg, dict):
+                        self.config.update(cfg)
 
     def _do_before_actions(self):
         """execute before_action functions"""
