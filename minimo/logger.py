@@ -17,11 +17,11 @@ FAILURE = logging.ERROR + 1
 logging.addLevelName(FAILURE, "FAILURE")
 
 _LVL_PREFIX = {
-    logging.INFO: "",
-    logging.ERROR: "[ERROR] ",
-    logging.WARNING: "[WARNING] ",
-    SUCCESS: "[SUCCESS] ",
-    FAILURE: "[FAILURE] ",
+    logging.INFO: "INFO",
+    logging.ERROR: "ERROR",
+    logging.WARNING: "WARNING",
+    SUCCESS: "SUCCESS",
+    FAILURE: "FAILURE",
 }
 
 
@@ -68,7 +68,8 @@ class Logger(object):
         outputs={
             "fulltrace": logging.INFO,
             "error": logging.ERROR,
-        }
+        },
+        log_format="%(asctime)s %(lvl)s %(message)s"
     ):
         super(Logger, self).__init__()
 
@@ -80,6 +81,7 @@ class Logger(object):
 
         self._closed = True
         self._flush_count = 0
+        self._format = log_format
 
         # store file handler as:
         # {
@@ -106,7 +108,7 @@ class Logger(object):
             # create stdout/file handler and set level
             self._logger.addFilter(MoFilter())
             formatter = \
-                logging.Formatter("[%(asctime)s] %(lvl)s%(message)s")
+                logging.Formatter(self._format)
 
             # add stdout handlers to logger
             if self.stdout:
