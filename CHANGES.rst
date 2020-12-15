@@ -3,6 +3,16 @@ Mini-MO Changelog
 
 Here you can see the full list of changes between each mini-mo release.
 
+
+Version 0.7.1
+-------------
+
+unreleased
+
+- log format changed
+-
+
+
 Version 0.7.0
 -------------
 
