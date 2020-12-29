@@ -159,7 +159,7 @@ def run_suite(cases):
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
-                    info("add task '%s'" % _name)
+                    info("add task '%s' with case path '%s'" % (_name, _root))
 
         if not valid_case:
             warning(

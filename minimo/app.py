@@ -246,4 +246,5 @@ class Application(object):
                 self._loaded_extensions = True
                 return
         self._loaded_extensions = True
+
 # end

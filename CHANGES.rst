@@ -7,10 +7,10 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.7.1
 -------------
 
-unreleased
+Released on 2020-12-29
 
 - log format changed
--
+- upgrade attribute dict
 
 
 Version 0.7.0

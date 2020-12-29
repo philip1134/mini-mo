@@ -6,7 +6,7 @@
 
 
 import os
-from .attribute_dict import AttributeDict
+from .attribute_dict import SimpleAttributeDict, AttributeDict
 from .counter import Counter
 
 
@@ -16,12 +16,12 @@ SECTION_SPLITTER = "-" * 50
 
 
 # runtime context
-class RuntimeContext(AttributeDict):
+class RuntimeContext(SimpleAttributeDict):
     """stores runtime context, includes application instance, callbacks,
     test suite name, minimo root path, and etc.
     """
 
-    def __init__(self):
+    def __init__(self, defaults={}):
         super(RuntimeContext, self).__init__({
             "app": None,
             "counter": None,

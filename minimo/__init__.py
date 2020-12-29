@@ -10,7 +10,7 @@ from .app import Application
 from .performer import Performer
 from .callbacks import before_action, action_step, after_action
 from .helpers import *
-from .attribute_dict import AttributeDict
+from .attribute_dict import AttributeDict, SimpleAttributeDict
 from .logger import Logger
 from .ext import copy_template_file, copy_template_folder
 
