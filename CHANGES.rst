@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.7.2
+-------------
+
+Released on 2020-12-30
+
+- wrong LICENSE file name set in installation package
+
+
 Version 0.7.1
 -------------
 
