@@ -4,6 +4,22 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.7.3
+-------------
+
+Released on 2020-12-30
+
+- conver case name to full module name
+
+
+Version 0.7.2
+-------------
+
+Released on 2020-12-30
+
+- bug-fix: wrong file name for LICENSE in setup.cfg
+
+
 Version 0.7.1
 -------------
 
