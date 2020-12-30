@@ -9,7 +9,7 @@ Version 0.7.3
 
 Released on 2020-12-30
 
-- conver case name to full module name
+- convert case name to full module name
 
 
 Version 0.7.2
