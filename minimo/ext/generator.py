@@ -203,7 +203,7 @@ def create_new_cases(cases, author=None):
                                          "%s.root" % ctx.app.name)))
 
                 # copy files
-                config["case_name"] = re.sub(r"\w", ".", case)
+                config["case_name"] = re.sub(r"\W+", ".", case)
                 copy_template_folder(target, template_dir, ".mako", config)
                 success_cases.append(case)
 
