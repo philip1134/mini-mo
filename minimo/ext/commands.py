@@ -136,7 +136,7 @@ def run_suite(cases):
         # return output file path or None if all failed
         sorted_cases = mmo.call(
                         "run",
-                        cases=["suite1", "suite2/case1", suite2/case2])
+                        cases=["suite1", "suite2/case1", "suite2/case2"])
     """
 
     if ctx.app.inst_path is None:
