@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.7.4
+-------------
+
+Released on 2020-12-31
+
+- template: add absolute module path from cases folder
+
+
 Version 0.7.3
 -------------
 
