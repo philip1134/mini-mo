@@ -99,7 +99,7 @@ class Performer(object):
         if self.case_path is not None:
             config_path = os.path.join(self.case_path, "config.yml")
             if os.path.exists(config_path):
-                with open(config_path, "r") as f:
+                with open(config_path, mode="r", encoding="utf-8") as f:
                     # load yml to config
                     cfg = yaml.full_load(f.read())
                     if isinstance(cfg, dict):

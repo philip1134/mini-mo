@@ -165,7 +165,7 @@ class Application(object):
         if self.inst_path is not None:
             config_path = os.path.join(self.inst_path, "config.yml")
             if self.inst_path is not None and os.path.exists(config_path):
-                with open(config_path, "r") as f:
+                with open(config_path, mode="r", encoding="utf-8") as f:
                     # load yml to config and app attributes
                     cfg = yaml.full_load(f.read())
                     if isinstance(cfg, dict):

@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.7.5
+-------------
+
+Released on 2021-02-03
+
+- load config yaml file with encoding utf8
+
+
 Version 0.7.4
 -------------
 
