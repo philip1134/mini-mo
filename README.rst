@@ -31,12 +31,10 @@ folders like:
     project-root-folder-with-project-name
         |- bin # minimo reserved command, don't touch it
         |- cases # suite and cases here
-        |- ext # customized extensions, will be loaded before running commands
-        |- lib # customized library, put all your common code here     
-            |- app.py     
+        |- lib # customized library, put all your common code here
+            |- app.py
             |- performer.py
         |- templates # case template
-        |- vendor   # third-party libraries
         |- config.yml # project configuration
         |- README.md
         |- requirements.txt # dependencies here, can use ``pip install -r requirements.txt`` to install all dependencies
