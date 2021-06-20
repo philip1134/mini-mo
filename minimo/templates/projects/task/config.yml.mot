@@ -1,4 +1,19 @@
 # global config for project "${project_name}"
+#
+# customized settings will be loaded to Application as attributes, and be
+# deepcopied to Performer's config.
+#
+# for example, here we defined:
+#
+#   foo: bar
+#
+# it can be used as:
+#   app.foo #== bar
+#   performer.config.foo #== bar
+#
+# attributes defined in global config file will be overrided by those defined
+# in case/config file.
+#
 
 # report format type, supported "text", "html" and "xml",
 # default is "html"
@@ -30,14 +45,4 @@ redirect_stdout_to_file: false
 #     - sample_dir1
 #     - sample_dir2
 
-# customized settings, will be loaded to Application as attributes, and be
-# deepcopied to Performer's config.
-#
-# for example, here we defined:
-#
-#   foo: bar
-#
-# it can be used as:
-#   app.foo #== bar
-#   performer.config.foo #== bar
-#
+
