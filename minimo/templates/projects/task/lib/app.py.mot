@@ -1,5 +1,5 @@
 <%!
-    import minimo.filters as flt
+    import minimo.utils as flt
 %># -*- coding:utf-8 -*-
 
 
@@ -12,10 +12,6 @@ class Application(minimo.Application):
 
     # project name
     name = "${project_name | flt.camelize}"
-
-    # project type, normally don't change this type, otherwise you should add
-    # your own customized extensions for the project type.
-    project_type = "task"
 
     # project root path, normally need not change the following code
     root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

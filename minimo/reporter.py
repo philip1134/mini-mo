@@ -8,10 +8,10 @@
 import os
 from mako.template import Template
 from .globals import ctx, BLOCK_SPLITTER
-from .helpers import *
+from .utils import *
 
 
-class Reporter(object):
+class Reporter:
     """print report to file according to output type, currently support
     'text', 'xml', 'html'.
     """

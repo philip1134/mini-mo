@@ -1,31 +1,15 @@
 # -*- coding:utf-8 -*-
 #
 # author: philip1134
-# date: 2018-08-18
+# date: 2021-04-27
 #
 
 
-import click
-
-
-class InterfaceFactory:
-    """factory to create interface"""
-
-    @classmethod
-    def get(cls, type, **attrs):
-        """get interface instance by type"""
-
-        if "api" == type:
-            return MoApi(**attrs)
-        else:
-            return click.Group(**attrs)
-
-
-class MoApi(object):
+class MoAPI:
     """Interface for api type"""
 
     def __init__(self, **attrs):
-        super(MoApi, self).__init__()
+        super(MoAPI, self).__init__()
 
         # initialize command mapper
         self.commands = attrs.get("commands") or {}
@@ -46,5 +30,6 @@ class MoApi(object):
 
     def list_commands(self, ctx):
         return sorted(self.commands)
+
 
 # end

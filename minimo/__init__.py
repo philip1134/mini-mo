@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-__version__ = "0.7.5"
+__version__ = "0.8.0"
 
 
 import os
@@ -9,10 +9,9 @@ import runpy
 from .app import Application
 from .performer import Performer
 from .callbacks import before_action, action_step, after_action
-from .helpers import *
+from .utils import *
 from .attribute_dict import AttributeDict, SimpleAttributeDict
 from .logger import Logger
-from .ext import copy_template_file, copy_template_folder
 
 
 def main():

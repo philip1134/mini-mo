@@ -1,5 +1,5 @@
 <%!
-    import minimo.filters as flt
+    import minimo.utils as flt
 %>
 ${suite_name}
 

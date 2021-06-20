@@ -33,7 +33,7 @@ class MoFilter(logging.Filter):
         return True
 
 
-class Logger(object):
+class Logger:
     """print log to log file and stdout.
 
     log directory will be placed under
@@ -69,7 +69,7 @@ class Logger(object):
             "fulltrace": logging.INFO,
             "error": logging.ERROR,
         },
-        log_format="%(asctime)s %(lvl)s %(message)s"
+        log_format="%(asctime)s %(process)d:%(thread)d %(lvl)s %(message)s"
     ):
         super(Logger, self).__init__()
 

@@ -9,97 +9,11 @@ import sys
 import time
 import click
 import runpy
-import fnmatch
 import collections
-from ..helpers import *
+from ..utils import *
 from ..globals import *
+from .common import get_case_name
 from multiprocessing.dummy import Pool as ThreadPool
-from minimo import __version__
-
-
-@click.command("version")
-def print_version():
-    """print minimo version number.
-
-    usage in cli mode:
-
-        $ mmo version
-
-    ----------
-
-    usage in api mode:
-
-        import minimo
-
-        mmo = minimo.Application(
-                    interface="api",
-                    root_path=instance_project_path)
-
-        # version string
-        version = mmo.call("version")
-    """
-
-    version = "minimo {}".format(__version__)
-
-    info(version)
-    return version
-
-
-@click.command("ls")
-@click.argument("patterns", nargs=-1)
-def list_cases(patterns=[]):
-    """list all standard task cases.
-
-    usage in cli mode:
-
-        $ mmo ls [pattern...]
-
-    "pattern" supports Unix shell-style wildcards, such as * or ?.
-    if not specified "pattern", it will list all standard cases' names under
-    "cases" folder. if specified "pattern", it will search the case name by
-    "pattern". can give multiple patterns, such as：
-
-        $ mmo ls foo bar*
-
-    tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
-
-    ----------
-
-    usage in api mode:
-
-        import minimo
-
-        mmo = minimo.Application(
-                    interface="api",
-                    root_path=instance_project_path)
-
-        # return sorted valid cases
-        sorted_cases = mmo.call("ls")
-    """
-
-    if ctx.app.inst_path is None:
-        error('not in minimo project root folder.')
-        return []
-
-    cases = []
-    pattern = "|".join([fnmatch.translate(ptn) for ptn in patterns])
-
-    # loop for standard case
-    case_dir = os.path.join(ctx.app.inst_path, "cases")
-    for _root, _dirs, _files in os.walk(case_dir):
-        if "__main__.py" in _files:
-            _name = _get_case_name(_root)
-            if pattern:
-                if re.match(pattern, _name):
-                    cases.append(_name)
-            else:
-                cases.append(_name)
-
-    result = sorted(cases)
-    info("\n".join(result))
-    stage("totally %d" % len(result))
-
-    return result
 
 
 @click.command("run")
@@ -155,7 +69,7 @@ def run_suite(cases):
         valid_case = False
         for _root, _dirs, _files in os.walk(runner_path):
             if "__main__.py" in _files:
-                _name = _get_case_name(_root)
+                _name = get_case_name(_root, ctx.app.inst_path)
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
@@ -260,11 +174,5 @@ def _run_suite_concurrently(tasks, max_thread_count=10):
     pool.close()
     pool.join()
 
-
-def _get_case_name(case_path):
-    """extract case name from case path."""
-
-    return case_path.replace(os.path.join(
-        ctx.app.inst_path, "cases"), "")[1:].replace("\\", "/")
 
 # end

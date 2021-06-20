@@ -20,7 +20,7 @@ setup(
     author_email='philip1134@imior.com',
     description='A lightweight automation framework.',
     long_description=readme,
-    packages=['minimo', 'minimo.ext'],
+    packages=['minimo'],
     package_data={
         '': ['*.md', '*.rst'],
     },

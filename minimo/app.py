@@ -10,23 +10,19 @@ import importlib
 import yaml
 import logging
 from .globals import ctx
-from .ext import __autoload__
 from .interface import InterfaceFactory
-from .helpers import *
+from .utils import *
 from .reporter import Reporter
 from .logger import StdoutToFileLogger
 
 
-class Application(object):
+class Application:
     """the Application object implements the basic entry of
     minimo framework.
     """
 
     # project name, set in project instance
     name = "minimo"
-
-    # project type, default is "minimo"
-    project_type = "minimo"
 
     # report format type, supported "text", "html" and "xml",
     # default is "html"
@@ -50,7 +46,7 @@ class Application(object):
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
     # mandatory.
-    mandatory_modules_path = ["lib", "ext", "cases", "vendor"]
+    mandatory_modules_path = ["lib", "cases", "vendor"]
     modules_path = []
 
     def __init__(self, **attrs):
@@ -58,11 +54,6 @@ class Application(object):
 
         # root path of project instance
         self.inst_path = attrs.pop("root_path", None)
-
-        # project interface, supported "cli", "api", default is "cli"
-        #   cli: call commands/functions as command line interface
-        #   api: call commands/functions as api
-        self.interface = attrs.pop("interface", "cli")
 
         # flags intializing
         self._loaded_plugins = \
@@ -72,11 +63,12 @@ class Application(object):
         # load config from yaml under project instance's root_path
         self._load_config()
 
-        self.__interface = InterfaceFactory.get(self.interface, **attrs)
-
-        # add default cli
-        for cli in __autoload__:
-            self.__interface.add_command(cli)
+        # project interface, supported "cli", "api", default is "cli"
+        #   cli: call commands/functions as command line interface
+        #   api: call commands/functions as api
+        self.interface = attrs.pop("interface", "cli")
+        self._interf = InterfaceFactory.get(
+            self.interface, **attrs)
 
         ctx.app = self
 
@@ -97,7 +89,7 @@ class Application(object):
 
         self._setup()
 
-        result = self.__interface.main(*args, **kwargs)
+        result = self._interf.main(*args, **kwargs)
 
         self._teardown()
 
@@ -111,7 +103,7 @@ class Application(object):
         self._load_plugins()
         self._load_extensions()
 
-        return self.__interface.get_command(self, context, name)
+        return self._interf.get_command(self, context, name)
 
     def list_commands(self, context):
         """we always load plugins and extensions with minimo
@@ -121,7 +113,7 @@ class Application(object):
         self._load_plugins()
         self._load_extensions()
 
-        rv = set(self.__interface.list_commands(self, context))
+        rv = set(self._interf.list_commands(self, context))
         return sorted(rv)
 
     def is_cli_mode(self):
@@ -223,7 +215,7 @@ class Application(object):
             return
 
         for ep in pkg_resources.iter_entry_points('minimo.commands'):
-            self.__interface.add_command(ep.load(), ep.name)
+            self._interf.add_command(ep.load(), ep.name)
         self._loaded_plugins = True
 
     def _load_extensions(self):
@@ -240,7 +232,7 @@ class Application(object):
            and os.path.exists(os.path.join(self.inst_path, "ext")):
             try:
                 for cli in importlib.import_module("ext").__autoload__:
-                    self.__interface.add_command(cli)
+                    self._interf.add_command(cli)
             except Exception:
                 # do nothing
                 self._loaded_extensions = True

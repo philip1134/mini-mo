@@ -8,7 +8,7 @@
 import time
 
 
-class Timer(object):
+class Timer:
     """timer, started at initialized."""
 
     timers = {}

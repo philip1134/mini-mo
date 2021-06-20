@@ -15,7 +15,7 @@ from functools import wraps
 from .globals import ctx
 
 
-class Callbacks(object):
+class Callbacks:
     """object to store defined callbacks.
     """
 

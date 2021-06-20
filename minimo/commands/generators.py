@@ -10,9 +10,8 @@ import time
 import click
 import shutil
 from mako.template import Template
-from ..helpers import *
+from ..utils import *
 from ..globals import ctx
-from ..filters import convert_newline
 from minimo import __version__
 
 

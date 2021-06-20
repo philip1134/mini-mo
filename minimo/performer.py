@@ -9,11 +9,11 @@ import os
 import copy
 import yaml
 from .globals import *
-from .helpers import *
+from .utils import *
 from .logger import Logger
 
 
-class Performer(object):
+class Performer:
     """mini-mo base performer to perform task case.
 
     :attr name: performer name

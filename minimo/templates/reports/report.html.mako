@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 <%!
-    import minimo.filters as flt
+    import minimo.utils as flt
 %>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
