@@ -19,11 +19,4 @@ __autoload__ = (
     run_suite
 )
 
-
-def _get_case_name(case_path, inst_path):
-    """extract case name from case path."""
-
-    return case_path.replace(os.path.join(
-        inst_path, "cases"), "")[1:].replace("\\", "/")
-
 # end
