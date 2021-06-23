@@ -1,21 +1,25 @@
 # -*- coding:utf-8 -*-
 
 
-from .generators import init_project, create_new_cases, \
-    copy_template_file, copy_template_folder
-from .routines import print_version, list_cases
-from .executors import run_suite
+from .common import copy_template_file, copy_template_folder
+from .init import init_project
+from .new import create_new_cases
+from .ls import list_cases
+from .version import print_version
+from .run import run_suite
 
 
 # auto load to Application cli from the following tuple
 __autoload__ = (
     # generators
-    init_project, create_new_cases,
+    init_project,
+    create_new_cases,
 
     # routines
-    print_version, list_cases,
+    print_version,
+    list_cases,
 
-    # executors
+    # suite/case executor
     run_suite
 )
 

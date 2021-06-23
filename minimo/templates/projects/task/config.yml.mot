@@ -45,4 +45,13 @@ redirect_stdout_to_file: false
 #     - sample_dir1
 #     - sample_dir2
 
-
+scheduler:
+    -
+        case: case_name
+        enable: true
+        config:
+            trigger: cron
+            hour: 3
+            minute: 30
+        params:
+            foo: bar

@@ -32,6 +32,7 @@ setup(
         "click",
         "unittest-xml-reporting",
         "PyYAML",
+        "APScheduler"
     ],
     extras_require={
         'dev': [

@@ -9,36 +9,7 @@ import click
 import fnmatch
 from ..utils import *
 from ..globals import *
-from minimo import __version__
 from .common import get_case_name
-
-
-@click.command("version")
-def print_version():
-    """print minimo version number.
-
-    usage in cli mode:
-
-        $ mmo version
-
-    ----------
-
-    usage in api mode:
-
-        import minimo
-
-        mmo = minimo.Application(
-                    interface="api",
-                    root_path=instance_project_path)
-
-        # version string
-        version = mmo.call("version")
-    """
-
-    version = "minimo {}".format(__version__)
-
-    info(version)
-    return version
 
 
 @click.command("ls")
