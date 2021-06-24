@@ -230,8 +230,8 @@ class Application:
         if self.inst_path is not None \
            and os.path.exists(os.path.join(self.inst_path, "ext")):
             try:
-                for cli in importlib.import_module("ext").__autoload__:
-                    self._interf.add_command(cli)
+                for cmd in importlib.import_module("ext").__autoload__:
+                    self._interf.add_command(cmd)
             except Exception:
                 # do nothing
                 self._loaded_extensions = True
