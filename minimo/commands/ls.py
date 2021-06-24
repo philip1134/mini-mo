@@ -9,7 +9,7 @@ import click
 import fnmatch
 from ..utils import *
 from ..globals import *
-from .common import get_case_name
+from .common import get_case_name, verify_root_path
 
 
 @click.command("ls")
@@ -44,8 +44,7 @@ def list_cases(patterns=[]):
         sorted_cases = mmo.call("ls")
     """
 
-    if ctx.app.inst_path is None:
-        error('not in minimo project root folder.')
+    if not verify_root_path():
         return []
 
     cases = []

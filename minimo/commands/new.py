@@ -10,7 +10,7 @@ import time
 import click
 from ..utils import *
 from ..globals import ctx
-from .common import copy_template_folder
+from .common import copy_template_folder, verify_root_path
 
 
 @click.command("new")
@@ -56,8 +56,7 @@ def create_new_cases(cases, author=None):
     try:
         success_cases = []
 
-        if ctx.app.inst_path is None:
-            error('not in minimo project root folder')
+        if not verify_root_path():
             return success_cases
 
         stage("prepare to create case...")

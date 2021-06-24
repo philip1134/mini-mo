@@ -12,7 +12,7 @@ import runpy
 import collections
 from ..utils import *
 from ..globals import *
-from .common import get_case_name
+from .common import get_case_name, verify_root_path
 from multiprocessing.dummy import Pool as ThreadPool
 
 
@@ -53,8 +53,7 @@ def run_suite(cases):
                         cases=["suite1", "suite2/case1", "suite2/case2"])
     """
 
-    if ctx.app.inst_path is None:
-        error('not in minimo project root folder.')
+    if not verify_root_path():
         return None
 
     tasks = collections.OrderedDict()
