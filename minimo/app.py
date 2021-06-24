@@ -46,7 +46,7 @@ class Application:
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
     # mandatory.
-    mandatory_modules_path = ["lib", "cases", "vendor"]
+    mandatory_modules_path = ["lib", "ext", "cases", "vendor"]
     modules_path = []
 
     def __init__(self, **attrs):
@@ -69,6 +69,10 @@ class Application:
         self.interface = attrs.pop("interface", "cli")
         self._interf = InterfaceFactory.get(
             self.interface, **attrs)
+
+        # load plugins and extensions
+        self._load_plugins()
+        self._load_extensions()
 
         ctx.app = self
 
@@ -100,9 +104,6 @@ class Application:
         should always be the same no matter what the app does.
         """
 
-        self._load_plugins()
-        self._load_extensions()
-
         return self._interf.get_command(self, context, name)
 
     def list_commands(self, context):
@@ -110,11 +111,9 @@ class Application:
         builtin commands.
         """
 
-        self._load_plugins()
-        self._load_extensions()
-
-        rv = set(self._interf.list_commands(self, context))
-        return sorted(rv)
+        return sorted(
+            set(self._interf.list_commands(self, context))
+        )
 
     def is_cli_mode(self):
         return "cli" == self.interface
