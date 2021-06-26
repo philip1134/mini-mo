@@ -56,9 +56,7 @@ class Application:
         self.inst_path = attrs.pop("root_path", None)
 
         # flags intializing
-        self._loaded_plugins = \
-            self._loaded_extensions = \
-            self._loaded_modules_path = False
+        self._loaded_modules_path = False
 
         # load config from yaml under project instance's root_path
         self._load_config()
@@ -204,18 +202,13 @@ class Application:
     def _load_plugins(self):
         """load plugins which were registered as 'minimo.commands'."""
 
-        if self._loaded_plugins:
-            return
-
         try:
             import pkg_resources
         except ImportError:
-            self._loaded_plugins = True
             return
 
         for ep in pkg_resources.iter_entry_points('minimo.commands'):
             self._interf.add_command(ep.load(), ep.name)
-        self._loaded_plugins = True
 
     def _load_extensions(self):
         """load extensions for minimo style project. such extensions will be
@@ -224,9 +217,6 @@ class Application:
         automatically.
         """
 
-        if self._loaded_extensions:
-            return
-
         if self.inst_path is not None \
            and os.path.exists(os.path.join(self.inst_path, "ext")):
             try:
@@ -234,8 +224,6 @@ class Application:
                     self._interf.add_command(cmd)
             except Exception:
                 # do nothing
-                self._loaded_extensions = True
                 return
-        self._loaded_extensions = True
 
 # end
