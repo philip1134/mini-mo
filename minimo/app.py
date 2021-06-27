@@ -85,9 +85,7 @@ class Application:
         self.main(*args, **kwargs)
 
     def main(self, *args, **kwargs):
-        """main function entry, we just load modules path to sys.path before
-        app running up.
-        """
+        """main function entry"""
 
         self._setup()
 
@@ -98,16 +96,12 @@ class Application:
         return result
 
     def get_command(self, context, name):
-        """ We load plugins and extension with built-in commands as these
-        should always be the same no matter what the app does.
-        """
+        """wrapper for get_command"""
 
         return self._interf.get_command(self, context, name)
 
     def list_commands(self, context):
-        """we always load plugins and extensions with minimo
-        builtin commands.
-        """
+        """wrapper for list_command"""
 
         return sorted(
             set(self._interf.list_commands(self, context))
