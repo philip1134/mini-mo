@@ -56,7 +56,7 @@ def create_new_cases(cases, author=None):
     try:
         success_cases = []
 
-        if not verify_root_path():
+        if not verify_root_path(ctx):
             return success_cases
 
         stage("prepare to create case...")

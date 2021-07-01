@@ -8,14 +8,13 @@
 import os
 import shutil
 from ..utils import *
-from ..globals import ctx
 from mako.template import Template
 
 
-def verify_root_path():
+def verify_root_path(context):
     """check out project instance path was set or not"""
 
-    if ctx.app.inst_path is None:
+    if context.app.inst_path is None:
         error('not in minimo project root folder')
         return False
     else:
