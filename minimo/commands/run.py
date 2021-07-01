@@ -53,22 +53,32 @@ def run_suite(cases):
                         cases=["suite1", "suite2/case1", "suite2/case2"])
     """
 
-    if not verify_root_path():
+    return run_suite_with_context(cases, ctx)
+
+
+def run_suite_with_context(cases, context):
+    """run suite with the specified context"""
+
+    if not verify_root_path(context):
         return None
 
     tasks = collections.OrderedDict()
     task_suite = "task"
 
+    # check out data type
+    if isinstance(cases, str):
+        cases = [cases]
+
     # check case runner
     for case in set(cases):
-        runner_path = os.path.join(ctx.app.inst_path, "cases", case)
+        runner_path = os.path.join(context.app.inst_path, "cases", case)
         task_suite = "{0}_{1}".format(task_suite, case.replace("/", "_"))
 
         # loop for __main__.py
         valid_case = False
         for _root, _dirs, _files in os.walk(runner_path):
             if "__main__.py" in _files:
-                _name = get_case_name(_root, ctx.app.inst_path)
+                _name = get_case_name(_root, context.app.inst_path)
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
@@ -77,32 +87,35 @@ def run_suite(cases):
         if not valid_case:
             warning(
                 "%s is not %s standard case, please run it respectively." % (
-                    case, ctx.app.name))
-            ctx.counter.append_exception(case, "not standard case")
+                    case, context.app.name))
+            context.counter.append_exception(case, "not standard case")
 
     # append timestamp
-    ctx.suite_name = "{0}_{1}".format(task_suite,
-                                      time.strftime("%Y_%m_%d_%H_%M_%S"))
+    context.suite_name = "{0}_{1}".format(
+        task_suite,
+        time.strftime("%Y_%m_%d_%H_%M_%S")
+    )
 
-    ctx.output_path = os.path.join(ctx.app.inst_path, "log", ctx.suite_name)
+    context.output_path = os.path.join(
+        context.app.inst_path, "log", context.suite_name)
 
-    if "concorrence" == ctx.app.running_type:
+    if "concorrence" == context.app.running_type:
         # check out max_thread_count
-        if hasattr(ctx.config, "max_thread_count"):
+        if hasattr(context.config, "max_thread_count"):
             # up2date minimo version
-            max_thread_count = ctx.config.max_thread_count
-        elif hasattr(ctx.config, "max_process_count"):
+            max_thread_count = context.config.max_thread_count
+        elif hasattr(context.config, "max_process_count"):
             # previous minimo version
-            max_thread_count = ctx.config.max_process_count
+            max_thread_count = context.config.max_process_count
         else:
             # no such config, set to 10 threads by default
             max_thread_count = 10
 
-        _run_suite_concurrently(tasks, max_thread_count)
+        _run_suite_concurrently(tasks, context, max_thread_count)
     else:
-        _run_suite_serially(tasks)
+        _run_suite_serially(tasks, context)
 
-    return ctx.reporter.report()
+    return context.reporter.report()
 
 
 def _run_case(case, path, context):
@@ -132,7 +145,7 @@ def _run_case(case, path, context):
         error("exception occured while performing '%s':\n%s" % (case, tb))
 
 
-def _run_suite_serially(tasks):
+def _run_suite_serially(tasks, context):
     """serial type to run cases.
 
     :param tasks: dict for tasks, key is task name, value is the path for task
@@ -140,10 +153,10 @@ def _run_suite_serially(tasks):
     """
 
     for _name, _path in tasks.items():
-        _run_case(_name, _path, ctx)
+        _run_case(_name, _path, context)
 
 
-def _run_suite_concurrently(tasks, max_thread_count=10):
+def _run_suite_concurrently(tasks, context, max_thread_count=10):
     """concorrence type to run cases.
 
     :param tasks: dict for tasks, key is task name, value is the path for
@@ -168,7 +181,7 @@ def _run_suite_concurrently(tasks, max_thread_count=10):
             kwds={
                 "case": _name,
                 "path": _path,
-                "context": ctx
+                "context": context
             })
     pool.close()
     pool.join()
