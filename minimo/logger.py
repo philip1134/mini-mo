@@ -87,7 +87,7 @@ class Logger:
         # {
         #    name: handler
         # }
-        self._filehandlers = {}
+        self._handlers = {}
 
         # setup logger
         self.open()
@@ -116,6 +116,7 @@ class Logger:
                 stdout.setLevel(logging.NOTSET)
                 stdout.setFormatter(formatter)
                 self._logger.addHandler(stdout)
+                self._handlers["stdout"] = stdout
 
             # add file handlers to logger
             if len(self.outputs) > 0:
@@ -135,7 +136,7 @@ class Logger:
                         encoding="utf-8")
                     handler.setLevel(level)
                     handler.setFormatter(formatter)
-                    self._filehandlers[name] = handler
+                    self._handlers[name] = handler
                     self._logger.addHandler(handler)
 
             self._closed = False
@@ -154,7 +155,7 @@ class Logger:
         if not self._closed:
             try:
                 self._flush_count = 0
-                for handler in self._filehandlers.values():
+                for handler in self._handlers.values():
                     # handler calls flush() in close()
                     handler.close()
                     self._logger.removeHandler(handler)
@@ -210,7 +211,7 @@ class Logger:
     def flush(self):
         """flush messages to handlers"""
 
-        for handler in self._filehandlers.values():
+        for handler in self._handlers.values():
             handler.flush()
         self._flush_count = 0
 
@@ -219,7 +220,7 @@ class Logger:
         returns None.
         """
 
-        return self._filehandlers.get(name)
+        return self._handlers.get(name)
 
 
 class StdoutToFileLogger(Logger):
