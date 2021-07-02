@@ -6,6 +6,7 @@ from .new import create_new_cases
 from .ls import list_cases
 from .version import print_version
 from .run import run_suite
+from .start import start_scheduler
 
 
 # auto load to Application cli from the following tuple
@@ -20,6 +21,9 @@ __autoload__ = [
 
     # suite/case executor
     run_suite,
+
+    # scheduler
+    start_scheduler
 ]
 
 
