@@ -45,6 +45,11 @@ redirect_stdout_to_file: false
 #     - sample_dir1
 #     - sample_dir2
 
+# scheduler configuration for scheduled jobs in your project.
+# `case`: your task suite/case name which can be listed by `mmo ls`.
+# `enable`: enable this job or not.
+# `config`: job configuration, the trigger can be `cron`, `interval` and
+#           `date`, more detail information please refer to APScheduler doc.
 #
 # scheduler:
 #    jobs:
@@ -55,4 +60,9 @@ redirect_stdout_to_file: false
 #                trigger: cron
 #                hour: 3
 #                minute: 30
-#
+#       -
+#            case: case_name
+#            enable: false
+#            config:
+#                trigger: interval
+#                seconds: 10
