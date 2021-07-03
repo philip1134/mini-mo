@@ -7,10 +7,11 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.8.0
 -------------
 
-Unreleased
+Released on 2021-07-03
 
+- introduced scheduler to run scheduled jobs in minimo
 - refactored interface
--
+- refactored commands
 
 
 Version 0.7.5
