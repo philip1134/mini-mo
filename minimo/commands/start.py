@@ -43,16 +43,4 @@ def start_scheduler():
     )
     scheduler.run()
 
-    try:
-        info("in loop...")
-        while (True):
-            time.sleep(2)
-    except Exception:
-        # session abort, just go to `finally` to shutdown all
-        pass
-    finally:
-        scheduler.shutdown()
-        info("shutting down...")
-
-
 # end

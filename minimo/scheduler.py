@@ -6,11 +6,11 @@
 
 
 import copy
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 from .utils import *
 
 
-class Scheduler(BackgroundScheduler):
+class Scheduler(BlockingScheduler):
     """scheduler to manage scheduled jobs."""
 
     def __init__(
