@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.1
+-------------
+
+Released on 2021-07-04
+
+- fix: omit new folders in manifest.in
+
+
 Version 0.8.0
 -------------
 
