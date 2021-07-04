@@ -1,4 +1,6 @@
 include LICENSE.rst README.rst
 recursive-include minimo/templates *
+recursive-include minimo/commands *
+recursive-include minimo/interface *
 
 global-exclude *.py[co]
