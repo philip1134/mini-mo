@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.2
+-------------
+
+unreleased
+
+- scheduler: job store configurable
+
+
 Version 0.8.1
 -------------
 
