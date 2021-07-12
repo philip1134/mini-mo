@@ -52,6 +52,8 @@ redirect_stdout_to_file: false
 #   remove this key to use memory by default.
 #
 # jobs:
+#   - id: customized job id, optional, it's necessary to set id for jobs
+#         running the same case.
 #   - case: your task suite/case name which can be listed by `mmo ls`.
 #   - enable: enable this job or not.
 #   - config: job configuration, the trigger can be `cron`, `interval` and
@@ -64,6 +66,7 @@ redirect_stdout_to_file: false
 #        options: ...
 #    jobs:
 #        -
+#            id: job_id
 #            case: case_name
 #            enable: true
 #            config:

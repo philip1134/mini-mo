@@ -64,14 +64,17 @@ class Scheduler(BlockingScheduler):
 
             for job_config in self.config["jobs"]:
                 case = job_config["case"]
+                job_id = job_config.get("id", case)
+
                 if job_config.get("enable", True):
-                    info("add job '%s'" % case)
+                    info("add job '%s'" % job_id)
 
                     self.add_job(
                         self.job_func,
+                        id=job_id,
+                        name=case,
                         kwargs={
                             "cases": case,
-                            # "context": self.ctx,
                         },
                         replace_existing=True,
                         max_instances=1,
@@ -79,7 +82,7 @@ class Scheduler(BlockingScheduler):
                         **job_config["config"]
                     )
                 else:
-                    info("skip job '%s' due to be disabled" % case)
+                    info("skip job '%s' due to be disabled" % job_id)
 
             return True
         else:
