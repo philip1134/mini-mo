@@ -29,19 +29,19 @@ class Application:
     #   text: plain text
     #   html: html web page
     #   xml: xml file, can be recognized by most CI system
-    output = "text"
+    # output = "text"
 
     # case running type, should be "serial" or "concorrence",
     # default is "serial"
     #   serial: run cases one by one
     #   concorrence: run cases concorrently by threads.
-    running_type = "serial"
+    # running_type = "serial"
 
     # redirect stdout message to log file or not.
     # if running in background, there maybe raises exception due to no stdout
     # handler, so set this flag to True, print stdout message to log file.
     # it is forced to redirection under api mode.
-    redirect_stdout_to_file = False
+    # redirect_stdout_to_file = False
 
     # project modules path, which will be inserted into sys.path at application
     # started. by default, "lib", "ext", "cases", "vendor" will be added
@@ -58,9 +58,6 @@ class Application:
         # flags intializing
         self._loaded_modules_path = False
 
-        # load config from yaml under project instance's root_path
-        self._load_config()
-
         # project interface, supported "cli", "api", default is "cli"
         #   cli: call commands/functions as command line interface
         #   api: call commands/functions as api
@@ -72,7 +69,10 @@ class Application:
         self._load_plugins()
         self._load_extensions()
 
-        ctx.app = self
+        # load config from yaml under project instance's root_path
+        self._load_config()
+
+        # ctx.app = self
 
     def run(self, *args, **kwargs):
         """alias for :meth:`main`."""
@@ -116,7 +116,7 @@ class Application:
     def echo_to_file(self):
         """check out if print console message to file"""
 
-        return self.redirect_stdout_to_file or self.is_api_mode()
+        return ctx.config.redirect_stdout_to_file or self.is_api_mode()
 
     def echo_to_stdout(self):
         """check out if print console message to stdout"""
@@ -153,7 +153,15 @@ class Application:
                     cfg = yaml.full_load(f.read())
                     if isinstance(cfg, dict):
                         ctx.config.update(cfg)
-                        self.__dict__.update(ctx.config)
+                        ctx.app.update({
+                            "name": self.name,
+                            "inst_path": self.inst_path,
+                            "interface": self.interface,
+                            "is_cli_mode": self.is_cli_mode(),
+                            "is_api_mode": self.is_api_mode(),
+                            "echo_to_file": self.echo_to_file(),
+                            "echo_to_stdout": self.echo_to_stdout(),
+                        })
 
     def _init_context(self):
         """initialize runtime context"""

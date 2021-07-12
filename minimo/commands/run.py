@@ -53,13 +53,13 @@ def run_suite(cases):
                         cases=["suite1", "suite2/case1", "suite2/case2"])
     """
 
-    return run_suite_with_context(cases, ctx)
+    return run_suite_with_context(cases)
 
 
-def run_suite_with_context(cases, context):
-    """run suite with the specified context"""
+def run_suite_with_context(cases):
+    """run suite main method"""
 
-    if not verify_root_path(context):
+    if not verify_root_path(ctx):
         return None
 
     tasks = collections.OrderedDict()
@@ -71,14 +71,14 @@ def run_suite_with_context(cases, context):
 
     # check case runner
     for case in set(cases):
-        runner_path = os.path.join(context.app.inst_path, "cases", case)
+        runner_path = os.path.join(ctx.app.inst_path, "cases", case)
         task_suite = "{0}_{1}".format(task_suite, case.replace("/", "_"))
 
         # loop for __main__.py
         valid_case = False
         for _root, _dirs, _files in os.walk(runner_path):
             if "__main__.py" in _files:
-                _name = get_case_name(_root, context.app.inst_path)
+                _name = get_case_name(_root, ctx.app.inst_path)
                 valid_case = True
                 if _name not in tasks:
                     tasks[_name] = _root
@@ -87,35 +87,34 @@ def run_suite_with_context(cases, context):
         if not valid_case:
             warning(
                 "%s is not %s standard case, please run it respectively." % (
-                    case, context.app.name))
-            context.counter.append_exception(case, "not standard case")
+                    case, ctx.app.name))
+            ctx.counter.append_exception(case, "not standard case")
 
     # append timestamp
-    context.suite_name = "{0}_{1}".format(
+    ctx.suite_name = "{0}_{1}".format(
         task_suite,
         time.strftime("%Y_%m_%d_%H_%M_%S")
     )
+    ctx.output_path = os.path.join(
+        ctx.app.inst_path, "log", ctx.suite_name)
 
-    context.output_path = os.path.join(
-        context.app.inst_path, "log", context.suite_name)
-
-    if "concorrence" == context.app.running_type:
+    if "concorrence" == ctx.config.running_type:
         # check out max_thread_count
-        if hasattr(context.config, "max_thread_count"):
+        if hasattr(ctx.config, "max_thread_count"):
             # up2date minimo version
-            max_thread_count = context.config.max_thread_count
-        elif hasattr(context.config, "max_process_count"):
+            max_thread_count = ctx.config.max_thread_count
+        elif hasattr(ctx.config, "max_process_count"):
             # previous minimo version
-            max_thread_count = context.config.max_process_count
+            max_thread_count = ctx.config.max_process_count
         else:
             # no such config, set to 10 threads by default
             max_thread_count = 10
 
-        _run_suite_concurrently(tasks, context, max_thread_count)
+        _run_suite_concurrently(tasks, ctx, max_thread_count)
     else:
-        _run_suite_serially(tasks, context)
+        _run_suite_serially(tasks, ctx)
 
-    return context.reporter.report()
+    return ctx.reporter.report()
 
 
 def _run_case(case, path, context):

@@ -61,7 +61,7 @@ class Performer:
         if logger is None:
             self.logger = Logger(name=self.name,
                                  output_path=ctx.output_path,
-                                 stdout=ctx.app.echo_to_stdout())
+                                 stdout=ctx.app.echo_to_stdout)
         else:
             self.logger = logger
 

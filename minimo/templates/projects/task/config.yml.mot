@@ -16,7 +16,7 @@
 #
 
 # report format type, supported "text", "html" and "xml",
-# default is "html"
+# default is "text"
 #   text: plain text
 #   html: html web page
 #   xml: xml file
@@ -46,12 +46,22 @@ redirect_stdout_to_file: false
 #     - sample_dir2
 
 # scheduler configuration for scheduled jobs in your project.
-# `case`: your task suite/case name which can be listed by `mmo ls`.
-# `enable`: enable this job or not.
-# `config`: job configuration, the trigger can be `cron`, `interval` and
-#           `date`, more detail information please refer to APScheduler doc.
+# jobstore:
+#   - type: store type, can be `redis`, `mongodb`, `sqlalchemy` and etc.
+#   - **jobstore_option: refer to APScheduler Doc.
+#   remove this key to use memory by default.
+#
+# jobs:
+#   - case: your task suite/case name which can be listed by `mmo ls`.
+#   - enable: enable this job or not.
+#   - config: job configuration, the trigger can be `cron`, `interval` and
+#             `date`, more detail information please refer to APScheduler Doc.
 #
 # scheduler:
+#    jobstore:
+#        type: redis
+#        jobs_key: jobs_key_name
+#        options: ...
 #    jobs:
 #        -
 #            case: case_name

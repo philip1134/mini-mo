@@ -27,18 +27,33 @@ class Scheduler(BlockingScheduler):
     def run(self):
         """scheduler main entry"""
 
-        if self._init_jobs():
+        if self._configured and self._init_jobs():
             self.start()
-        else:
-            error("fail to start scheduler.")
 
 # protected
     def _load_config(self, config):
         """load scheduler configuration"""
 
+        # flag
+        self._configured = True
+
         if isinstance(config, dict) and "scheduler" in config:
             self.config = copy.deepcopy(config["scheduler"])
+
+            # check out jobstore
+            if "jobstore" in self.config:
+                try:
+                    jobstore = self.config["jobstore"]
+                    self.add_jobstore(
+                        jobstore.pop("type"),
+                        **jobstore
+                    )
+                except Exception:
+                    error("invalid jobstore configuration.")
+                    info(format_traceback())
+                    self._configured = False
         else:
+            self._configured = False
             self.config = None
 
     def _init_jobs(self):
@@ -56,7 +71,7 @@ class Scheduler(BlockingScheduler):
                         self.job_func,
                         kwargs={
                             "cases": case,
-                            "context": self.ctx,
+                            # "context": self.ctx,
                         },
                         replace_existing=True,
                         max_instances=1,
@@ -68,7 +83,7 @@ class Scheduler(BlockingScheduler):
 
             return True
         else:
-            error("no scheduler job configured, skip this work.")
+            warning("no scheduled job configured.")
             return False
 
 # end

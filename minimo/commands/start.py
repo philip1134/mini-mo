@@ -4,7 +4,6 @@
 # date: 2018-02-26
 #
 
-import time
 import click
 from ..globals import ctx
 from ..utils import *

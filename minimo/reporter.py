@@ -38,14 +38,16 @@ class Reporter:
                     ctx.counter.total_success(),
                     ctx.counter.total_failure()))
 
-            if ctx.app.is_cli_mode():
+            if ctx.app.is_cli_mode:
                 self._print_to_stdout(ctx.counter)
 
-            if ctx.app.output in ("text", "xml", "html") \
-               and ctx.output_path is not None:
+            # print to file
+            if ctx.config.output in ("text", "xml", "html") \
+               and ctx.output_path is not None \
+               and os.path.exists(ctx.output_path):
 
                 self.output_path = getattr(
-                    self, "_print_to_%s" % ctx.app.output)(
+                    self, "_print_to_%s" % ctx.config.output)(
                     ctx.output_path, ctx.counter)
 
                 stage("\nreport in:\n%s" % self.output_path)
