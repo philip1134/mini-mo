@@ -4,7 +4,6 @@
 # date: 2017-08-09
 #
 
-import os
 import re
 import traceback
 import click
@@ -13,13 +12,6 @@ import collections
 
 
 TRACE_SPLITTER = "*" * 50
-
-
-def get_app_id():
-    """get current application id"""
-
-    # return threading.current_thread().get_native_id()
-    return os.getpid()
 
 
 def format_duration(time):

@@ -7,6 +7,7 @@
 
 import copy
 from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.executors.pool import ProcessPoolExecutor
 from .utils import *
 
 
@@ -40,7 +41,7 @@ class Scheduler(BlockingScheduler):
         if isinstance(config, dict) and "scheduler" in config:
             self.config = copy.deepcopy(config["scheduler"])
 
-            # check out jobstore
+            # jobstore
             if "jobstore" in self.config:
                 try:
                     jobstore = self.config["jobstore"]
@@ -52,6 +53,18 @@ class Scheduler(BlockingScheduler):
                     error("invalid jobstore configuration.")
                     info(format_traceback())
                     self._configured = False
+
+            # executor
+            if "executor" in self.config:
+                max_workers = self.config["executor"].get("max_workers", 1)
+            else:
+                max_workers = 1
+
+            self.add_executor(
+                ProcessPoolExecutor(max_workers),
+                "default"
+            )
+
         else:
             self._configured = False
             self.config = None

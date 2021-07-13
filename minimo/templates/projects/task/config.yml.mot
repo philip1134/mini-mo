@@ -46,6 +46,11 @@ redirect_stdout_to_file: false
 #     - sample_dir2
 
 # scheduler configuration for scheduled jobs in your project.
+#
+# executor:
+#   - max_workers: max workers for processpool type executor, default is 1.
+#   minimo only supports ProcessPoolExecutor to run jobs.
+#
 # jobstore:
 #   - type: store type, can be `redis`, `mongodb`, `sqlalchemy` and etc.
 #   - **jobstore_option: refer to APScheduler Doc.
@@ -60,6 +65,8 @@ redirect_stdout_to_file: false
 #             `date`, more detail information please refer to APScheduler Doc.
 #
 # scheduler:
+#    executor:
+#        max_workers: 1
 #    jobstore:
 #        type: redis
 #        jobs_key: jobs_key_name
