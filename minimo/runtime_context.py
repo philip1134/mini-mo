@@ -67,34 +67,6 @@ class RuntimeContext(SimpleAttributeDict):
             }),
         })
 
-    # def get_current(self, key):
-    #     """get key's value in current runtime"""
-
-    #     current = self["_runtimes"].get(get_app_id())
-    #     if current is None:
-    #         return None
-    #     else:
-    #         return current.get(key)
-
-    # def set_current(self, key, value):
-    #     """set key:value into current runtime"""
-
-    #     app_id = get_app_id()
-    #     current = self["_runtimes"].get(app_id)
-    #     if current is None:
-    #         self["_runtimes"][app_id] = {}
-
-    #     self["_runtimes"][app_id][key] = value
-
-    # def delete_current(self):
-    #     """delete current runtime"""
-
-    #     try:
-    #         del self["_runtimes"][get_app_id()]
-    #     except Exception:
-    #         # do nothing
-    #         pass
-
     def __getstate__(self):
         return self.__dict__
 
