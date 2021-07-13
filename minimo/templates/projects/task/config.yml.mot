@@ -65,24 +65,24 @@ redirect_stdout_to_file: false
 #             `date`, more detail information please refer to APScheduler Doc.
 #
 # scheduler:
-#    executor:
-#        max_workers: 1
-#    jobstore:
-#        type: redis
-#        jobs_key: jobs_key_name
-#        options: ...
-#    jobs:
-#        -
-#            id: job_id
-#            case: case_name
-#            enable: true
-#            config:
-#                trigger: cron
-#                hour: 3
-#                minute: 30
-#       -
-#            case: case_name
-#            enable: false
-#            config:
-#                trigger: interval
-#                seconds: 10
+#     executor:
+#         max_workers: 1
+#     jobstore:
+#         type: redis
+#         jobs_key: jobs_key_name
+#         options: ...
+#     jobs:
+#         -
+#             id: job_id
+#             case: case_name
+#             enable: true
+#             config:
+#                 trigger: cron
+#                 hour: 3
+#                 minute: 30
+#         -
+#             case: case_name
+#             enable: false
+#             config:
+#                 trigger: interval
+#                 seconds: 10
