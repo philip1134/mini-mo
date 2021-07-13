@@ -7,9 +7,10 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.8.2
 -------------
 
-unreleased
+Released on 2021-07-13
 
 - scheduler: job store configurable
+- scheduler: job executor max workers configurable
 
 
 Version 0.8.1
