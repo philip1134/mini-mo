@@ -66,6 +66,7 @@ class Scheduler(BlockingScheduler):
             )
 
         else:
+            warning("no scheduler configured.")
             self._configured = False
             self.config = None
 
