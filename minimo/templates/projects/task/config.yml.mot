@@ -8,7 +8,7 @@
 #   foo: bar
 #
 # it can be used as:
-#   app.foo #== bar
+#   app.config.foo #== bar
 #   performer.config.foo #== bar
 #
 # attributes defined in global config file will be overrided by those defined

@@ -72,8 +72,7 @@ class Application:
         # load config from yaml under project instance's root_path
         self._load_config()
 
-        # ctx.app = self
-
+# public
     def run(self, *args, **kwargs):
         """alias for :meth:`main`."""
 
@@ -152,6 +151,7 @@ class Application:
                     # load yml to config and app attributes
                     cfg = yaml.full_load(f.read())
                     if isinstance(cfg, dict):
+                        # load to context
                         ctx.config.update(cfg)
                         ctx.app.update({
                             "name": self.name,
@@ -162,6 +162,9 @@ class Application:
                             "echo_to_file": self.echo_to_file(),
                             "echo_to_stdout": self.echo_to_stdout(),
                         })
+
+                        # add ref to app.config
+                        self.config = ctx.config
 
     def _init_context(self):
         """initialize runtime context"""
