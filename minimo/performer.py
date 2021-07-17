@@ -65,6 +65,7 @@ class Performer:
         else:
             self.logger = logger
 
+# public
     def run(self):
         """execute performer"""
 
