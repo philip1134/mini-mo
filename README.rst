@@ -68,8 +68,8 @@ Usage
 we can use minimo by typing command in console, or calling its apis in
 your own project.
 
-Install and update using ``pip``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installation
+~~~~~~~~~~~~
 
 .. code:: text
 
@@ -258,3 +258,31 @@ usage in api mode
     # version string
     version = mmo.call("version")
 
+Scheduled jobs
+~~~~~~~~~~~~~~~~~~~~~~~
+
+we can run scheduled jobs in minimo project since r0.8, that is based on
+APScheduler. just configure your ``scheduler`` item in ``config.yml``, minimo
+will execute your scheduled jobs in blocking mode, which means run in
+foreground, recommend you to run your project in a docker container. detail
+information about scheduler setting please refer to APScheduler doc.
+
+usage in cli mode
+^^^^^^^^^^^^^^^^^
+
+.. code:: text
+
+    $ mmo start
+
+usage in api mode
+^^^^^^^^^^^^^^^^^
+
+.. code:: python
+
+    import minimo
+
+    mmo = minimo.Application(
+        interface="api",
+        root_path="path/to/instance_project")
+
+    mmo.call("start")
