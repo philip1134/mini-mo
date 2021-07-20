@@ -8,7 +8,6 @@ import re
 import traceback
 import click
 import collections
-# import threading
 
 
 TRACE_SPLITTER = "*" * 50
