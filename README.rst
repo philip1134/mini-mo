@@ -2,8 +2,8 @@
 mini-mo
 =======
 
-.. image:: https://travis-ci.org/philip1134/mini-mo.svg?branch=master
-   :target: https://travis-ci.org/philip1134/mini-mo
+.. image:: https://travis-ci.com/philip1134/mini-mo.svg?branch=master
+   :target: https://travis-ci.com/philip1134/mini-mo
    :alt: Build Status
 
 .. image:: https://img.shields.io/pypi/v/minimo.svg?color=orange
