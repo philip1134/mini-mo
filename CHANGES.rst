@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.3
+-------------
+
+unreleased
+
+- remove template type while initializing project, just supports customized template path
+
+
 Version 0.8.2
 -------------
 
