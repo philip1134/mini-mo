@@ -83,12 +83,11 @@ usage in cli mode
 
 .. code:: text
 
-    $ mmo init [project-name] [-t template-name-or-path] [-o output-path]
+    $ mmo init [project-name] [-t template-path] [-o output-path]
 
 the project will be created under 'output-path', if no 'output-path'
-specified, that will be the current working directory. if not specified
-template, minimo will initialize the project with 'task' template.
-currenty template name only supports 'task', or you can specify a path
+specified, that will be the current working directory. minimo will
+initialize the project with default template. or you can specify a path
 which contains the template.
 
 usage in api mode

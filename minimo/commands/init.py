@@ -17,7 +17,7 @@ from minimo import __version__
 @click.command("init")
 @click.argument("name", nargs=1)
 @click.option("-t", "--template", default=None,
-              help=("specify project template, optional, default is 'task'"))
+              help=("specify project template path, optional"))
 @click.option("-o", "--output", default=None,
               help=("generate project to the specified path"))
 def init_project(name, template=None, output=None):
@@ -25,12 +25,11 @@ def init_project(name, template=None, output=None):
 
     usage in cli mode:
 
-        $ mmo init [project-name] [-t template-name-or-path] [-o output-path]
+        $ mmo init [project-name] [-t template-path] [-o output-path]
 
     the project will be created under 'output-path', if no 'output-path'
-    specified, that will be the current working directory. if not specified
-    template, minimo will initialize the project with 'task' template.
-    currenty template name only supports 'task', or you can specify a path
+    specified, that will be the current working directory. minimo will
+    initialize the project with default template. or you can specify a path
     which contains the template.
 
     tip: can use 'mmo' or 'minimo' as the main command after v0.4.0.
@@ -80,22 +79,17 @@ def init_project(name, template=None, output=None):
             template_dir = None
             if template:
                 user_template_path = os.path.abspath(template)
-                minimo_named_template_path = os.path.join(
-                    ctx.minimo_root_path, "templates", "projects", template)
 
                 if os.path.exists(user_template_path):
                     # user specified template path
                     template_dir = user_template_path
-                elif os.path.exists(minimo_named_template_path):
-                    # minimo provides template name
-                    template_dir = minimo_named_template_path
                 else:
                     # unrecognized template name
-                    error("unrecognized project template: '%s'" % template)
+                    error("template path does not exist: '%s'" % template)
             else:
                 # use minimo default template
                 template_dir = os.path.join(
-                    ctx.minimo_root_path, "templates", "projects", "task")
+                    ctx.minimo_root_path, "templates", "project")
 
             if template_dir is not None:
                 info("create directory: %s" % project_dir_name)
