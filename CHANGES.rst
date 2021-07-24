@@ -7,9 +7,10 @@ Here you can see the full list of changes between each mini-mo release.
 Version 0.8.3
 -------------
 
-unreleased
+Released on 2021-07-24
 
-- remove template type while initializing project, just supports customized template path
+- config.yml load to app.config
+- template path instead of type while initializing project
 
 
 Version 0.8.2
