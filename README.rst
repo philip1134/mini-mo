@@ -15,7 +15,7 @@ mini-mo
    :alt: Supported Python versions
 
 
-``minimo`` is a lightweight automation framework. mainly focused on
+``minimo`` is a lightweight automation framework. mainly focuses on
 automated test/task. the project name comes from the mini robot M-O in
 WALL-E as the following guy:
 
