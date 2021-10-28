@@ -54,6 +54,7 @@ def format_traceback():
 def upperfirst(value):
     """upper first word of string, and does not change the rest case,
     such as:
+
         foobAr => FoobAr
     """
 
@@ -66,6 +67,7 @@ def upperfirst(value):
 def camelize(value):
     """convert string to camelcase, will split string by '_' and
     capitalize the followed word, such as:
+
         foo_bar => FooBar
     """
 
@@ -76,6 +78,7 @@ def camelize(value):
 def underscore(value):
     """convert string to underscore case, will split string by capitalized
     word and replaced by '_' + lowercase, such as:
+
         FooBar => foo_bar
     """
 
