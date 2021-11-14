@@ -1,0 +1,14 @@
+<%!
+    import minimo.utils as flt
+%># Dockerfile for ${project_name | flt.camelize}
+
+# recommend to add exclude files and directories into .dockerignore
+# just some example code here, modify them as your requirements
+
+FROM python:3.8
+MAINTAINER maintainer-name
+
+COPY . /app/${project_name | flt.underscore}
+RUN pip install -r /app/${project_name | flt.underscore}/requirements.txt
+WORKDIR /app/${project_name | flt.underscore}
+CMD mmo start

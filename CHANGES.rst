@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.4
+-------------
+
+Released on 2021-11-14
+
+- Dockerfile example in project template
+
+
 Version 0.8.3
 -------------
 
