@@ -148,7 +148,7 @@ usage in api mode
         cases=["case1", "suite2/case1", "suite2/case2"])
 
 template file is written in mako's syntax, check out
-`mako <https://www.makotemplates.org>`__.
+`mako <https://www.makotemplates.org>`_.
 
 List all standard cases
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -264,7 +264,8 @@ we can run scheduled jobs in minimo project since r0.8, that is based on
 APScheduler. just configure your ``scheduler`` item in ``config.yml``, minimo
 will execute your scheduled jobs in blocking mode, which means run in
 foreground, recommend you to run your project in a docker container. detail
-information about scheduler setting please refer to APScheduler doc.
+information about scheduler setting please refer to
+`APScheduler <https://apscheduler.readthedocs.io/>`_.
 
 usage in cli mode
 ^^^^^^^^^^^^^^^^^
@@ -285,3 +286,5 @@ usage in api mode
         root_path="path/to/instance_project")
 
     mmo.call("start")
+
+please note that scheduler configured in case/config.yml will not work.
