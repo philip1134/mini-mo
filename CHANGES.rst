@@ -4,6 +4,14 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.5
+-------------
+
+Released on 2021-12-05
+
+- add alias for decorators: before/before_action, after/after_action, step/action_step
+
+
 Version 0.8.4
 -------------
 

@@ -1,14 +1,15 @@
 # -*- coding:utf-8 -*-
 
 
-__version__ = "0.8.4"
+__version__ = "0.8.5"
 
 
 import os
 import runpy
 from .app import Application
 from .performer import Performer
-from .callbacks import before_action, action_step, after_action
+from .callbacks import before, step, after, \
+    before_action, action_step, after_action
 from .utils import *
 from .attribute_dict import AttributeDict, SimpleAttributeDict
 from .logger import Logger

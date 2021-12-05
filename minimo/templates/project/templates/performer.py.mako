@@ -2,7 +2,7 @@
 
 
 import os
-from minimo import before_action, action_step, after_action
+from minimo import before, step, after
 from lib import BasePerformer
 
 
@@ -21,30 +21,34 @@ class Performer(BasePerformer):
 
         # add initializing code here
 
-    @before_action()
+    @before()
     def setUp(self):
-        """set up test env"""
+        """set up env"""
+
         pass
 
-    @after_action()
+    @after()
     def tearDown(self):
-        """tear down test"""
+        """tear down"""
+
         pass
 
-    @action_step()
+    @step()
     def first_action(self):
-        """first test step description"""
+        """first step description"""
 
-        # step code
+        # your step code here
 
+        # True for success, otherwise False
         return True
 
-#    @action_step()
+#    @step()
 #    def second_action(self):
-#        """second test step description"""
+#        """second step description"""
 #
-#        # step code
+#        # your step code here
 #
 #        return True
+
 
 # end

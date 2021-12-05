@@ -5,9 +5,9 @@
 #
 # export:
 #   callbacks
-#   before_action
-#   action_step
-#   after_action
+#   before, before_action
+#   step, action_step
+#   after, after_action
 #
 
 import inspect
@@ -98,7 +98,7 @@ def _get_caller_id_by_frame(caller):
                       caller.f_code.co_name)
 
 
-def before_action(*params):
+def before(*params):
     """to specify the action will be executed before task."""
 
     def decorator(f):
@@ -111,8 +111,11 @@ def before_action(*params):
         return decorated_func
     return decorator
 
+# alias
+before_action = before
 
-def after_action(*params):
+
+def after(*params):
     """to specify the action will be executed after task."""
 
     def decorator(f):
@@ -125,8 +128,11 @@ def after_action(*params):
         return decorated_func
     return decorator
 
+# alias
+after_action = after
 
-def action_step(*params):
+
+def step(*params):
     """to specify the action is one task step.
     the specified action should return True or False to
     represent success or failure of that task step.
@@ -141,5 +147,8 @@ def action_step(*params):
             decorated_func)
         return decorated_func
     return decorator
+
+# alias
+action_step = step
 
 # end
