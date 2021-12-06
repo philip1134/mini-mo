@@ -35,10 +35,13 @@ folders like:
         |- lib # customized library, put all your common code here
             |- app.py
             |- performer.py
+        |- log
         |- templates # case template
-        |- config.yml # project configuration
+        |- vendor # vendor library
+        |- config.yml # global configuration
+        |- Dockerfile # dockerfile if you want to run scheduler in docker
         |- README.md
-        |- requirements.txt # dependencies here, can use ``pip install -r requirements.txt`` to install all dependencies
+        |- requirements.txt # dependencies here, use ``pip install -r requirements.txt`` to install all dependencies
 
 after project created, under the project root path you can use minimo
 commands to create suite/cases by ``mmo new``, or run suite/cases by
