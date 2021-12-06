@@ -38,6 +38,8 @@ folders like:
         |- log
         |- templates # case template
         |- vendor # vendor library
+        |- .dockerignore
+        |- .gitignore
         |- config.yml # global configuration
         |- Dockerfile # dockerfile if you want to run scheduler in docker
         |- README.md
@@ -81,8 +83,8 @@ Installation
 Create project instance
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
@@ -93,8 +95,8 @@ specified, that will be the current working directory. minimo will
 initialize the project with default template. or you can specify a path
 which contains the template.
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
@@ -114,8 +116,8 @@ usage in api mode
 Create new cases
 ~~~~~~~~~~~~~~~~
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
@@ -134,8 +136,8 @@ templates, otherwise, by the project default templates.
 if specified author name, it will be filled in the template file, or
 minimo will get the current system user as the author name.
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
@@ -156,8 +158,8 @@ template file is written in mako's syntax, check out
 List all standard cases
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
@@ -172,8 +174,8 @@ specified "pattern", it will list all standard cases' names under
 
     $ mmo ls foo bar*
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
@@ -189,8 +191,8 @@ usage in api mode
 Run suite
 ~~~~~~~~~
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
@@ -210,8 +212,8 @@ and also can specify some suites (case group under one folder) as:
 
 minimo will run all cases under those suites.
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
@@ -239,15 +241,15 @@ seems not useful in api mode
 Get version
 ~~~~~~~~~~~
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
     $ mmo version
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
@@ -270,15 +272,15 @@ foreground, recommend you to run your project in a docker container. detail
 information about scheduler setting please refer to
 `APScheduler <https://apscheduler.readthedocs.io/>`_.
 
-usage in cli mode
-^^^^^^^^^^^^^^^^^
+cli
+^^^
 
 .. code:: text
 
     $ mmo start
 
-usage in api mode
-^^^^^^^^^^^^^^^^^
+api
+^^^
 
 .. code:: python
 
