@@ -90,10 +90,10 @@ cli
 
     $ mmo init [project-name] [-t template-path] [-o output-path]
 
-the project will be created under 'output-path', if no 'output-path'
-specified, that will be the current working directory. minimo will
-initialize the project with default template. or you can specify a path
-which contains the template.
+the project will be created under ``output-path``, default is the current
+working directory if no ``output-path`` specified. minimo will initialize
+the project with default template. or you can specify a path which contains
+the template.
 
 api
 ^^^
@@ -103,15 +103,17 @@ api
     import minimo
 
     mmo = minimo.Application(
-                interface="api",
-                root_path="/path/to/project/instance")
+        interface="api",
+        root_path="/path/to/project/instance"
+    )
 
     # return True or False for `init` result
     result = mmo.call(
-                    "init",
-                    name="helloKitty",
-                    template="/path/to/my/template",
-                    output="./myprojects")
+        "init",
+        name="helloKitty",
+        template="/path/to/my/template",
+        output="./myprojects"
+    )
 
 Create new cases
 ~~~~~~~~~~~~~~~~
@@ -145,12 +147,14 @@ api
 
     mmo = minimo.Application(
         interface="api",
-        root_path="path/to/instance_project")
+        root_path="path/to/instance_project"
+    )
 
     # return successfully created cases list
     cases = mmo.call(
         "new",
-        cases=["case1", "suite2/case1", "suite2/case2"])
+        cases=["case1", "suite2/case1", "suite2/case2"]
+    )
 
 template file is written in mako's syntax, check out
 `mako <https://www.makotemplates.org>`_.
@@ -183,7 +187,8 @@ api
 
     mmo = minimo.Application(
         interface="api",
-        root_path="path/to/instance_project")
+        root_path="path/to/instance_project"
+    )
 
     # return sorted valid cases
     sorted_cases = mmo.call("ls")
@@ -221,12 +226,14 @@ api
 
     mmo = minimo.Application(
         interface="api",
-        root_path="path/to/instance_project")
+        root_path="path/to/instance_project"
+    )
 
     # return output file path or None if all failed
     sorted_cases = mmo.call(
         "run",
-        cases=["suite1", "suite2/case1", "suite2/case2"])
+        cases=["suite1", "suite2/case1", "suite2/case2"]
+    )
 
 Get help
 ~~~~~~~~
@@ -257,7 +264,8 @@ api
 
     mmo = minimo.Application(
         interface="api",
-        root_path="path/to/instance_project")
+        root_path="path/to/instance_project"
+    )
 
     # version string
     version = mmo.call("version")
@@ -288,7 +296,8 @@ api
 
     mmo = minimo.Application(
         interface="api",
-        root_path="path/to/instance_project")
+        root_path="path/to/instance_project"
+    )
 
     mmo.call("start")
 
