@@ -4,6 +4,16 @@ Mini-MO Changelog
 Here you can see the full list of changes between each mini-mo release.
 
 
+Version 0.8.6
+-------------
+
+Released on 2022-01-09
+
+- allow to echo to stdout in api mode
+- bug-fix: ignore instance path while initializing project
+- bug-fix: ignore pycache folder in project template
+
+
 Version 0.8.5
 -------------
 
