@@ -65,6 +65,9 @@ class Application:
         self._interf = InterfaceFactory.get(
             self.interface, **attrs)
 
+        # printer flag for api mode
+        self._echo_to_stdout = attrs.pop("echo_to_stdout", False)
+
         # load plugins and extensions
         self._load_plugins()
         self._load_extensions()
@@ -115,7 +118,8 @@ class Application:
     def echo_to_file(self):
         """check out if print console message to file"""
 
-        return ctx.config.redirect_stdout_to_file or self.is_api_mode()
+        return ctx.config.redirect_stdout_to_file or \
+            (self.is_api_mode() and not self._echo_to_stdout)
 
     def echo_to_stdout(self):
         """check out if print console message to stdout"""
@@ -171,7 +175,7 @@ class Application:
 
         ctx.reporter = Reporter()
 
-        if self.echo_to_file():
+        if self.echo_to_file() and self.inst_path is not None:
             # redirect stdout to log file
             self._logger = StdoutToFileLogger(
                 name="stdout",
