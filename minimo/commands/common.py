@@ -71,14 +71,14 @@ def copy_template_folder(
         dest_subdir_name = os.path.relpath(dirpath, template_dir)
         dest_subdir = os.path.join(dest_dir, dest_subdir_name)
 
-        if "." != dest_subdir_name:
+        if _dir_filter(dest_subdir_name):
             if os.path.exists(dest_subdir):
                 info("directory %s already exsited" % dest_subdir_name)
             else:
                 info("create directory: %s" % dest_subdir_name)
                 os.makedirs(dest_subdir)
 
-        for file in [f for f in files if _files_filter(f)]:
+        for file in [f for f in files if _file_filter(f)]:
             src = os.path.join(dirpath, file)
             if os.path.splitext(file)[-1] == template_file_suffix:
                 # copy template file
@@ -93,8 +93,17 @@ def copy_template_folder(
                 info("\tcreate file: %s" % os.path.basename(dst))
 
 
-def _files_filter(name):
-    """filter file names out."""
+def _dir_filter(name):
+    """filter for directory"""
+
+    return "." != name and \
+        not name.lower().endswith((
+            "__pycache__",
+        ))
+
+
+def _file_filter(name):
+    """filter for file name."""
 
     return not name.lower().endswith((
         ".pyc",
