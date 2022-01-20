@@ -44,29 +44,18 @@ class Application:
     # redirect_stdout_to_file = False
 
     # project modules path, which will be inserted into sys.path at application
-    # started. by default, "lib", "ext", "cases", "vendor" will be added
-    # mandatory.
+    # started. by default, path in mandatory_modules_path will be added
+    # mandatorily.
     mandatory_modules_path = ["lib", "ext", "cases", "vendor"]
-    modules_path = []
 
     def __init__(self, **attrs):
         super(Application, self).__init__()
 
-        # root path of project instance
-        self.inst_path = attrs.pop("root_path", None)
-
         # flags intializing
         self._loaded_modules_path = False
 
-        # project interface, supported "cli", "api", default is "cli"
-        #   cli: call commands/functions as command line interface
-        #   api: call commands/functions as api
-        self.interface = attrs.pop("interface", "cli")
-        self._interf = InterfaceFactory.get(
-            self.interface, **attrs)
-
-        # printer flag for api mode
-        self._echo_to_stdout = attrs.pop("echo_to_stdout", False)
+        # parse input arguments
+        self._parse_args(attrs)
 
         # load plugins and extensions
         self._load_plugins()
@@ -145,6 +134,22 @@ class Application:
         # stop timer for the application
         ctx.counter.stop_timer_for_app()
 
+    def _parse_args(self, attrs):
+        """parse arguments and initialize flags accordingly"""
+
+        # root path of project instance
+        self.inst_path = attrs.pop("root_path", None)
+
+        # project interface, supported "cli", "api", default is "cli"
+        #   cli: call commands/functions as command line interface
+        #   api: call commands/functions as api
+        self.interface = attrs.pop("interface", "cli")
+        self._interf = InterfaceFactory.get(
+            self.interface, **attrs)
+
+        # printer flag for api mode
+        self._echo_to_stdout = attrs.pop("echo_to_stdout", False)
+
     def _load_config(self):
         """load project configurations: config.yml"""
 
@@ -199,7 +204,7 @@ class Application:
         # add instance path to sys.path
         sys.path.insert(0, self.inst_path)
 
-        for target in set(self.modules_path + self.mandatory_modules_path):
+        for target in self.mandatory_modules_path:
             target_dir = os.path.join(self.inst_path, target)
             if os.path.exists(target_dir):
                 for dirpath, dirs, files in os.walk(target_dir):
