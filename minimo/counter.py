@@ -6,7 +6,7 @@
 
 
 import collections
-from .timer import Timer
+from minimo.timer import Timer
 
 
 class Counter(collections.OrderedDict):

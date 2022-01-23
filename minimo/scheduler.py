@@ -8,7 +8,7 @@
 import copy
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.executors.pool import ProcessPoolExecutor
-from .utils import *
+from minimo.utils import *
 
 
 class Scheduler(BlockingScheduler):

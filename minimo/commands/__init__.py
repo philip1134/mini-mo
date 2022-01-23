@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 
 
-from .init import init_project
-from .new import create_new_cases
-from .ls import list_cases
-from .version import print_version
-from .run import run_suite
-from .start import start_scheduler
+from minimo.commands.init import init_project
+from minimo.commands.new import create_new_cases
+from minimo.commands.ls import list_cases
+from minimo.commands.version import print_version
+from minimo.commands.run import run_suite
+from minimo.commands.start import start_scheduler
 
 
 # auto load to Application cli from the following tuple

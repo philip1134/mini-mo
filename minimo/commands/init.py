@@ -8,9 +8,9 @@
 import os
 import time
 import click
-from ..utils import *
-from ..globals import ctx
-from .common import copy_template_folder
+from minimo.utils import *
+from minimo.runtime import ctx
+from minimo.commands.common import copy_template_folder
 from minimo import __version__
 
 

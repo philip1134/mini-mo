@@ -1,17 +1,19 @@
 # -*- coding:utf-8 -*-
 #
 # author: philip1134
-# date: 2021-06-20
+# date: 2017-08-10
 #
 
 
-from .attribute_dict import SimpleAttributeDict, AttributeDict
+import os
+from minimo.counter import Counter
+from minimo.attribute_dict import SimpleAttributeDict, AttributeDict
 
 
 # runtime context
 class RuntimeContext(SimpleAttributeDict):
     """stores runtime context, includes application information, callbacks,
-    test suite name, minimo root path, and etc.
+    suite name, minimo root path, and etc.
     """
 
     def __init__(self, defaults={}):
@@ -72,5 +74,12 @@ class RuntimeContext(SimpleAttributeDict):
 
     def __setstate__(self, d):
         self.__dict__.update(d)
+
+
+# runtime instance
+ctx = RuntimeContext()
+ctx.counter = Counter()
+ctx.minimo_root_path = os.path.dirname(__file__)
+
 
 # end

@@ -4,12 +4,13 @@
 # date: 2018-02-26
 #
 
+
 import click
-from ..globals import ctx
-from ..utils import *
-from ..scheduler import Scheduler
-from .common import verify_root_path
-from .run import run_suite_with_context
+from minimo.runtime import ctx
+from minimo.utils import *
+from minimo.scheduler import Scheduler
+from minimo.commands.common import verify_root_path
+from minimo.commands.run import run_suite_with_context
 
 
 @click.command("start")

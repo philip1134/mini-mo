@@ -4,16 +4,17 @@
 # date: 2017-08-10
 #
 
+
 import os
 import sys
 import importlib
 import yaml
 import logging
-from .globals import ctx
-from .interface import InterfaceFactory
-from .utils import *
-from .reporter import Reporter
-from .logger import StdoutToFileLogger
+from minimo.runtime import ctx
+from minimo.interface import InterfaceFactory
+from minimo.utils import *
+from minimo.reporter import Reporter
+from minimo.logger import StdoutToFileLogger
 
 
 class Application:

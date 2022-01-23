@@ -5,9 +5,9 @@
 #
 
 
-from .api import MoAPI
-from .cli import MoCLI
-from ..commands import __autoload__
+from minimo.interface.api import MoAPI
+from minimo.interface.cli import MoCLI
+from minimo.commands import __autoload__
 
 
 class InterfaceFactory:

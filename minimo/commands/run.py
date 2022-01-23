@@ -4,15 +4,16 @@
 # date: 2018-02-26
 #
 
+
 import os
 import sys
 import time
 import click
 import runpy
 import collections
-from ..utils import *
-from ..globals import *
-from .common import get_case_name, verify_root_path
+from minimo.utils import *
+from minimo.runtime import ctx
+from minimo.commands.common import get_case_name, verify_root_path
 from multiprocessing.dummy import Pool as ThreadPool
 
 

@@ -7,8 +7,13 @@
 
 import os
 from mako.template import Template
-from .globals import ctx, BLOCK_SPLITTER
-from .utils import *
+from minimo.runtime import ctx
+from minimo.utils import *
+
+
+# constants
+BLOCK_SPLITTER = "=" * 50
+SECTION_SPLITTER = "-" * 50
 
 
 class Reporter:

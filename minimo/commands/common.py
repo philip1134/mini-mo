@@ -7,7 +7,7 @@
 
 import os
 import shutil
-from ..utils import *
+from minimo.utils import *
 from mako.template import Template
 
 

@@ -4,12 +4,13 @@
 # date: 2018-02-26
 #
 
+
 import os
 import click
 import fnmatch
-from ..utils import *
-from ..globals import ctx
-from .common import get_case_name, verify_root_path
+from minimo.utils import *
+from minimo.runtime import ctx
+from minimo.commands.common import get_case_name, verify_root_path
 
 
 @click.command("ls")

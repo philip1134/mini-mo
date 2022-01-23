@@ -8,7 +8,7 @@
 import os
 import sys
 import logging
-from .globals import ctx
+from minimo.runtime import ctx
 
 
 SUCCESS = logging.INFO + 1

@@ -8,9 +8,9 @@
 import os
 import copy
 import yaml
-from .globals import *
-from .utils import *
-from .logger import Logger
+from minimo.runtime import ctx
+from minimo.utils import *
+from minimo.logger import Logger
 
 
 class Performer:

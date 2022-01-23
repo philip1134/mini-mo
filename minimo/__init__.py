@@ -6,13 +6,13 @@ __version__ = "0.8.6"
 
 import os
 import runpy
-from .app import Application
-from .performer import Performer
-from .callbacks import before, step, after, \
+from minimo.app import Application
+from minimo.performer import Performer
+from minimo.callbacks import before, step, after, \
     before_action, action_step, after_action
-from .utils import *
-from .attribute_dict import AttributeDict, SimpleAttributeDict
-from .logger import Logger
+from minimo.utils import *
+from minimo.attribute_dict import AttributeDict, SimpleAttributeDict
+from minimo.logger import Logger
 
 
 def main():

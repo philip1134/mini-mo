@@ -4,8 +4,9 @@
 # date: 2018-02-26
 #
 
+
 import click
-from ..utils import *
+from minimo.utils import *
 from minimo import __version__
 
 

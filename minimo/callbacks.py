@@ -12,7 +12,7 @@
 
 import inspect
 from functools import wraps
-from .globals import ctx
+from minimo.runtime import ctx
 
 
 class Callbacks:
