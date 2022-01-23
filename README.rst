@@ -19,7 +19,7 @@ mini-mo
 automated test/task. the project name comes from the mini robot M-O in
 WALL-E as the following guy:
 
-.. image:: https://github.com/philip1134/mini-mo/blob/master/artwork/walle-mo.jpg?raw=true
+.. image:: ./artwork/walle-mo.jpg
    :alt: M-O
 
 using minimo, you can create some standardized project instances by
